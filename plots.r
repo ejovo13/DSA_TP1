@@ -75,17 +75,29 @@ df_all <- df_bis %>%
 df_all
 
 df_all.ucmp <- df_all |>
-                pivot_longer(c(ucmp.a, ucmp.bis, ucmp.lum, ucmp.sed), names_to = "partition_type", values_to = "ucmp")
+                pivot_longer(c(ucmp.a, ucmp.bis, ucmp.lum, ucmp.sed), names_to = "partition_type", values_to = "ucmp") |>
+                mutate(part = str_replace(partition_type, "ucmp.", "")) |>
+                select(N, ucmp, part)
 
 df_all.uech <- df_all |>
-                pivot_longer(c(uech.a, uech.bis, uech.lum, uech.sed), names_to = "partition_type", values_to = "uech")
+                pivot_longer(c(uech.a, uech.bis, uech.lum, uech.sed), names_to = "partition_type", values_to = "uech") |>
+                mutate(part = str_replace(partition_type, "uech.", "")) |>
+                select(N, uech, part)
 
 df_all.usum <- df_all |>
-                pivot_longer(c(usum.a, usum.bis, usum.lum, usum.sed), names_to = "partition_type", values_to = "usum")
+                pivot_longer(c(usum.a, usum.bis, usum.lum, usum.sed), names_to = "partition_type", values_to = "usum") |>
+                mutate(part = str_replace(partition_type, "usum.", "")) |>
+                select(N, usum, part)
+
+# This is the distilled data that we need.....
+df_all.mutant <- df_all.ucmp |>
+                mutate(uech = df_all.uech$uech,
+                       usum = df_all.usum$usum)
+
 
 # Plot all of the average comparisons
 df_all.ucmp |>
-    ggplot(aes(N, ucmp, color = partition_type)) +
+    ggplot(aes(N, ucmp, color = part)) +
     geom_line() +
     labs(title="Average comparisons", subtitle="How Partition scheme affects quicksort", col="Partition Scheme") +
     ylab("$\\mu$ comparaisons") +
@@ -94,7 +106,7 @@ df_all.ucmp |>
 
 # Plot the average exchanges
 df_all.uech |>
-    ggplot(aes(N, uech, color = partition_type)) +
+    ggplot(aes(N, uech, color = part)) +
     geom_line() +
     labs(title="Average exchanges", subtitle="How Partition scheme affects quicksort", col="Partition Scheme") +
     ylab("$\\mu$ exchanges") +
@@ -102,33 +114,33 @@ df_all.uech |>
     scale_color_hue(labels = c("Parti A", "Bis", "Lomuto", "Sedgewick"))
 
 df_all.usum |>
-    ggplot(aes(N, usum, color = partition_type)) +
+    ggplot(aes(N, usum, color = part)) +
     geom_line() +
     labs(title="Average sum of exchanges and comparisons", subtitle="How Partition scheme affects quicksort", col="Partition Scheme") +
     ylab("$\\mu_k + \\mu_x$ ") +
     xlab("$n$") +
     scale_color_hue(labels = c("Parti A", "Bis", "Lomuto", "Sedgewick"))
 
-# I want a plot that distinguishes between exchanges and comparisons!
-# df_all.cmp_ech <- df_all |>
-#     pivot_longer(c(ucmp.a, ucmp.bis, ucmp.lum, ucmp.sed), names_to = "part.cmp", values_to = "ucmp") |>
-#     pivot_longer(c(uech.a, uech.bis, uech.lum, uech.sed), names_to = "part.ech", values_to = "uech")
+df_all.mutant %<>% select(N, part, ucmp, uech, usum) %<>%
+    pivot_longer(c(ucmp, uech, usum), names_to = "stat", values_to = "value")
 
-# df_all.cmp_ech |>
-#     ggplot(aes(N)) +
-#     geom_line(aes(N, uech), color = "red", group = df_all.cmp_ech$part.ech) +
-#     geom_line(aes(N, ucmp), color = "blue", group = df_all.cmp_ech$part.cmp)
+# New facet labels for stats names
+stats.labs <- c("$\\mu_k$", "$\\mu_x$", "$\\mu_k + \\mu_x$")
+names(stats.labs) <- c("ucmp", "uech", "usum")
 
-df_all.cmp_ech_sum <- df_all |>
-    pivot_longer(c(ucmp.a, ucmp.bis, ucmp.lum, ucmp.sed), names_to = "part.cmp", values_to = "ucmp") |>
-    pivot_longer(c(uech.a, uech.bis, uech.lum, uech.sed), names_to = "part.ech", values_to = "uech") |>
-    pivot_longer(c(usum.a, usum.bis, usum.lum, usum.sed), names_to = "part.sum", values_to = "usum")
 
-df_all.cmp_ech_sum |>
-    ggplot(aes(N)) +
-    geom_line(aes(N, uech), color = "red", group = df_all.cmp_ech_sum$part.ech) +
-    geom_line(aes(N, ucmp), color = "blue", group = df_all.cmp_ech_sum$part.cmp) +
-    geom_line(aes(N, usum), color = "orange", group = df_all.cmp_ech_sum$part.sum)
+df_all.mutant |>
+    ggplot(aes(N, value, color = part)) +
+    geom_line() +
+    facet_wrap(~stat, labeller = labeller(stat = stats.labs)) +
+    # facet_wrap(~stat) +
+    labs(title="Complexity Statistics", col="Partition Scheme") +
+    xlab("Taille du tableau, $n$") +
+    ylab("") +
+    scale_color_hue(labels = c("Partie A", "Partie B", "Lumoto", "Sedgewick"))
+
+
+
 
 
 # This is my attempt to merge the two tables
@@ -183,31 +195,9 @@ mse <- function(y, y_hat) {
   mean(err)
 }
 
-# Linear regression for nlogn complexity
-#f_nlogn <- lin_reg(avg_cmp~N_log_N, data = df)
+tikzDevice::tikz(file = "./example_plot.tex", width = 5, height = 3)
 
-#df %<>%
-#  mutate(regr = f_nlogn(N_log_N))
-
-#g1 = ggplot(df, aes(N_log_N, avg_cmp)) +
-#  geom_point() +
-  #geom_smooth(color = "red") +
-  #geom_point(aes(disp, disp_v_mpg, color = "orange"))
-#  geom_line(aes(N_log_N, regr)) +
-#  geom_segment(aes(N_log_N, regr, xend = N_log_N, yend = avg_cmp), color="red") +
-#  theme(plot.title = element_text(hjust = 0.5)) + # Center the title
-#  geom_label(x = 300, y = 30, label="Hello") +
-#  ggtitle("$f(x, \\alpha, \\beta, \\gamma)$") +
-#  ylab("$k_k$") +
-#  xlab("$n_k\\log n_k$")##
-##
-#
-#reg <- lm(avg_cmp~N_log_N, data = df)
-#print(reg)
-
-#tikzDevice::tikz(file = "./example_plot.tex", width = 5, height = 3)
-
-#g1
-#dev.off()
+g1
+dev.off()
 
 ## Here we can plot against the number of exchanges
