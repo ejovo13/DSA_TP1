@@ -1,0 +1,120 @@
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[10pt]{article} % use larger type; default would be 10pt
+
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage{kpfonts}
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% THE MARGINS FOR DSA is 1.5cm
+\geometry{margin=1.5cm} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+% \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+% \pagestyle{fancy} % options: empty , plain , fancy
+
+\usepackage{graphicx} % support the \includegraphics command and options
+\usepackage{subcaption}
+\usepackage{caption}
+
+\usepackage{dingbat} % For the pointy hands
+\usepackage{pifont}
+\usepackage{xcolor} % For pretty colors
+\usepackage{tikz} % for nice pictures
+\usepackage{blindtext}
+\usepackage{wrapfig}
+\usepackage{gensymb}
+
+% COLORs
+\definecolor{mygold}{RGB}{182, 153, 45}
+
+\fancyhf{}
+% \rhead{La Compilation}
+\lhead{Optimisation du GCC}
+% \rfoot{Page \thepage}
+\cfoot{\thepage}
+
+% \renewcommand{\headrulewidth}{0pt} % customise the layout...
+% \lhead{}\chead{}\rhead{}
+% \lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Optimisation du code par GCC}
+\author{Evan VOYLES, Amaury RODRIGUEZ, Stefan GA\L KIEWICZ}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed
+
+\begin{document}
+% This is the PERFECT SCALING, now we need to adjust the scale a little bit.
+\begin{tikzpicture}[remember picture,overlay,yshift=-.2cm, xshift=1.75cm] % LMAOOOOOO This is the EXACT POSITION!!!!
+    \node at (0,0) {\includegraphics[width=4.0cm,height=1.6cm]{media/1280px-Logo_Polytech_Sorbonne.png}};
+\end{tikzpicture}
+
+% \hspace{-5cm}
+% \hspace{-1cm}
+% \hspace{-1cm}
+\vspace{-1cm}
+\vspace{0.3cm}
+
+{\raggedleft \color{mygold} Algorithmique générale\\
+MAIN-3, année 2022\\
+Séance TP N\degree 1\\
+Février 2022\\}
+
+\vspace{1.23cm}
+
+{\Large \noindent \color{mygold} Objectif}
+
+{\color{mygold}\noindent\rule{\textwidth}{1pt}}
+\vspace{0cm}
+\begin{itemize}
+    \item[{\color{mygold}\ding{43}}] Complexité en moyenne.
+\end{itemize}
+
+% Hello!
+
+\newpage
+
+
+
+Hello again!
+\leftpointright
+
+\end{document}
