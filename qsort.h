@@ -124,42 +124,6 @@ void swapi(int *__a, int *__b) {
     *__b = t;
 }
 
-// Hoarde partition scheme
-// still not working for some reason...
-// int hpartition(int *__arr, int __lo, int __hi) {
-
-//     printf("entering partition\n");
-//     print_list(__arr + __lo, __hi - __lo + 1);
-
-//     int pivot = __arr[(int) floor((__hi + __lo) / 2)];
-//     printf("pivot: %d\n", pivot);
-
-//     // left index
-//     int i = __lo - 1;
-//     int j = __hi + 1;
-
-//     bool loop = true;
-
-//     while(loop) {
-//         do {
-//             i++;
-//         }
-//         while (__arr[i] < pivot);
-
-//         do {
-//             j--;
-//         }
-//         while (__arr[j] > pivot);
-
-//         if (i >= j) return j;
-
-//         // printf("i: %d, j: %d\t", i, j);
-//         swapi(__arr + i, __arr + j);
-
-//         // break;
-//     }
-// }
-
 int partition_bis(int *__arr, int __lo, int __hi) {
 
     int i = __lo;

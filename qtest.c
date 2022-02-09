@@ -4,11 +4,12 @@
 #include <assert.h>
 #include <string.h>
 
-#define N 100
-#define N_MIN     10
-#define N_MAX     5000
-#define DELTA_N   40
-#define M         100       // The number of arrays to generate at each n value
+#define TEST_ARRAY_LENGTH 1000
+#define TEST_N_SORTS      10
+#define N_MIN             10
+#define N_MAX             5000
+#define DELTA_N           40
+#define M                 100       // The number of arrays to generate at each n value
 typedef struct {
 
     partition_scheme        fn_part; // A pointer to a simple partition function
@@ -24,6 +25,7 @@ Partition_scheme Bis        = {.fn_part = partition_bis, .fn_count = partition_b
 
 void verify_partition_scheme(Partition_scheme ps);
 void analyze_complexity(Partition_scheme ps);
+void example_sort(Partition_scheme ps, size_t n);
 
 int main() {
 
@@ -37,21 +39,38 @@ int main() {
 
 
     // Begin complexity analysis:
-    analyze_complexity(Hoare);
-    analyze_complexity(Lomuto);
-    analyze_complexity(Sedgewick);
-    analyze_complexity(Bis);
+    // analyze_complexity(Hoare);
+    // analyze_complexity(Lomuto);
+    // analyze_complexity(Sedgewick);
+    // analyze_complexity(Bis);
 
     printf("Analysis complete\n");
 
-    // int *arr = unsorted_list(N);
-    // print_list(arr, N);
-
-    // qs(arr, Hoare.fn_part, 0, N - 1);
-
-    // print_list(arr, N);
+    example_sort(Hoare, 30);
+    example_sort(Lomuto, 30);
+    example_sort(Sedgewick, 30);
+    example_sort(Bis, 30);
 
     return 0;
+}
+
+void example_sort(Partition_scheme __ps, size_t __n) {
+
+    int *arr = unsorted_list(__n);
+    printf("Unsorted list: ");
+    print_list(arr, __n);
+
+    int ncmp = 0;
+    int nech = 0;
+
+    qs_count(arr, __ps.fn_count, 0, __n - 1, &ncmp, &nech);
+
+    printf("Partitioninng via: %s\t", __ps.name);
+    print_list(arr, __n);
+
+    printf("%d cmp, %d ech:\n\n", ncmp, nech);
+
+    free(arr);
 }
 
 void analyze_complexity(Partition_scheme __ps) {
@@ -111,8 +130,8 @@ void analyze_complexity(Partition_scheme __ps) {
 
 void verify_partition_scheme(Partition_scheme __ps) {
 
-    int n_tests = 1;
-    int len_array = 1000;
+    int n_tests =  TEST_N_SORTS;
+    int len_array = TEST_ARRAY_LENGTH;
 
     int *list = NULL;
 
