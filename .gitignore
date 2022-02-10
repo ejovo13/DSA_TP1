@@ -1,6 +1,10 @@
-*
 !Makefile
 !*.h
 !*.c
 !.gitignore
 !*.r
+
+tex/*
+!tex/media
+!tex/plots
+!tex/*.pdf
