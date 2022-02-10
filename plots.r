@@ -1,5 +1,9 @@
 library(tidyverse)
 library(magrittr)
+library(ggthemes)
+library(scales)
+library(viridis)
+library(wesanderson) # For more color palettes
 #library(tikzDevice)
 
 # Add logarithmic data to a dataframe for complexity plotting
@@ -72,8 +76,6 @@ df_all <- df_bis %>%
                    usum.lum = ucmp.lum + uech.lum,
                    usum.sed = ucmp.sed + uech.sed)
 
-df_all
-
 df_all.ucmp <- df_all |>
                 pivot_longer(c(ucmp.a, ucmp.bis, ucmp.lum, ucmp.sed), names_to = "partition_type", values_to = "ucmp") |>
                 mutate(part = str_replace(partition_type, "ucmp.", "")) |>
@@ -129,18 +131,41 @@ stats.labs <- c("$\\mu_k$", "$\\mu_x$", "$\\mu_k + \\mu_x$")
 names(stats.labs) <- c("ucmp", "uech", "usum")
 
 
-df_all.mutant |>
-    ggplot(aes(N, value, color = part)) +
+my_palette <- c("#000000", "#5800FF", "#E900FF", "#FFC600")
+my_palette <- c("#0F2C67", "#CD1818", "#F3950D", "#F4E185")
+my_palette <- c("#D92027", "#FF9234", "#FFCD3C", "#35D0BA")
+
+stats_plot <- ggplot(df_all.mutant, aes(N, value, color = part)) +
     geom_line() +
     facet_wrap(~stat, labeller = labeller(stat = stats.labs)) +
     # facet_wrap(~stat) +
     labs(title="Complexity Statistics", col="Partition Scheme") +
     xlab("Taille du tableau, $n$") +
     ylab("") +
-    scale_color_hue(labels = c("Partie A", "Partie B", "Lumoto", "Sedgewick"))
-
-
-
+    # theme_solarized_2(light = FALSE) +
+#   theme(text = element_text(family = "DM Sans Medium", colour = "#EEEEEE"),
+#     title = element_text(color = "#EEEEEE"),
+#     axis.title.x = element_blank(),
+#     panel.background = element_rect(fill = NA),
+#     plot.background = element_rect(fill = "#111111"),
+#     panel.grid.major = element_blank(),
+#     panel.grid.minor = element_blank(),
+#     legend.background = element_blank(),
+#     legend.key = element_blank(),
+#     legend.position = "bottom",
+#     plot.title = element_text(hjust = 0.5)) +
+    scale_color_hue(labels = c("Partie A", "Partie B", "Lumoto", "Sedgewick")) +
+    #scale_color_brewer(palette = "Pastel1") 
+    #scale_color_brewer(palette = "GrandBudapest")
+    #scale_color_manual(values = wes_palette(n = 4, "BottleRocket2"))
+    #scale_color_manual(values = )
+    #scale_color_manual(values = inferno(5))
+    #scale_color_manual(values = rainbow(6))
+    scale_color_manual(values = my_palette)
+    # scale_color_viridis(discrete = TRUE, option="D")
+  
+  
+stats_plot
 
 
 # This is my attempt to merge the two tables
@@ -153,6 +178,7 @@ df_all.mutant |>
 #   mutate(mean_cmp.a = df_a$avg_cmp,
 #          mean_ech.a = df_a$avg_ech) %>%
 #   gather(complexity_class,
+
 #          complexity,
 #          mean_cmp.bis,
 #          mean_ech.bis,
@@ -195,9 +221,12 @@ mse <- function(y, y_hat) {
   mean(err)
 }
 
-tikzDevice::tikz(file = "./example_plot.tex", width = 5, height = 3)
+# tikzDevice::tikz(file = "./plot.tex", width = 10, height = 5)
 
-g1
-dev.off()
+stats_plot
+
+print(stats_plot)
+
+# dev.off()
 
 ## Here we can plot against the number of exchanges
