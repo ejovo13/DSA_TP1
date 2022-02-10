@@ -42,14 +42,18 @@
 
 \usepackage{dingbat} % For the pointy hands
 \usepackage{pifont}
-\usepackage{xcolor} % For pretty colors
+% \usepackage{xcolor} % For pretty colors
+\usepackage[table]{xcolor}
 \usepackage{tikz} % for nice pictures
 \usepackage{blindtext}
 \usepackage{wrapfig}
 \usepackage{gensymb}
+% \usepackage{table}
 
 % COLORs
 \definecolor{mygold}{RGB}{182, 153, 45}
+\definecolor{mygreen}{RGB}{62, 171, 0}
+\definecolor{mypurp}{RGB}{84, 45, 181}
 
 \fancyhf{}
 % \rhead{La Compilation}
@@ -111,6 +115,97 @@ Février 2022\\}
 % Hello!
 
 \newpage
+
+\newcommand{\asgold}[1]{\textcolor{mygold}{{\bf#1}}}
+\newcommand{\asgrey}[1]{\textcolor{gray}{{\bf#1}}}
+\newcommand{\asred}[1]{\textcolor{red}{{\bf#1}}}
+\newcommand{\asor}[1]{\textcolor{orange}{{\bf#1}}}
+\newcommand{\ascy}[1]{\textcolor{cyan}{{\bf#1}}}
+\newcommand{\asgr}[1]{\textcolor{mygreen}{{\bf#1}}}
+\newcommand{\aspurp}[1]{\textcolor{mypurp}{{\bf#1}}}
+
+% Test out a table!!!
+\begin{table}[]
+    \begin{tabular}{ll|ccccc}
+    \hline
+    Instruction                    & Description/Remarque                                          & T                         & indpiv & pospiv & x & j \\
+    \hline
+    partitionBis(I$_1$, 0, 5)      & \asgold{T \textless{}- I$_1$},  deb \textless{}- 0, fin \textless{}- 5 & \asgold{{[}2, 6, 0, 4, 3, 1, 5{]}} &        &        &   &   \\
+    \asgold{indpiv \textless{}- deb}        &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & \asgold{0}      &        &   &   \\
+    \asgold{pospiv \textless{}- deb}        &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & \asgold{0}      &   &   \\
+    \asgold{x \textless{}- T(deb)}            &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & \asgold{2} &   \\
+    \asgr{[Pour]} \asgold{j \textless{}- deb + 1}  &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & \asgold{1} \\
+    \asgr{[Pour]} j \textless{}= fin      & 1 \textless{} 5 est vrai, la boucle continue                    & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 1 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 6 \textless{}= 2 est faux, on retourne a la boucle            & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 1 \\
+    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & \asgold{2} \\
+    \asgr{[Pour]} j \textless{}= fin      & 2 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 2 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 0 \textless{}= 2 est vrai                                     & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 2 \\
+    \asgold{pospiv \textless{}- pospiv + 1} &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & \asgold{1}      & 2 & 2 \\
+    \asgr{\ \ \ [Si]\ \ } j \textgreater pospiv     & 2 \textgreater{} 1 est vrai                                     & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 1      & 2 & 2 \\
+    echanger(T, pospiv, j)         & \asgold{T(1) \textless{}- 0, T(2) \textless{}- 6}                                         & {[}2, \asgold{0}, \asgold{6}, 4, 3, 1, 5{]} & 0      & 1      & 2 & 2 \\
+    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{3} \\
+    \asgr{[Pour]} j \textless{}= fin      & 3 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 3 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 4 \textless{}= 2 est faux                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 3 \\
+    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{4} \\
+    \asgr{[Pour]} j \textless{}= fin      & 4 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 4 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 3 \textless{}= 2 est faux                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 4 \\
+    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{5} \\
+    \asgr{[Pour]} j \textless{}= fin      & 5 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 5 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 1 \textless{}= 2 est vrai                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 5 \\
+    \asgold{pospiv \textless{}- pospiv + 1} &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & \asgold{2}      & 2 & 5 \\
+    \asgr{\ \ \ [Si]\ \ } j \textgreater pospiv     & 5 \textgreater{} 2 est vrai                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 2      & 2 & 5 \\
+    echanger(T, pospiv, j)         & \asgold{T(2) \textless{}- 1, T(5) \textless{}- 6}                                         & {[}2, 0, \asgold{1}, 4, 3, \asgold{6}, 5{]} & 0      & 2      & 2 & 5 \\
+    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 1, 4, 3, 6, 5{]} & 0      & 2      & 2 & \asgold{6} \\
+    \asgr{[Pour]} j \textless{}= fin      & 6 \textless{}= 5 est faux, on sort de la boucle               & {[}2, 0, 1, 4, 3, 6, 5{]} & 0      & 2      & 2 & 6 \\
+    \asgr{\ \ \ [Si]\ \ } indpiv \textless{} pospiv   & 0 \textless{} 2 est vrai                                        & {[}2, 0, 1, 4, 3, 6, 5{]} & 0      & 2      & 2 & 6 \\
+    echanger(T, indpiv, pospiv)    &  \asgold{T(0) \textless{}- 1, T(2) \textless{}- 2}                                        & {[}\asgold{1}, 0, \asgold{2}, 4, 3, 6, 5{]} & 0      & 2      & 2 & 6
+    \end{tabular}
+    \end{table}
+
+% Test out a table!!!
+\begin{table}[]
+    \begin{tabular}{ll|ccccc}
+    \hline
+    % \rowcolor{red} Instruction                    & Description/Remarque                                          & T                         & indpiv & pospiv & x & j \\
+    % \rowcolor{mygold}
+    Instruction                    & Description/Remarque                                          & T                         & indpiv & pospiv & x & j \\
+    \hline
+    partitionBis(I$_1$, 0, 5)    & \asgold{T \textless{}- I$_1$},  deb \textless{}- 0, fin \textless{}- 5 & \asgold{{[}7, 6, 5, 4, 3, 2, 1{]}} &        &        &   &   \\
+    indpiv \textless{}- deb      & \asgold{indpiv \textless{}- 0}                                                            & {[}7, 6, 5, 4, 3, 2, 1{]} & \asgold{0}      &        &   &   \\
+    pospiv \textless{}- deb      & \asgold{pospiv \textless{}- 0}                                                             & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & \asgold{0}      &   &   \\
+    x \textless{}- T(deb)            &        \asgold{x \textless{}- 7}                             & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 0      & \asgold{7} &   \\
+    \asgr{[Pour]} j \textless{}- deb + 1  &  \asgold{j \textless{}- 0 + 1}                                                              & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 0      & 7 & \asgold{1} \\
+    \asgr{[Pour]} j \textless{}= fin      & 1 \textless{}= 5 est vrai, la boucle continue                 & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 0      & 7 & 1 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 6 \textless{}= 7 est vrai                                     & {[}\aspurp{7}, \aspurp{6}, 5, 4, 3, 2, 1{]} & 0      & 0      & 7 & 1 \\
+    pospiv \textless{}- pospiv + 1 & \asgold{pospiv \textless{}- 0 + 1}                                            & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & \asgold{1}      & 7 & 1 \\
+    \asgr{\ \ \ [Si]\ \ } j \textgreater{} pospiv     & 1 \textgreater{} 1 est faux                                     & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 1      & 7 & 1 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &  \asgold{j \textless{}- 1 + 1}                                                              & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 1      & 7 & \asgold{2} \\
+    \asgr{[Pour]} j \textless{}= fin      & 2 \textless{}= 5 est vrai, la boucle continue                 & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 1      & 7 & 2 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 5 \textless{}= 7 est vrai                                     & {[}\aspurp{7}, 6, \aspurp{5}, 4, 3, 2, 1{]} & 0      & 1      & 7 & 2 \\
+    pospiv \textless{}- pospiv + 1  & \asgold{pospiv \textless{}- 1 + 1}               & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & \asgold{2}      & 7 & 2 \\
+    \asgr{\ \ \ [Si]\ \ } j \textgreater{} pospiv     & 2 \textgreater{} 2 est faux                                     & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 2      & 7 & 2 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &        \asgold{j \textless{}- 2 + 1}                                                        & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 2      & 7 & \asgold{3} \\
+    \asgr{[Pour]} j \textless{}= fin      & 3 \textless{}= 5 est vrai, la boucle continue                 & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 2      & 7 & 3 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 4 \textless{}= 7 est vrai                                     & {[}\aspurp{7}, 6, 5, \aspurp{4}, 3, 2, 1{]} & 0      & 2      & 7 & 3 \\
+    pospiv \textless{}- pospiv + 1  & \asgold{pospiv \textless{}- 2 + 1}               & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & \asgold{3}      & 7 & 3 \\
+    \asgr{\ \ \ [Si]\ \ } j \textgreater{} pospiv     & 3 \textgreater{} 3 est faux                                     & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 3      & 7 & 3 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &          \asgold{j \textless{}- 3 + 1}                                                      & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 3      & 7 & \asgold{4} \\
+    \asgr{[Pour]} j \textless{}= fin      & 4 \textless{}= 5 est vrai, la boucle continue                 & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 3      & 7 & 4 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 3 \textless{}= 7 est vrai                                     & {[}\aspurp{7}, 6, 5, 4, \aspurp{3}, 2, 1{]} & 0      & 3      & 7 & 4 \\
+    pospiv \textless{}- pospiv + 1  & \asgold{pospiv \textless{}- 3 + 1}               & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & \asgold{4}      & 7 & 4 \\
+    \asgr{\ \ \ [Si]\ \ } j \textgreater{} pospiv     & 4 \textgreater{} 4 est faux                                     & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 4      & 7 & 4 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &             \asgold{j \textless{}- 4 + 1}                                                   & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 4      & 7 & \asgold{5} \\
+    \asgr{[Pour]} j \textless{}= fin      & 5 \textless{}= 5 est vrai, la boucle continue                 & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 4      & 7 & 5 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 2 \textless{}= 7 est vrai                                     & {[}\aspurp{7}, 6, 5, 4, 3, \aspurp{2}, 1{]} & 0      & 4      & 7 & 5 \\
+    pospiv \textless{}- pospiv + 1  & \asgold{pospiv \textless{}- 4 + 1}               & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & \asgold{5}      & 7 & 5 \\
+    \asgr{\ \ \ [Si]\ \ } j \textgreater{} pospiv     & 5 \textgreater{} 5 est faux                                     & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 5      & 7 & 5 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &           \asgold{j \textless{}- 6 + 1}                                                     & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 5      & 7 & \asgold{6} \\
+    \asgr{[Pour]} j \textless{}= fin      & 6 \textless{}= 5 est faux, la boucle termine                   & {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 5      & 7 & 6 \\
+    \asgr{\ \ \ [Si]\ \ } indpiv \textless{} pospiv   & 0 \textless{} 5 est vrai                                        &  {[}7, 6, 5, 4, 3, 2, 1{]} & 0      & 5      & 7 & 6 \\
+    echanger(T, indpiv, pospiv)    & \cellcolor{mygold} T(0) \textless{}- 1, T(5) \textless{}- 7                                        &  {[}\asgold{1}, 6, 5, 4, 3, 2, \asgold{7}{]}  & 0      & 5      & 7 & 6 \\
+    \hline
+    \end{tabular}
+    \end{table}
 
 
 
