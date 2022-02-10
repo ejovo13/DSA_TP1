@@ -53,17 +53,38 @@
 % COLORs
 \definecolor{mygold}{RGB}{182, 153, 45}
 \definecolor{mygreen}{RGB}{62, 171, 0}
+\definecolor{dullgreen}{RGB}{165, 181, 45}
 \definecolor{mypurp}{RGB}{84, 45, 181}
 
+
+% \renewcommand{\headrule}{\color{gray}}
+\renewcommand{\headrule}{\hbox to\headwidth{%
+  \color{gray}\leaders\hrule height \headrulewidth\hfill}}
+
+\renewcommand{\footrulewidth}{1pt}
+% \renewcommand{\footrule}{\hbox to\headwirth{
+%     \color{gray}\leaders\hrule height \footrulewidth\hfill}}
+
+\renewcommand{\footrule}{{\color{gray}\vskip-\footruleskip\vskip-\footrulewidth \hrule width\headwidth height\footrulewidth\vskip\footruleskip}}
+
 \fancyhf{}
-% \rhead{La Compilation}
-\lhead{Optimisation du GCC}
-% \rfoot{Page \thepage}
-\cfoot{\thepage}
+\rhead{\textcolor{gray}{Séance TP 1}}
+\chead{\color{gray} Travaux Pratiques}
+% \lhead{Optimisation du GCC}
+\lfoot{\color{gray}\textcopyright 2022 Evan Voyles}
+\rfoot{\color{gray} Page \thepage\ sur 3}
+\cfoot{\color{gray}Spécialité MAIN-3}
+\footskip = 0pt
+% \voffset = 10pt
+% \headsep = 0pt
+% \cfoot{\thepage\ of \pageref{LastPage}}
 
 % \renewcommand{\headrulewidth}{0pt} % customise the layout...
 % \lhead{}\chead{}\rhead{}
 % \lfoot{}\cfoot{\thepage}\rfoot{}
+
+
+\usepackage[absolute,overlay]{textpos} % Add text in any arbitrary position
 
 %%% SECTION TITLE APPEARANCE
 \usepackage{sectsty}
@@ -80,12 +101,18 @@
 
 %%% The "real" document content comes below...
 
-\title{Optimisation du code par GCC}
-\author{Evan VOYLES, Amaury RODRIGUEZ, Stefan GA\L KIEWICZ}
-%\date{} % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed
+\newcommand{\asgold}[1]{\textcolor{mygold}{{\bf#1}}}
+\newcommand{\asgrey}[1]{\textcolor{gray}{{\bf#1}}}
+\newcommand{\asred}[1]{\textcolor{red}{{\bf#1}}}
+\newcommand{\asor}[1]{\textcolor{orange}{{\bf#1}}}
+\newcommand{\ascy}[1]{\textcolor{cyan}{{\bf#1}}}
+\newcommand{\asgr}[1]{\textcolor{mygreen}{{\bf#1}}}
+\newcommand{\aspurp}[1]{\textcolor{mypurp}{{\bf#1}}}
+
 
 \begin{document}
+
+% \vspace{-10pt}
 % This is the PERFECT SCALING, now we need to adjust the scale a little bit.
 \begin{tikzpicture}[remember picture,overlay,yshift=-.2cm, xshift=1.75cm] % LMAOOOOOO This is the EXACT POSITION!!!!
     \node at (0,0) {\includegraphics[width=4.0cm,height=1.6cm]{media/1280px-Logo_Polytech_Sorbonne.png}};
@@ -94,14 +121,18 @@
 % \hspace{-5cm}
 % \hspace{-1cm}
 % \hspace{-1cm}
+
 \vspace{-1cm}
 \vspace{0.3cm}
 
 {\raggedleft \color{mygold} Algorithmique générale\\
 MAIN-3, année 2022\\
 Séance TP N\degree 1\\
-Février 2022\\}
+Février 2022\\
+VOYLES Evan\\}
 
+% This vspace accomodates my name
+\vspace{-0.42cm}
 \vspace{1.23cm}
 
 {\Large \noindent \color{mygold} Objectif}
@@ -112,58 +143,82 @@ Février 2022\\}
     \item[{\color{mygold}\ding{43}}] Complexité en moyenne.
 \end{itemize}
 
-% Hello!
+\vspace{1.2cm}
+{\color{dullgreen}\noindent \Large \bf Problème}
 
-\newpage
+\vspace{-0.28cm}
+{\vspace{0cm}\color{dullgreen}\noindent\rule{\textwidth}{1pt}}
 
-\newcommand{\asgold}[1]{\textcolor{mygold}{{\bf#1}}}
-\newcommand{\asgrey}[1]{\textcolor{gray}{{\bf#1}}}
-\newcommand{\asred}[1]{\textcolor{red}{{\bf#1}}}
-\newcommand{\asor}[1]{\textcolor{orange}{{\bf#1}}}
-\newcommand{\ascy}[1]{\textcolor{cyan}{{\bf#1}}}
-\newcommand{\asgr}[1]{\textcolor{mygreen}{{\bf#1}}}
-\newcommand{\aspurp}[1]{\textcolor{mypurp}{{\bf#1}}}
+\begin{textblock*}{10cm}(9.9cm,7.2cm) % {block width} (coords)
+    \Large \aspurp{[Complexité en moyenne du tri rapide]}
+\end{textblock*}
+
+\begin{enumerate}
+    % \item Réaliser un suivi à la trace de la procédure \verb|partitionBis| appliquée aux instances suivantes :
+    \item Réaliser un suivi à la trace de la procédure \texttt{partitionBis} appliquée aux instances suivantes :
+    \begin{equation*}
+        I_1 = [2,6,0,4,3,1,5], I_2 = [7,6,5,4,3,2,1]\ \ \mathrm{ et }\ \ I_3 = [1,2,3,4,5,6,7].
+    \end{equation*}
+\end{enumerate}
+
+% \newpage
+
 
 % Test out a table!!!
-\begin{table}[]
+\begin{table}[h!]
     \begin{tabular}{ll|ccccc}
     \hline
     Instruction                    & Description/Remarque                                          & T                         & indpiv & pospiv & x & j \\
     \hline
     partitionBis(I$_1$, 0, 5)      & \asgold{T \textless{}- I$_1$},  deb \textless{}- 0, fin \textless{}- 5 & \asgold{{[}2, 6, 0, 4, 3, 1, 5{]}} &        &        &   &   \\
-    \asgold{indpiv \textless{}- deb}        &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & \asgold{0}      &        &   &   \\
-    \asgold{pospiv \textless{}- deb}        &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & \asgold{0}      &   &   \\
-    \asgold{x \textless{}- T(deb)}            &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & \asgold{2} &   \\
-    \asgr{[Pour]} \asgold{j \textless{}- deb + 1}  &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & \asgold{1} \\
-    \asgr{[Pour]} j \textless{}= fin      & 1 \textless{} 5 est vrai, la boucle continue                    & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 1 \\
-    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 6 \textless{}= 2 est faux, on retourne a la boucle            & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 1 \\
-    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & \asgold{2} \\
+    indpiv \textless{}- deb        &       \asgold{indipiv \textless{}- 0}                                                       & {[}2, 6, 0, 4, 3, 1, 5{]} & \asgold{0}      &        &   &   \\
+    pospiv \textless{}- deb      &           \asgold{pospiv \textless{}- 0}                                                    & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & \asgold{0}      &   &   \\
+    x \textless{}- T(deb)            &        \asgold{x \textless{}- T(0)}                                                       & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & \asgold{2} &   \\
+    \asgr{[Pour]} j \textless{}- deb + 1  & \asgold{j \textless{}- 0 + 1}                                                              & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & \asgold{1} \\
+    \asgr{[Pour]} j \textless{}= fin      & \aspurp{1 \textless{} 5} est vrai, la boucle continue                    & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & \aspurp{1} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 6 \textless{}= 2 est faux, on retourne a la boucle            & {[}\aspurp{2}, \aspurp{6}, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 1 \\
+    \asgr{[Pour]} j \textless{}- j + 1   &  \asgold{j \textless{} - 1 + 1}                            & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & \asgold{2} \\
     \asgr{[Pour]} j \textless{}= fin      & 2 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 2 \\
-    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 0 \textless{}= 2 est vrai                                     & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 0      & 2 & 2 \\
-    \asgold{pospiv \textless{}- pospiv + 1} &                                                               & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & \asgold{1}      & 2 & 2 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 0 \textless{}= 2 est vrai                                     & {[}\aspurp{2}, 6, \aspurp{0}, 4, 3, 1, 5{]} & 0      & 0      & 2 & 2 \\
+    pospiv \textless{}- pospiv + 1 &         \asgold{pospiv \textless{}- 0 + 1}                                                      & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & \asgold{1}      & 2 & 2 \\
     \asgr{\ \ \ [Si]\ \ } j \textgreater pospiv     & 2 \textgreater{} 1 est vrai                                     & {[}2, 6, 0, 4, 3, 1, 5{]} & 0      & 1      & 2 & 2 \\
-    echanger(T, pospiv, j)         & \asgold{T(1) \textless{}- 0, T(2) \textless{}- 6}                                         & {[}2, \asgold{0}, \asgold{6}, 4, 3, 1, 5{]} & 0      & 1      & 2 & 2 \\
-    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{3} \\
+    echanger(T, pospiv, j)         &  \cellcolor{mygold}T(1) \textless{}- 0, T(2) \textless{}- 6                                         & {[}2, \asgold{0}, \asgold{6}, 4, 3, 1, 5{]} & 0      & 1      & 2 & 2 \\
+    \asgr{[Pour]} j \textless{}- j + 1   &  \asgold{j \textless{} - 2 + 1}                             & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{3} \\
     \asgr{[Pour]} j \textless{}= fin      & 3 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 3 \\
-    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 4 \textless{}= 2 est faux                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 3 \\
-    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{4} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 4 \textless{}= 2 est faux                                     & {[}\aspurp{2}, 0, 6, \aspurp{4}, 3, 1, 5{]} & 0      & 1      & 2 & 3 \\
+    \asgr{[Pour]} j \textless{}- j + 1   &  \asgold{j \textless{} - 3 + 1}                             & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{4} \\
     \asgr{[Pour]} j \textless{}= fin      & 4 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 4 \\
-    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 3 \textless{}= 2 est faux                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 4 \\
-    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{5} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 3 \textless{}= 2 est faux                                     & {[}\aspurp{2}, 0, 6, 4, \aspurp{3}, 1, 5{]} & 0      & 1      & 2 & 4 \\
+    \asgr{[Pour]} j \textless{}- j + 1   &  \asgold{j \textless{} - 4 + 1}                             & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & \asgold{5} \\
     \asgr{[Pour]} j \textless{}= fin      & 5 \textless{}= 5 est vrai, la boucle continue                 & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 5 \\
-    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & 1 \textless{}= 2 est vrai                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 1      & 2 & 5 \\
-    \asgold{pospiv \textless{}- pospiv + 1} &                                                               & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & \asgold{2}      & 2 & 5 \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 1 \textless{}= 2 est vrai                                     & {[}\aspurp{2}, 0, 6, 4, 3, \aspurp{1}, 5{]} & 0      & 1      & 2 & 5 \\
+    pospiv \textless{}- pospiv + 1 &      \asgold{pospiv \textless{}- 1 + 1}                                                         & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & \asgold{2}      & 2 & 5 \\
     \asgr{\ \ \ [Si]\ \ } j \textgreater pospiv     & 5 \textgreater{} 2 est vrai                                     & {[}2, 0, 6, 4, 3, 1, 5{]} & 0      & 2      & 2 & 5 \\
-    echanger(T, pospiv, j)         & \asgold{T(2) \textless{}- 1, T(5) \textless{}- 6}                                         & {[}2, 0, \asgold{1}, 4, 3, \asgold{6}, 5{]} & 0      & 2      & 2 & 5 \\
-    \asgr{[Pour]} \asgold{j \textless{}- j + 1}    &                                                               & {[}2, 0, 1, 4, 3, 6, 5{]} & 0      & 2      & 2 & \asgold{6} \\
+    echanger(T, pospiv, j)         & \cellcolor{mygold}T(2) \textless{}- 1, T(5) \textless{}- 6                                         & {[}2, 0, \asgold{1}, 4, 3, \asgold{6}, 5{]} & 0      & 2      & 2 & 5 \\
+    \asgr{[Pour]} j \textless{}- j + 1   &  \asgold{j \textless{} - 5 + 1}                             & {[}2, 0, 1, 4, 3, 6, 5{]} & 0      & 2      & 2 & \asgold{6} \\
     \asgr{[Pour]} j \textless{}= fin      & 6 \textless{}= 5 est faux, on sort de la boucle               & {[}2, 0, 1, 4, 3, 6, 5{]} & 0      & 2      & 2 & 6 \\
     \asgr{\ \ \ [Si]\ \ } indpiv \textless{} pospiv   & 0 \textless{} 2 est vrai                                        & {[}2, 0, 1, 4, 3, 6, 5{]} & 0      & 2      & 2 & 6 \\
-    echanger(T, indpiv, pospiv)    &  \asgold{T(0) \textless{}- 1, T(2) \textless{}- 2}                                        & {[}\asgold{1}, 0, \asgold{2}, 4, 3, 6, 5{]} & 0      & 2      & 2 & 6
+    echanger(T, indpiv, pospiv)    &  \cellcolor{mygold}T(0) \textless{}- 1, T(2) \textless{}- 2                                        & {[}\asgold{1}, 0, \asgold{2}, 4, 3, 6, 5{]} & 0      & 2      & 2 & 6 \\
+    \hline
     \end{tabular}
     \end{table}
 
+\vspace{-0.4cm}
+\noindent Nombre d'\asgold{échanges} : 3, Nombre de \aspurp{comparaison} : 5
+
+\vspace{0.2cm}
+Notre tableau en sorti $[1, 0, \asred{2}, 4, 3, 6, 4]$ a été partitionné en deux parties autour du pivot $\asred{2}$. A gauche, l'on a $T_g = [1, 0]$ dont tous
+les éléments $g \in T_g$ satisfaitent $g < \asred{2}$ et à droite l'on a $T_d = [4, 3, 6, 5] \mid \forall d \in T_d,\ d > \asred{2}$. La schéma de partition de
+l'algorithme \texttt{partitionBis} parcours le tableau pour compter le nombre des valeurs qui sont inférieures au pivot. En le comptant, s'il il y a des
+valuers plus grand que le pivot dans le soustableau à gauche, \texttt{partitionBis} va effectuer un échange. Donc, on verra que ce schéma doit opérer $n - 2$ comparaisons
+des éléments du tableau à trier.
+
+\newpage
+
+\pagestyle{fancy}
+
 % Test out a table!!!
-\begin{table}[]
+\begin{table}[h!]
     \begin{tabular}{ll|ccccc}
     \hline
     % \rowcolor{red} Instruction                    & Description/Remarque                                          & T                         & indpiv & pospiv & x & j \\
@@ -207,9 +262,77 @@ Février 2022\\}
     \end{tabular}
     \end{table}
 
+\vspace{-.4cm}
+\noindent Nombre d'\asgold{échanges} : 1, Nombre de \aspurp{comparaison} : 5
+
+\vspace{0.2cm}
+Chaque élément du tableau qu'on à comparé avec le pivot en était inférieur. Cependant, on a réussi a partitionner le tableau avec un
+seul échange dans le dernier étape. Avec le pivot $\asred{7}$, $T_g = [1, 6, 5, 4, 3, 2]$ et il vérifie $g < \asred{7}\ \forall g \in T_g$.
+
+% \newpage
+
+% Third table!!!!
+\begin{table}[h!]
+    \begin{tabular}{ll|ccccc}
+    \hline
+    % \rowcolor{red} Instruction                    & Description/Remarque                                          & T                         & indpiv & pospiv & x & j \\
+    % \rowcolor{mygold}
+    Instruction                    & Description/Remarque                                          & T                         & indpiv & pospiv & x & j \\
+    \hline
+    partitionBis(I$_3$, 0, 5)    & \asgold{T \textless{}- I$_3$},  deb \textless{}- 0, fin \textless{}- 5 & \asgold{{[}1, 2, 3, 4, 5, 6, 7{]}} &        &        &   &   \\
+    indpiv \textless{}- deb      & \asgold{indpiv \textless{}- 0}                                                            & {[}1, 2, 3, 4, 5, 6, 7{]} & \asgold{0}      &        &   &   \\
+    pospiv \textless{}- deb      & \asgold{pospiv \textless{}- 0}                                                             & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & \asgold{0}      &   &   \\
+    x \textless{}- T(deb)            &        \asgold{x \textless{}- 1}                             & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & \asgold{1} &   \\
+    \asgr{[Pour]} j \textless{}- deb + 1  &  \asgold{j \textless{}- 0 + 1}                                                              & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \asgold{1} \\
+    \asgr{[Pour]} j \textless{}= fin      & \aspurp{1 \textless{}= 5} est vrai, la boucle continue                 & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \aspurp{1} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 2 \textless{}= 1 est faux & {[}\aspurp{1}, \aspurp{2}, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& 1 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &  \asgold{j \textless{}- 1 + 1}                                                              & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \asgold{2} \\
+    \asgr{[Pour]} j \textless{}= fin      & \aspurp{2 \textless{}= 5} est vrai, la boucle continue                 & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \aspurp{2} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 3 \textless{}= 1 est faux                                     & {[}\aspurp{1}, 2, \aspurp{3}, 4, 5, 6, 7{]} & 0      & 1      & 1& 2 \\
+
+    \asgr{[Pour]} j \textless{}- j + 1  &  \asgold{j \textless{}- 2 + 1}                                                              & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \asgold{3} \\
+    \asgr{[Pour]} j \textless{}= fin      & \aspurp{3 \textless{}= 5} est vrai, la boucle continue                 & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \aspurp{3} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 4 \textless{}= 1 est faux                                     & {[}\aspurp{1}, 2, 3, \aspurp{4}, 5, 6, 7{]} & 0      & 1      & 1& 3 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &  \asgold{j \textless{}- 3 + 1}                                                              & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \asgold{4} \\
+    \asgr{[Pour]} j \textless{}= fin      & \aspurp{4 \textless{}= 5} est vrai, la boucle continue                 & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \aspurp{4} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 5 \textless{}= 1 est faux                                     & {[}\aspurp{1}, 2, 3, 4, \aspurp{5}, 6, 7{]} & 0      & 1      & 1& 4 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &  \asgold{j \textless{}- 4 + 1}                                                              & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \asgold{5} \\
+    \asgr{[Pour]} j \textless{}= fin      & \aspurp{5 \textless{}= 5} est vrai, la boucle continue                 & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \aspurp{5} \\
+    \asgr{\ \ \ [Si]\ \ } T(j) \textless{}= x       & \cellcolor{mypurp} 6 \textless{}= 1 est faux                                     & {[}\aspurp{1}, 2, 3, 4, 5, \aspurp{6}, 7{]} & 0      & 1      & 1& 5 \\
+    \asgr{[Pour]} j \textless{}- j + 1  &  \asgold{j \textless{}- 5 + 1}                                                              & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1& \asgold{6} \\
+    \asgr{[Pour]} j \textless{}= fin      & \aspurp{6 \textless{}= 5} est faux, la boucle termine                   & {[}1, 2, 3, 4, 5, 6, 7{]} & 0      & 0      & 1 & \aspurp{6} \\
+    \asgr{\ \ \ [Si]\ \ } indpiv \textless{} pospiv   & \aspurp{0 \textless{} 0} est faux &  {[}1, 2, 3, 4, 5, 6, 7{]} & \aspurp{0}      & \aspurp{0}      & 1 & 6 \\
+    \hline
+    \end{tabular}
+    \end{table}
+
+\vspace{-.4cm}
+\noindent Nombre d'\asgold{échanges} : 0, Nombre de \aspurp{comparaison} : 5
+\newpage
+
+% \vspace{0.2cm}
+% Chaque élément du tableau qu'on à comparé avec le pivot en était inférieur. Cependant, on a réussi a partitionner le tableau avec un
+% seul échange dans le dernier étape. Avec le pivot $\asred{7}$, $T_g = [1, 6, 5, 4, 3, 2]$ et il vérifie $g < \asred{7}\ \forall g \in T_g$.
+Tout les éléments de $I_3 = [1, 2, 3, 4, 5, 6, 7]$ sont déjà triés donc on effectue aucun échange. On constate qu'il y a encore $n - 2 = 5$ comparaisons parce qu'on a
+traversé le tableau à partir du premier élément jusqu'a l'avant-dernier élément.
 
 
-Hello again!
-\leftpointright
+\begin{itemize}
+    \item[2.] Démontrer que la procédure \texttt{partitionBis} est correcte et analyser sa complexité.
+\end{itemize}
+
+\begin{itemize}
+    \item[3.] Quels changements, s'ils existent, à apporter au pseudo-code du tri rapide?
+\end{itemize}
+
+\begin{itemize}
+    \item[4.] Conduire une analyse de complexité en moyenne du tri rapide utilisant la procédure \texttt{partitionBis} à la
+    place de la procédure \texttt{partition}.
+\end{itemize}
+
+\begin{itemize}
+    \item[5.] D'après votre expérimentation, laquelle des deux méthodes \texttt{partition} et \texttt{partitionBis} est la
+    plus efficace?
+\end{itemize}
 
 \end{document}
