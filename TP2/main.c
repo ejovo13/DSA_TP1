@@ -10,6 +10,7 @@ int main() {
     // Graph *g4 = readGraph("./instances/graph-4.txt", false);
     // Graph *g5 = readGraph("./instances/graph-5.txt", false);
 
+    // Graph *e = readGraph("./instances/my_graph.txt", false);
     Graph *e = readGraph("./instances/my_graph.txt", false);
 
     // createDot(dg1, "dg1.dot");
@@ -20,34 +21,38 @@ int main() {
     // createDot(g5, "g5.dot");
     createDot(e, "e.dot");
 
-    int v = 1;
-    int u = 3;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // int v = 1;
+    // int u = 3;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
 
-    v = 5;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    v = 4;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    v = 13;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    v = 12;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    u = 6;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    u = 9;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    v = 11;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    u = 14;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    v = 14;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    u = 16;
-    printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // v = 5;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // v = 4;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // v = 13;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // v = 12;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // u = 6;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // u = 9;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // v = 11;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // u = 14;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // v = 14;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    // u = 16;
+    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
 
 
 
     printGraph(e);
+
+    dfsVisualize(e, 2);
+    // printVertices(e->adj[8]);
+    // printVertices(e->adj[5]);
 
 
 

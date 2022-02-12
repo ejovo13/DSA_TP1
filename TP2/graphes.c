@@ -202,7 +202,6 @@ void writeVertex(Vertex __v, FILE *__f, bool __di, bool *__visited) {
     }
     if (__di) sep = " -> ";
 
-    __visited[__v->data - 1] = true;
 
     // fprintf(stderr, "Going to count vertices...\n");
     int countUnvisited = countUnvisitedVertex(__v, __visited);
@@ -210,16 +209,17 @@ void writeVertex(Vertex __v, FILE *__f, bool __di, bool *__visited) {
 
     // printf("Counted vertices: %d\n", count);
 
-    if (countUnvisited == 0) fprintf(__f, "%d", it->data);
-    if (countUnvisited > 0) {
+    if (countUnvisited == 1) fprintf(__f, "%d", it->data); // if this is the only unvisited node in this adjacency list, print it
+    if (countUnvisited > 1) {
 
         fprintf(__f, "{ ");
 
         while (it) {
-
-            fprintf(__f, "%d ", it->data);
+            if (!__visited[it->data - 1]) {
+                fprintf(__f, "%d ", it->data);
+                // __visited[it->data - 1] = true; // This vertex will always get counted as visited.
+            }
             it = it->next;
-
         }
 
         fprintf(__f, "}");
@@ -280,23 +280,24 @@ bool *visitedArray(Graph *__g) {
 
 }
 
+bool visited(Vertex __v, bool *__visited) {
+    return __visited[__v->data - 1];
+}
+
 // Create a dot output of the loaded graph to be visualized with graphviz
 int createDot(Graph *g, const char *__filename) {
 
     // first open the file to write
-
     FILE *f = fopen(__filename, "w");
 
     if (g->di) fprintf(f, "di");
-
     fprintf(f, "graph {\n");
+
     bool *__visited = visitedArray(g);
 
     for (int i = 0; i < g->nvert; i++) {
-        if(!__visited[g->adj[i]->data - 1]) {
-            fprintf(f, "  %d", i + 1);
-            writeVertex(g->adj[i], f, g->di, __visited);
-        }
+        fprintf(f, "  %d", i + 1);
+        writeVertex(g->adj[i], f, g->di, __visited);
     }
 
     fprintf(f, "}\n");
@@ -311,31 +312,66 @@ int createDot(Graph *g, const char *__filename) {
 // check if __v and __s are connected via Depth-First, a recursive routine
 // that uses a matrix to store already visited or not
 // Accessing with a[1] is the first element...
-bool dfs(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __s, bool *__visited) {
-    // base case, we didnt find it
-    // if (__g->adj[__v - 1] == NULL) return false;
-    __visited[__v - 1] = true; // Set this node as visited
+// bool dfs(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __s, bool *__visited) {
+//     // base case, we didnt find it
+//     // if (__g->adj[__v - 1] == NULL) return false;
+//     __visited[__v - 1] = true; // Set this node as visited
 
-    // We can use recursion to check the depth of a tree first
-    // if (__v == __s) {
-    //     __visited[__s - 1] = true;
-    //     return true;
-    // }
-    if (__v == __s) return true;
+//     // We can use recursion to check the depth of a tree first
+//     // if (__v == __s) {
+//     //     __visited[__s - 1] = true;
+//     //     return true;
+//     // }
+//     if (__v == __s) return true;
+
+//     Vertex it = __g->adj[__v - 1];
+//     while (it) {
+//         // recursion for EVERY node connected to this vertex!
+//         if (!visited(__v, __visited)) return dfs(__g, it->data, __s, __visited);
+//         it = it -> next;
+//     }
+
+//     return false;
+
+// }
+
+// Wrapper routine to access the adjacency list of vertex v
+Vertex graphAdj(Graph *__g, Vertex __v) {
+    return __g->adj[__v->data - 1];
+}
+
+// This routine has a bool array that is passed down between successive calls.
+void _dfsVisualize(Graph *__g, int __v, bool *__visited) {
+
+    // Print that we've visited this node
+    printf("Visiting node %d\n", __v);
+    __visited[__v - 1] = true; // Mark as visited
 
     Vertex it = __g->adj[__v - 1];
+    // Iterate through all of the children
     while (it) {
-        // recursion for EVERY node connected to this vertex!
-        if (!__visited[it->data - 1]) return dfs(__g, it->data, __s, __visited);
-        it = it -> next;
+        if (!visited(it, __visited)) _dfsVisualize(__g, it->data, __visited);
+        it = it->next;
     }
+}
 
-    return false;
+// __v is the starting vertex
+void dfsVisualize(Graph *__g, int __v) {
+    bool *visited = visitedArray(__g);
+    _dfsVisualize(__g, __v, visited);
+    free(visited);
+}
+
+// Return true iff the two elements are connected
+bool dfsConnected(Graph *__g, int __v, int __u) {
+
+
+
 
 }
 
-bool areConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __s) {
-    return dfs(__g, __v, __s, visitedArray(__g));
-}
+// bool areConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __s) {
+//     return dfs(__g, __v, __s, visitedArray(__g));
+// }
 
 
