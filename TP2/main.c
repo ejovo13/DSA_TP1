@@ -21,40 +21,73 @@ int main() {
     // createDot(g5, "g5.dot");
     createDot(e, "e.dot");
 
-    // int v = 1;
-    // int u = 3;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    int v = 1;
+    int u = 3;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
 
-    // v = 5;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // v = 4;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // v = 13;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // v = 12;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // u = 6;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // u = 9;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // v = 11;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // u = 14;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // v = 14;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
-    // u = 16;
-    // printf("Are %d and %d connected: %d\n", v, u, areConnected(e, v, u));
+    v = 5;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    v = 4;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    v = 13;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    v = 12;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    u = 6;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    u = 9;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    v = 11;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    u = 14;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    v = 14;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    u = 16;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
 
-
+    v = 13; u = 3;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
+    u = 7;
+    printf("Are %d and %d connected: %d\n", v, u, dfsConnected(e, v, u));
 
     printGraph(e);
+    dfsVisualize(e, 13);
 
-    dfsVisualize(e, 2);
-    // printVertices(e->adj[8]);
-    // printVertices(e->adj[5]);
+    Queue *q = newQueue();
 
+    enQueue(q, 10);
+    enQueue(q, 4);
+    enQueue(q, 3);
+    enQueue(q, 2);
+    enQueue(q, 6);
+    enQueue(q, 12);
 
+    printQueue(q);
+    // queueInfo(q);
 
+    deQueue(q);
+
+    printQueue(q);
+    // queueInfo(q);
+
+    enQueue(q, 14);
+    // queueInfo(q);
+
+    printQueue(q);
+
+    deQueue(q);
+    deQueue(q);
+
+    printQueue(q);
+    // queueInfo(q);
+
+    printf("Adding 12 to end of the list...\n");
+    enQueue(q, 12);
+
+    // queueInfo(q);
+
+    printQueue(q);
+//
     return 0;
 }

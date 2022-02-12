@@ -66,6 +66,7 @@ Node *newNode(GRAPH_TYPE val) {
 
     Node *n = (Node *) malloc(sizeof(Node));
     n->data = val;
+    n->next = NULL;
     return n;
 }
 
@@ -356,22 +357,108 @@ void _dfsVisualize(Graph *__g, int __v, bool *__visited) {
 }
 
 // __v is the starting vertex
-void dfsVisualize(Graph *__g, int __v) {
+void dfsVisualize(Graph *__g, GRAPH_TYPE __v) {
     bool *visited = visitedArray(__g);
     _dfsVisualize(__g, __v, visited);
     free(visited);
 }
 
+void dfsConnected_(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u, bool *__visited) {
+
+    // bool *visited = visitedArray(__g);
+    // printf("Visiting node %d\n", __v);
+    __visited[__v - 1] = true;
+    if (__v == __u) return;
+
+    Vertex it = __g->adj[__v - 1];
+
+    while (it) {
+        if (!visited(it, __visited)) dfsConnected_(__g, it->data, __u, __visited);
+        it = it->next;
+    }
+}
+
 // Return true iff the two elements are connected
-bool dfsConnected(Graph *__g, int __v, int __u) {
+bool dfsConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u) {
+
+    bool *visited = visitedArray(__g);
+    dfsConnected_(__g, __v, __u, visited);
+
+    bool areConnected = visited[__u - 1];
+    free(visited);
+
+    return areConnected;
+}
 
 
+// As a coding exercise, I'd like to also implement a BFS (Breadth-first search)
+// In order to do so, I need a "Queue" object. This is a FIFO data structure that can
+// be modelled with two pointers.
 
+typedef struct {
+
+    Vertex first;
+    Vertex last;
+
+} Queue;
+
+Queue *newQueue() {
+
+    Queue *q = (Queue *) malloc(sizeof(Queue));
+    q->first = NULL;
+    q->last = NULL;
 
 }
 
-// bool areConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __s) {
-//     return dfs(__g, __v, __s, visitedArray(__g));
-// }
+// Add the value __val to the queue
+void enQueue(Queue *__q, GRAPH_TYPE __val) {
+
+    // If nobody is in line, add this one as the first and last pointer
+    if (!__q->first) {
+        __q->first = newNode(__val);
+        __q->last = __q->first;
+    } else { // Add this node to the end of the line
+        __q->last->next = newNode(__val);
+        __q->last = __q->last->next;
+    }
+}
+
+Vertex deQueue(Queue *__q) {
+
+    if (!__q->first) return NULL; // If line is empty
+
+    Vertex temp = __q->first;
+    __q->first = __q->first->next;
+
+    return temp;
+}
+
+void printQueue(Queue *__q) {
+
+    if (!__q) return;
+
+    Vertex it = __q->first;
+
+    printf("Queue: {");
+
+    while (it) {
+        printf("%d, ", it->data);
+        it = it->next;
+    }
+
+    printf("}\n");
+}
+
+void queueInfo(Queue *__q) {
+    if (!__q) return;
+
+    printf("First: %x, Last: %x ", __q->first, __q->last);
+    if (__q->first) printf("first->data: %d, ", __q->first->data);
+    if (__q->last) printf("last->data: %d", __q->last->data);
+    printf("\n");
+}
+
+
+
 
 
