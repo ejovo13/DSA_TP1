@@ -32,10 +32,16 @@ log_plot <- function(df, field, title="Log plot", subtitle="") {
 
 }
 
-fbis   <- "/home/ejovo/MAIN/S6/DSA/p_Bis.csv"
-fa     <- "/home/ejovo/MAIN/S6/DSA/p_Hoare.csv"
-f      <- "/home/ejovo/MAIN/S6/DSA/p_Lomuto.csv"
-fs     <- "/home/ejovo/MAIN/S6/DSA/p_Sedgewick.csv"
+prefix = "/home/ejovo/MAIN/S6/DSA/DSA_TP1/"
+
+add_prefix <- function(base) {
+  paste(prefix, base, sep="")
+}
+
+fbis   <- add_prefix("p_Bis.csv")
+fa     <- add_prefix("p_Hoare.csv")
+f      <- add_prefix("p_Lomuto.csv")
+fs     <- add_prefix("p_Sedgewick.csv")
 
 create_plots <- function(file_name, subtitle="") {
 
@@ -167,6 +173,19 @@ stats_plot <- ggplot(df_all.mutant, aes(N, value, color = part)) +
   
 stats_plot
 
+# Let's crunch some graphs out for partition_bis
+df_bis.all <- df_all.mutant |> filter(part == "bis") |>
+  mutate(N_log_N = N * log2(N))
+
+df_bis.ucmp <- df_bis.all |> filter(stat == "ucmp")
+df_bis.uech <- df_bis.all |> filter(stat == "uech")
+df_bis.usum <- df_bis.all |> filter(stat == "usum")
+
+df_bis.all_log <- stack_logs(df_bis.all)
+
+df_bis.all_log |> ggplot(aes(N_log_N, value, color = stat)) + geom_line(size=1.2) +
+  geom_line(aes(N_log_N, N_log_N), linetype="dashed", color = "black", size=1.2) 
+
 
 # This is my attempt to merge the two tables
 
@@ -223,9 +242,7 @@ mse <- function(y, y_hat) {
 
 # tikzDevice::tikz(file = "./plot.tex", width = 10, height = 5)
 
-stats_plot
 
-print(stats_plot)
 
 # dev.off()
 
