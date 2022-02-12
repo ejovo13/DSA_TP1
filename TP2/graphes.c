@@ -449,6 +449,7 @@ void printQueue(Queue *__q) {
     printf("}\n");
 }
 
+// Now that I've got a working queue, I can actually implement BFS Search!!!
 void queueInfo(Queue *__q) {
     if (!__q) return;
 
@@ -458,7 +459,156 @@ void queueInfo(Queue *__q) {
     printf("\n");
 }
 
+// Take in the extra bool array visited
+void bfsVisualize_(Graph *__g, int __v, bool *__visited, Queue *__q) {
+
+    // Mark as visited
+    __visited[__v - 1] = true;
+    printf("Visiting %d\n", __v);
+    Vertex it = __g->adj[__v - 1];
+
+    // Add all of the children to the queue
+    while (it) { // While there are children,
+        enQueue(__q, it->data); // add them to the queue.
+        it = it->next;
+    }
+
+    // Then iterate throgh the queue!
+    Vertex v_search = deQueue(__q);
+    while (v_search) {
+        if (!visited(v_search, __visited)) bfsVisualize_(__g, v_search->data, __visited, __q);
+        v_search = deQueue(__q);
+    }
+}
+
+void bfsVisualize(Graph *__g, int __v) {
+
+    bool *visited = visitedArray(__g);
+    Queue *q = newQueue();
+    bfsVisualize_(__g, __v, visited, q);
+    // TODO Free the queue!?
+    free(visited);
+}
+
+void subgraph_(Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited) {
+
+    if (!__visited[__v - 1]) addVertex(__gnew, __start, __v);
+    __visited[__v - 1] = true;
+    Vertex it = __og->adj[__v - 1];
 
 
+    // Iterate through all of the children
+    while (it) {
+        if (!visited(it, __visited)) subgraph_(__og, __gnew, __start, it->data, __visited);
+        it = it->next;
+    }
+}
+
+
+
+// Using DFS, extract all the elements that are connected to v
+Graph *subgraph(Graph *__g, int __v) {
+
+    // First create a new graph with the same dimensions
+    Graph *g = newGraph(__g->nvert, __g->nedge, __g->di);
+    bool *visited = visitedArray(__g);
+    visited[__v - 1] = true;
+    // Now perform DFS, adding connect
+    subgraph_(__g, g, __v, __v, visited);
+
+    free(visited);
+    return g;
+}
+
+// Write a vertex to a file
+void writeVertexSubgraph(int __root, Vertex __v, FILE *__f, bool __di, bool *__visited) {
+
+    Vertex it = __v;
+    char *sep = " -- ";
+
+    if (!it) {
+        // fprintf(stderr, "Passed vertex is null!\n");
+        fprintf(__f, "\n");
+        return;
+    }
+    if (__di) sep = " -> ";
+
+
+    // fprintf(stderr, "Going to count vertices...\n");
+    int countUnvisited = countUnvisitedVertex(__v, __visited);
+    fprintf(__f, "%d %s", __root, sep);
+
+    // printf("Counted vertices: %d\n", count);
+
+    if (countUnvisited == 1) fprintf(__f, "%d", it->data); // if this is the only unvisited node in this adjacency list, print it
+    if (countUnvisited > 1) {
+
+        fprintf(__f, "{ ");
+
+        while (it) {
+            if (!__visited[it->data - 1]) {
+                fprintf(__f, "%d ", it->data);
+                // __visited[it->data - 1] = true; // This vertex will always get counted as visited.
+            }
+            it = it->next;
+        }
+
+        fprintf(__f, "}");
+    }
+
+    fprintf(__f, "\n");
+}
+
+void createDotSubgraph(Graph *g, const char *__filename) {
+// Create a dot output of the loaded graph to be visualized with graphviz
+// A subgraph will not include nodes that have no connections
+// int createDot(Graph *g, const char *__filename) {
+
+    // first open the file to write
+    FILE *f = fopen(__filename, "w");
+
+    if (g->di) fprintf(f, "di");
+    fprintf(f, "graph {\n");
+
+    bool *__visited = visitedArray(g);
+
+    for (int i = 0; i < g->nvert; i++) {
+        // fprintf(f, "  %d", i + 1);// We only write this if there is a non null....
+        writeVertexSubgraph(i + 1, g->adj[i], f, g->di, __visited);
+    }
+
+    fprintf(f, "}\n");
+    fclose(f);
+
+    // return 0;
+}
+
+// DFS search to see if the graph is connected
+void isConnected_(Graph *__g, int __v, bool *__visited, int *__count) {
+
+    __visited[__v - 1] = true;
+    (*__count) ++;
+
+    Vertex it = __g->adj[__v - 1];
+    while (it) {
+        if (!visited(it, __visited)) isConnected_(__g, it->data, __visited, __count);
+        it = it->next;
+    }
+
+}
+
+// Return true if every node can be reached starting from node 1 and performing a
+// Depth first search.
+bool isConnected(Graph *g) {
+
+    int count = 0;
+    bool *visited = visitedArray(g);
+    int startNode = 1;
+
+    // Count the connections
+    isConnected_(g, startNode, visited, &count);
+
+    return count == g->nvert;
+}
 
 
