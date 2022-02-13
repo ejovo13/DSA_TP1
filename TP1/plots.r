@@ -278,9 +278,10 @@ df_bis.uech_log <- stack_logs(df_bis.uech) |>
 
 # tikzDevice::tikz(file = "./df_bis_ucmp_logs.tex", width = 7, height = 3)
 
-tikzDevice::tikz(file = "./df_bis_uech.tex", width = 7, height = 3)
+# tikzDevice::tikz(file = "./df_bis_uech.tex", width = 7, height = 3)
 
-color_palette <- c("#000000", "#000000", "#F8766D", "#000000")
+# color_palette <- c("#000000", "#000000", "#F8766D", "#000000")
+color_palette <- c("#000000", "#000000", "#00BFC4", "#000000")
 # size_palette <- c(1.5, 1, 0.75)
 alpha_palette <- c(1, 0.5, 1, 0.25)
 
@@ -305,8 +306,116 @@ df_bis.uech_log |>
         col = ""
     )
 
-dev.off()
+# dev.off()
 
+# ! Compare all three values!
+# tikzDevice::tikz(file = "./df_bis_all.tex", width = 7, height = 3)
+
+# latex_labels <- c("$2n \\log n$", "$n \\log n$", "$\\mu_{ech}$")
+# latex_labels <- c("$2n \\log n$", "$\\mu_{cmp} + \\mu_{ech}$", "$\\mu_{cmp}$", "$n \\log n$", "$\\mu_{ech}$", "$0.5n \\log n$")
+latex_labels <- c("$2n \\log n$", "$\\mu_{cmp} + \\mu_{ech}$", "$\\mu_{cmp}$", "$\\mu_{ech}$", "$0.5n \\log n$")
+# labels_rearranged <- c("twonlogn", "sum", "cmp", "nlogn", "ech", "halfn")
+labels_rearranged <- c("twonlogn", "sum", "cmp", "ech", "halfn")
+# alpha_palette <- c(1, 1, 1, .5, 1)
+# alpha_palette <- c(1, 1, 1, .5, 1, 0.25)
+alpha_palette <- c(1, 1, 1, 1, 0.25)
+# color_palette <- c("#000000", "#C77CFF", "#F8766D", "#000000", "#00BFC4")
+# color_palette <- c("#000000", "#C77CFF", "#F8766D", "#000000", "#00BFC4", "#000000")
+color_palette <- c("#000000", "#C77CFF", "#F8766D", "#00BFC4", "#000000")
+line_palette  <- rep("solid", length(latex_labels))
+
+df_bis.all <- df_bis |>
+    mutate(cmp = avg_cmp, ech = avg_ech, sum = avg_cmp + avg_ech, nlogn = N * log2(N), twonlogn = 2 * N * log2(N), halfn = 0.5 * N * log2(N)) |>
+    # select(N, cmp, ech, sum, nlogn, twonlogn, halfn) |>
+    select(N, cmp, ech, sum, twonlogn, halfn) |>
+    # pivot_longer(c(cmp, ech, sum, nlogn, twonlogn, halfn), names_to = "line_type", values_to = "stat") |>
+    pivot_longer(c(cmp, ech, sum, twonlogn, halfn), names_to = "line_type", values_to = "stat") |>
+    mutate(line_type = factor(line_type, levels = labels_rearranged))
+
+# Now plot it
+df_bis.all |>
+    ggplot(aes(N, stat, group = line_type)) +
+    geom_line(aes(color = line_type, linetype = line_type, alpha = line_type)) +
+    # geom_line(aes(N, HALFN_log_N, color = "red")) +
+    scale_linetype_manual(name = "$f(n)$",
+                          labels = latex_labels,
+                          values = line_palette) +
+    scale_color_manual(name = "$f(n)$",
+                       labels = latex_labels,
+                       values = color_palette) +
+    scale_alpha_manual(name = "$f(n)$",
+                      labels = latex_labels,
+                      values = alpha_palette) +
+    labs (
+        title = "Moyenne des comparaisons et échanges",
+        subtitle = "$\\texttt{nombresCmpPlusEch}(n) \\in \\Theta(n \\log n)$",
+        x = "$n$",
+        y = "",
+        col = ""
+    )
+
+# dev.off()
+
+# # df_bis.all_log <- stack_logs(df_bis.uech) |>
+#     # pivot_longer(c(value, N_log_N, TWON_log_N), names_to = "line_type", values_to = "value") |>
+#     pivot_longer(c(value, N_log_N, TWON_log_N, HALFN_log_N), names_to = "line_type", values_to = "value") |>
+#     mutate(line_type = factor(line_type, levels = labels_rearranged))
+
+
+# df %<>% pivot_longer(c(value, N_log_N, TWON_log_N, ONE_TENTH_log_N), names_to = "line_type", values_to = "value")
+
+# tikzDevice::tikz(file = "./df_bis_ucmp_logs.tex", width = 7, height = 3)
+
+# tikzDevice::tikz(file = "./df_bis_uech.tex", width = 7, height = 3)
+
+# color_palette <- c("#000000", "#000000", "#F8766D", "#000000")
+# size_palette <- c(1.5, 1, 0.75)
+
+
+tikzDevice::tikz(file = "./df_p5_all.tex", width = 7, height = 3)
+# Comparison of partitionBis and part A
+# p5 for partie 5
+df_p5 <- df_all.mutant |> filter(part == "a" | part == "bis") |>
+    pivot_wider(names_from = stat, values_from = value)
+
+df_p5 <- stack_logs(df_p5)
+
+# latex_labels <- c("$2n \\log n$", "$\\mu_{cmp} + \\mu_{ech}$", "$\\mu_{cmp}$", "$\\mu_{ech}$", "$n \\log n$", "$0.1n \\log n$")
+latex_labels <- c("$2n \\log n$", "$\\mu_{cmp} + \\mu_{ech}$", "$\\mu_{cmp}$", "$\\mu_{ech}$", "$0.1n \\log n$")
+# labels_rearranged <- c("twon", "usum", "ucmp", "nlogn", "uech", "tenthn")
+labels_rearranged <- c("twon", "usum", "ucmp", "uech", "tenthn")
+# alpha_palette <- c(1, 1, 1, 0.5, 1, 0.125)
+alpha_palette <- c(1, 1, 1, 0.5, 0.125)
+# color_palette <- c("#000000", "#C77CFF", "#F8766D", "#000000", "#00BFC4", "#000000")
+color_palette <- c("#000000", "#C77CFF", "#F8766D", "#00BFC4", "#000000")
+# line_palette  <- rep("solid", length(latex_labels))
+
+df_p5.long <- df_p5 |>
+    mutate(n = N, twon = TWON_log_N, tenthn = ONE_TENTH_log_N) |>
+    select(N, part, ucmp, uech, usum, twon, tenthn) |>
+    pivot_longer(c(ucmp, uech, usum, twon, tenthn), names_to = "stat", values_to = "value") |>
+    mutate(stat = factor(stat, levels = labels_rearranged))
+
+# Now plot it
+df_p5.long |>
+    ggplot(aes(N, value, color = stat)) +
+    geom_line(aes(color = stat, alpha = stat)) +
+    scale_color_manual(name = "$f(n)$",
+                       labels = latex_labels,
+                       values = color_palette) +
+    scale_alpha_manual(name = "$f(n)$",
+                      labels = latex_labels,
+                      values = alpha_palette) +
+    labs (
+        title = "Moyenne des comparaisons et échanges",
+        subtitle = "$\\texttt{nombresCmpPlusEch}(n) \\in \\Theta(n \\log n)$",
+        x = "$n$",
+        y = "",
+        col = ""
+    ) +
+    facet_wrap(~part)
+
+dev.off()
 
 
 
