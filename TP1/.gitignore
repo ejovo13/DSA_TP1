@@ -3,6 +3,7 @@
 !*.c
 !.gitignore
 !*.r
+.Rhistory
 
 tex/*
 !tex/media
