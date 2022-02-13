@@ -32,7 +32,7 @@ log_plot <- function(df, field, title="Log plot", subtitle="") {
 
 }
 
-prefix = "/home/ejovo/MAIN/S6/DSA/DSA_TP1/"
+prefix = "/home/ejovo/MAIN/S6/DSA/TP/TP1/"
 
 add_prefix <- function(base) {
   paste(prefix, base, sep="")
@@ -161,7 +161,7 @@ stats_plot <- ggplot(df_all.mutant, aes(N, value, color = part)) +
 #     legend.position = "bottom",
 #     plot.title = element_text(hjust = 0.5)) +
     scale_color_hue(labels = c("Partie A", "Partie B", "Lumoto", "Sedgewick")) +
-    #scale_color_brewer(palette = "Pastel1") 
+    #scale_color_brewer(palette = "Pastel1")
     #scale_color_brewer(palette = "GrandBudapest")
     #scale_color_manual(values = wes_palette(n = 4, "BottleRocket2"))
     #scale_color_manual(values = )
@@ -169,8 +169,8 @@ stats_plot <- ggplot(df_all.mutant, aes(N, value, color = part)) +
     #scale_color_manual(values = rainbow(6))
     scale_color_manual(values = my_palette)
     # scale_color_viridis(discrete = TRUE, option="D")
-  
-  
+
+
 stats_plot
 
 # Let's crunch some graphs out for partition_bis
@@ -184,7 +184,65 @@ df_bis.usum <- df_bis.all |> filter(stat == "usum")
 df_bis.all_log <- stack_logs(df_bis.all)
 
 df_bis.all_log |> ggplot(aes(N_log_N, value, color = stat)) + geom_line(size=1.2) +
-  geom_line(aes(N_log_N, N_log_N), linetype="dashed", color = "black", size=1.2) 
+  geom_line(aes(N_log_N, N_log_N), linetype="dashed", color = "black", size=1.2)
+
+# Let's plot ucmp, usum, uech along with n^2
+
+# Plot ucmp and n
+# tikzDevice::tikz(file = "./df_bis_ucmp.tex", width = 7, height = 3)
+
+df_bis.ucmp |>
+    ggplot(aes(N, value, color = stat)) +
+    geom_line() +
+    labs (
+        title = "Moyenne des comparaisons",
+        subtitle = "Schéma partitionBis appliqué aux tableaux de taille $n$",
+        x = "$n$",
+        y = "",
+        col = ""
+    ) +
+    scale_color_hue(labels = c("$\\mu_{cmp}$"))
+
+# dev.off()
+# dev.on()
+
+latex_labels <- c("$2n \\log n$", "$\\mu_{cmp}$", "$n \\log n$")
+labels_rearranged <- c("TWON_log_N", "value", "N_log_N")
+
+df_bis.ucmp_log <- stack_logs(df_bis.ucmp) |>
+    # pivot_longer(c(value, N_log_N, TWON_log_N), names_to = "line_type", values_to = "value") |>
+    pivot_longer(c(value, N_log_N, TWON_log_N), names_to = "line_type", values_to = "value") |>
+    mutate(line_type = factor(line_type, levels = labels_rearranged))
+
+# tikzDevice::tikz(file = "./df_bis_ucmp_logs.tex", width = 7, height = 3)
+
+color_palette <- c("#000000", "#F8766D", "#000000")
+# size_palette <- c(1.5, 1, 0.75)
+alpha_palette <- c(1, 1, 0.5)
+
+df_bis.ucmp_log |>
+    ggplot(aes(N, value, group = line_type)) +
+    geom_line(aes(color = line_type, linetype = line_type, alpha = line_type)) +
+    # geom_line(aes(N, HALFN_log_N, color = "red")) +
+    scale_linetype_manual(name = "$f(n)$",
+                          labels = latex_labels,
+                          values = c("solid", "solid", "solid", "solid")) +
+    scale_color_manual(name = "$f(n)$",
+                       labels = latex_labels,
+                       values = color_palette) +
+    scale_alpha_manual(name = "$f(n)$",
+                      labels = latex_labels,
+                      values = alpha_palette) +
+    labs (
+        title = "Moyenne des comparaisons",
+        subtitle = "$\\texttt{nombreComparaisons(n)} \\in \\Theta(n \\log n)$",
+        x = "$n$",
+        y = "",
+        col = ""
+    )
+
+# dev.off()
+
 
 
 # This is my attempt to merge the two tables
@@ -206,6 +264,48 @@ df_bis.all_log |> ggplot(aes(N_log_N, value, color = stat)) + geom_line(size=1.2
 #          ONE_TENTH_log_N,
 #          HALFN_log_N,
 #          TWON_log_N)
+
+latex_labels <- c("$2n \\log n$", "$n \\log n$", "$\\mu_{ech}$", "$0.5n \\log n$")
+labels_rearranged <- c("TWON_log_N", "N_log_N", "value", "HALFN_log_N")
+
+df_bis.uech_log <- stack_logs(df_bis.uech) |>
+    # pivot_longer(c(value, N_log_N, TWON_log_N), names_to = "line_type", values_to = "value") |>
+    pivot_longer(c(value, N_log_N, TWON_log_N, HALFN_log_N), names_to = "line_type", values_to = "value") |>
+    mutate(line_type = factor(line_type, levels = labels_rearranged))
+
+
+# df %<>% pivot_longer(c(value, N_log_N, TWON_log_N, ONE_TENTH_log_N), names_to = "line_type", values_to = "value")
+
+# tikzDevice::tikz(file = "./df_bis_ucmp_logs.tex", width = 7, height = 3)
+
+tikzDevice::tikz(file = "./df_bis_uech.tex", width = 7, height = 3)
+
+color_palette <- c("#000000", "#000000", "#F8766D", "#000000")
+# size_palette <- c(1.5, 1, 0.75)
+alpha_palette <- c(1, 0.5, 1, 0.25)
+
+df_bis.uech_log |>
+    ggplot(aes(N, value, group = line_type)) +
+    geom_line(aes(color = line_type, linetype = line_type, alpha = line_type)) +
+    # geom_line(aes(N, HALFN_log_N, color = "red")) +
+    scale_linetype_manual(name = "$f(n)$",
+                          labels = latex_labels,
+                          values = c("solid", "solid", "solid", "solid")) +
+    scale_color_manual(name = "$f(n)$",
+                       labels = latex_labels,
+                       values = color_palette) +
+    scale_alpha_manual(name = "$f(n)$",
+                      labels = latex_labels,
+                      values = alpha_palette) +
+    labs (
+        title = "Moyenne des échanges",
+        subtitle = "$\\texttt{nombreEchanges(n)} \\in \\Theta(n \\log n)$",
+        x = "$n$",
+        y = "",
+        col = ""
+    )
+
+dev.off()
 
 
 
@@ -242,6 +342,42 @@ mse <- function(y, y_hat) {
 
 # tikzDevice::tikz(file = "./plot.tex", width = 10, height = 5)
 
+
+# Create the linear regression plot
+
+df <- df_bis.ucmp
+f <- lin_reg(value~N_log_N, data = df)
+
+model <- tibble(x = df$N_log_N,
+                y = f(x))
+# str(model)
+
+df %<>%
+  mutate(val_vs_nlogn = f(N_log_N)) %<>%
+  mutate(link = as.factor(1:length(N_log_N)))
+
+
+# tikzDevice::tikz(file = "./df_bis_ucmp_reg.tex", width = 7, height = 3)
+
+df |>
+  ggplot(aes(N_log_N, value)) +
+  geom_point(size=0.25) +
+  geom_line(aes(N_log_N, val_vs_nlogn), size = 0.25) +
+  geom_line(aes(N_log_N, value), color = "red", alpha = 0.3) +
+  geom_segment(aes(N_log_N, val_vs_nlogn, xend = N_log_N, yend = value), color="red") +
+  labs(
+      title = "Moyenne des comparaisons",
+      subtitle = "$\\texttt{nombreComparaisons}(n) \\approx 1.16(n\\log n) - 549.56$",
+      x = "$n \\log n$",
+      y = ""
+    #   y = "$f(x) = 1.16x - 549.56$"
+    )
+dev.off()
+
+#   theme(plot.title = element_text(hjust = 0.5))  # Center the title
+#   geom_label(x = 300, y = 30, label="Hello")
+df.mse <- mse(df$value, df$val_vs_nlogn)
+df.rms <- rms(df$value, df$val_vs_nlogn)
 
 
 # dev.off()
