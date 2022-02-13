@@ -42,7 +42,7 @@ int main() {
     // analyze_complexity(Hoare);
     // analyze_complexity(Lomuto);
     // analyze_complexity(Sedgewick);
-    // analyze_complexity(Bis);
+    analyze_complexity(Bis);
 
     printf("Analysis complete\n");
 

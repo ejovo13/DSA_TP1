@@ -32,7 +32,7 @@ void exchange_count(int *__arr, int __i, int __j, int *__nech) {
     __arr[__i] = __arr[__j];
     __arr[__j] = temp;
     inc(__nech, 1); // Once again, we only care about array assignments.
-    // increment the number of exchanged by 1 per call
+                    // increment the number of exchanged by 1 per call
 }
 
 // Lomuto partition scheme
