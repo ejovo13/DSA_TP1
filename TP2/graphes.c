@@ -70,6 +70,26 @@ Node *newNode(GRAPH_TYPE val) {
     return n;
 }
 
+// Used to duplicate a list of vertices in a graph's adjacency list
+Node *duplicateList(Node *__n) {
+
+    if(!__n) return NULL;
+
+    Vertex dupl = newNode(__n->data);
+
+    Vertex it = __n->next;
+    Vertex it_dup = dupl;
+    while(it) {
+
+        it_dup->next = newNode(it->data);
+
+        it_dup = it_dup->next;
+        it = it->next;
+    }
+
+    return dupl;
+}
+
 Graph *newGraph(int __nv, int __ne, bool __digraph) {
 
     // First thing to do is allocate the space for a new adjacency list matrix
@@ -90,6 +110,19 @@ Graph *newGraph(int __nv, int __ne, bool __digraph) {
     }
 
     return g;
+}
+
+// replicate the connections of graph __G and return a newly allocated graphj
+Graph *duplicateGraph(Graph *__G) {
+
+    Graph *copy_of_g = newGraph(__G->nvert, __G->nedge, __G->di); // initialize the adjacency list
+
+    // Iterate through each node and duplicate the list of vertices
+    for (int i = 0; i < __G->nvert; i++) {
+        copy_of_g->adj[i] = duplicateList(__G->adj[i]);
+    }
+
+    return copy_of_g;
 }
 
 void printVertices(Vertex __vs) {
@@ -611,4 +644,39 @@ bool isConnected(Graph *g) {
     return count == g->nvert;
 }
 
+// Here I'm traversing __G while adding to __dup.
+void *reverseGraph_(Graph *__G, Graph *__dup, int __node, bool *__visited) {
 
+    __visited[__node - 1] = true;
+
+    Vertex it = __G->adj[__node - 1];
+
+    while (it) {
+
+        addVertex(__dup, it->data, __node);
+        if (!visited(it, __visited)) reverseGraph_(__G, __dup, it->data, __visited);
+        it = it->next;
+    }
+}
+
+// Take a directional graph and reverse the direction of its edges.
+// This function allocates the space for a new graph.
+Graph *reverseGraph(Graph *__G) {
+
+    if (!__G->di) return duplicateGraph(__G);
+
+    // Otherwise, let's do a depth first search to visit every node.
+
+    // Every time that we visit a node we want to take the previous node and make a new connection,
+    // albeit in the reverse direction
+
+    Graph *rev = newGraph(__G->nvert, __G->nedge, true);
+
+    bool *visited = visitedArray(__G);
+
+    // by default start at the first node
+    reverseGraph_(__G, rev, 1, visited);
+    free(visited);
+
+    return rev;
+}

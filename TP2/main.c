@@ -3,7 +3,7 @@
 int main() {
 
     // Graph *g = readGraph("./instances/digraph-1.txt", false);
-    // Graph *dg1 = readGraph("./instances/digraph-1.txt", true);
+    Graph *dg1 = readGraph("./instances/digraph-1.txt", true);
     Graph *g1 = readGraph("./instances/graph-1.txt", false);
     Graph *g2 = readGraph("./instances/graph-2.txt", false);
     Graph *g3 = readGraph("./instances/graph-3.txt", false);
@@ -80,38 +80,16 @@ int main() {
     printf("Is g5 connected: %d\n", isConnected(g5));
 
 
-    // enQueue(q, 10);
-    // enQueue(q, 4);
-    // enQueue(q, 3);
-    // enQueue(q, 2);
-    // enQueue(q, 6);
-    // enQueue(q, 12);
+    printf("============================================\n");
 
-    // printQueue(q);
-    // // queueInfo(q);
+    printGraph(dg1);
 
-    // deQueue(q);
+    Graph *rev = reverseGraph(dg1);
 
-    // printQueue(q);
-    // // queueInfo(q);
+    printGraph(rev);
 
-    // enQueue(q, 14);
-    // // queueInfo(q);
+    createDot(rev, "rev.dot");
 
-    // printQueue(q);
 
-    // deQueue(q);
-    // deQueue(q);
-
-    // printQueue(q);
-    // // queueInfo(q);
-
-    // printf("Adding 12 to end of the list...\n");
-    // enQueue(q, 12);
-
-    // // queueInfo(q);
-
-    // printQueue(q);
-//
     return 0;
 }
