@@ -1,5 +1,5 @@
 CC = gcc
-INC = -I/usr/local/inc -I/usr/local/inc/ejovo/matrix -I/usr/local/inc/ejovo
+INC = -I/usr/local/inc -I/usr/local/include/ejovo/matrix -I/usr/local/include/ejovo
 LIB = -lejovo -lm
 SRC = qtest.c
 
