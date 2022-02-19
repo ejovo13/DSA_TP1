@@ -6,6 +6,10 @@ library(viridis)
 library(wesanderson) # For more color palettes
 #library(tikzDevice)
 
+
+# Make some really cool plots and write them to .tex files!!!
+
+
 # Add logarithmic data to a dataframe for complexity plotting
 stack_logs <- function(df) {
 
