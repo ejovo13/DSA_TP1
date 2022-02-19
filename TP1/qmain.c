@@ -10,6 +10,23 @@
 #define N_MAX             5000
 #define DELTA_N           40
 #define M                 100       // The number of arrays to generate at each n value
+
+/**
+ * @brief Test the quicksort implementation of various sorting routines
+ *
+ * The partition schemes that we implement in this TP are Hoare, Lomuto, Sedgewick (adopted from _Algorithms_), and Bis
+ *
+ */
+
+
+/**
+ * @brief A Partition_scheme stores pointers to functions that implement a counting and non-counting partition scheme
+ *
+ * This structure allows me to unify the API for the different partition schemes. Instead of having 8 unique entry points,
+ * we pair up the `partition` and `partition_count` procedures for each partition scheme.
+ *
+ *
+ */
 typedef struct {
 
     partition_scheme        fn_part; // A pointer to a simple partition function
@@ -23,9 +40,10 @@ Partition_scheme Lomuto     = {.fn_part = partition,     .fn_count = partition_c
 Partition_scheme Sedgewick  = {.fn_part = partition_a,   .fn_count = partition_a_count,   .name = "Sedgewick"}; // quicksort as implemented in Algorithms
 Partition_scheme Bis        = {.fn_part = partition_bis, .fn_count = partition_bis_count, .name = "Bis"};  // quicksort partition scheme for part b
 
-void verify_partition_scheme(Partition_scheme ps);
-void analyze_complexity(Partition_scheme ps);
-void example_sort(Partition_scheme ps, size_t n);
+void verify_partition_scheme(Partition_scheme ps); // Assert that a parition scheme used by qs() actually sorts an array
+void analyze_complexity(Partition_scheme ps);      // create .csv data of the number of exchanges and comparaisons as a function of n
+void example_sort(Partition_scheme ps, size_t n);  // Print an example of the sort
+
 
 int main() {
 
@@ -37,15 +55,14 @@ int main() {
     verify_partition_scheme(Bis);
     printf("========================= Testing Complete ===========================\n\n");
 
-
-    // Begin complexity analysis:
+    // =============== Begin complexity analysis:=====================
     // analyze_complexity(Hoare);
     // analyze_complexity(Lomuto);
     // analyze_complexity(Sedgewick);
-    analyze_complexity(Bis);
+    // analyze_complexity(Bis);
+    // printf("Analysis complete\n");
 
-    printf("Analysis complete\n");
-
+    // =============== Show sorting examples of qs(partition_scheme) ==
     example_sort(Hoare, 30);
     example_sort(Lomuto, 30);
     example_sort(Sedgewick, 30);
