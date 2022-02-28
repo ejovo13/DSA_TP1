@@ -1,8 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
-#include <stdbool.h>
-#include "../include/graph.h"
+#include "graph.h"
 // So a graphe is a structure that contains edges E (sommets) and vertices V (arretes ou arcs)
 // G = < V, E >
 
@@ -167,6 +163,13 @@ Vertex graphAdj(Graph *__g, Vertex __v) {
     return __g->adj[__v->data - 1];
 }
 
+// __v is the starting vertex
+void dfsVisualize(Graph *__g, GRAPH_TYPE __v) {
+    bool *visited = visitedArray(__g);
+    _dfsVisualize(__g, __v, visited);
+    free(visited);
+}
+
 // This routine has a bool array that is passed down between successive calls.
 void _dfsVisualize(Graph *__g, int __v, bool *__visited) {
 
@@ -182,11 +185,16 @@ void _dfsVisualize(Graph *__g, int __v, bool *__visited) {
     }
 }
 
-// __v is the starting vertex
-void dfsVisualize(Graph *__g, GRAPH_TYPE __v) {
+// Return true iff the two elements are connected
+bool dfsConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u) {
+
     bool *visited = visitedArray(__g);
-    _dfsVisualize(__g, __v, visited);
+    dfsConnected_(__g, __v, __u, visited);
+
+    bool areConnected = visited[__u - 1];
     free(visited);
+
+    return areConnected;
 }
 
 void dfsConnected_(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u, bool *__visited) {
@@ -204,16 +212,13 @@ void dfsConnected_(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u, bool *__visited) 
     }
 }
 
-// Return true iff the two elements are connected
-bool dfsConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u) {
+void bfsVisualize(Graph *__g, int __v) {
 
     bool *visited = visitedArray(__g);
-    dfsConnected_(__g, __v, __u, visited);
-
-    bool areConnected = visited[__u - 1];
+    Queue *q = newQueue();
+    bfsVisualize_(__g, __v, visited, q);
+    // TODO Free the queue!?
     free(visited);
-
-    return areConnected;
 }
 
 // Take in the extra bool array visited
@@ -238,13 +243,18 @@ void bfsVisualize_(Graph *__g, int __v, bool *__visited, Queue *__q) {
     }
 }
 
-void bfsVisualize(Graph *__g, int __v) {
+// Using DFS, extract all the elements that are connected to v
+Graph *subgraph(Graph *__g, int __v) {
 
+    // First create a new graph with the same dimensions
+    Graph *g = newGraph(__g->nvert, __g->nedge, __g->di);
     bool *visited = visitedArray(__g);
-    Queue *q = newQueue();
-    bfsVisualize_(__g, __v, visited, q);
-    // TODO Free the queue!?
+    visited[__v - 1] = true;
+    // Now perform DFS, adding connect
+    subgraph_(__g, g, __v, __v, visited);
+
     free(visited);
+    return g;
 }
 
 void subgraph_(Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited) {
@@ -259,20 +269,6 @@ void subgraph_(Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited
         if (!visited(it, __visited)) subgraph_(__og, __gnew, __start, it->data, __visited);
         it = it->next;
     }
-}
-
-// Using DFS, extract all the elements that are connected to v
-Graph *subgraph(Graph *__g, int __v) {
-
-    // First create a new graph with the same dimensions
-    Graph *g = newGraph(__g->nvert, __g->nedge, __g->di);
-    bool *visited = visitedArray(__g);
-    visited[__v - 1] = true;
-    // Now perform DFS, adding connect
-    subgraph_(__g, g, __v, __v, visited);
-
-    free(visited);
-    return g;
 }
 
 void createDotSubgraph(Graph *g, const char *__filename) {
@@ -298,20 +294,6 @@ void createDotSubgraph(Graph *g, const char *__filename) {
     // return 0;
 }
 
-// DFS search to see if the graph is connected
-void isConnected_(Graph *__g, int __v, bool *__visited, int *__count) {
-
-    __visited[__v - 1] = true;
-    (*__count) ++;
-
-    Vertex it = __g->adj[__v - 1];
-    while (it) {
-        if (!visited(it, __visited)) isConnected_(__g, it->data, __visited, __count);
-        it = it->next;
-    }
-
-}
-
 // Return true if every node can be reached starting from node 1 and performing a
 // Depth first search.
 bool isConnected(Graph *g) {
@@ -326,19 +308,18 @@ bool isConnected(Graph *g) {
     return count == g->nvert;
 }
 
-// Here I'm traversing __G while adding to __dup.
-void *reverseGraph_(Graph *__G, Graph *__dup, int __node, bool *__visited) {
+// DFS search to see if the graph is connected
+void isConnected_(Graph *__g, int __v, bool *__visited, int *__count) {
 
-    __visited[__node - 1] = true;
+    __visited[__v - 1] = true;
+    (*__count) ++;
 
-    Vertex it = __G->adj[__node - 1];
-
+    Vertex it = __g->adj[__v - 1];
     while (it) {
-
-        addVertex(__dup, it->data, __node);
-        if (!visited(it, __visited)) reverseGraph_(__G, __dup, it->data, __visited);
+        if (!visited(it, __visited)) isConnected_(__g, it->data, __visited, __count);
         it = it->next;
     }
+
 }
 
 // Take a directional graph and reverse the direction of its edges.
@@ -361,4 +342,19 @@ Graph *reverseGraph(Graph *__G) {
     free(visited);
 
     return rev;
+}
+
+// Here I'm traversing __G while adding to __dup.
+void *reverseGraph_(Graph *__G, Graph *__dup, int __node, bool *__visited) {
+
+    __visited[__node - 1] = true;
+
+    Vertex it = __G->adj[__node - 1];
+
+    while (it) {
+
+        addVertex(__dup, it->data, __node);
+        if (!visited(it, __visited)) reverseGraph_(__G, __dup, it->data, __visited);
+        it = it->next;
+    }
 }
