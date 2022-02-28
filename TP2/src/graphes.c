@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdbool.h>
+#include "../include/graph.h"
 // So a graphe is a structure that contains edges E (sommets) and vertices V (arretes ou arcs)
 // G = < V, E >
 
@@ -25,71 +26,6 @@
 // We are going to assume that the elements are integers. we will make this "generic" code by including
 // a preprocessor graph type
 
-#define GRAPH_TYPE int
-
-typedef struct node_t {
-
-    GRAPH_TYPE data;
-    struct node_t *next;
-
-} Node;
-
-// Is this structure really necessary?
-typedef struct {
-
-    Node *head;
-
-} List;
-
-// typedef struct {
-
-//     // Here we want an array of length V whose components are LISTS
-//     Node** adj_list;
-
-// } Graph;
-
-
-typedef Node** AdjacencyList;
-typedef Node* Vertex;
-
-typedef struct {
-
-    AdjacencyList adj;
-    int nedge;
-    int nvert;
-    bool di;
-
-} Graph;
-
-
-Node *newNode(GRAPH_TYPE val) {
-
-    Node *n = (Node *) malloc(sizeof(Node));
-    n->data = val;
-    n->next = NULL;
-    return n;
-}
-
-// Used to duplicate a list of vertices in a graph's adjacency list
-Node *duplicateList(Node *__n) {
-
-    if(!__n) return NULL;
-
-    Vertex dupl = newNode(__n->data);
-
-    Vertex it = __n->next;
-    Vertex it_dup = dupl;
-    while(it) {
-
-        it_dup->next = newNode(it->data);
-
-        it_dup = it_dup->next;
-        it = it->next;
-    }
-
-    return dupl;
-}
-
 Graph *newGraph(int __nv, int __ne, bool __digraph) {
 
     // First thing to do is allocate the space for a new adjacency list matrix
@@ -112,7 +48,7 @@ Graph *newGraph(int __nv, int __ne, bool __digraph) {
     return g;
 }
 
-// replicate the connections of graph __G and return a newly allocated graphj
+// replicate the connections of graph __G and return a newly allocated graph
 Graph *duplicateGraph(Graph *__G) {
 
     Graph *copy_of_g = newGraph(__G->nvert, __G->nedge, __G->di); // initialize the adjacency list
@@ -125,17 +61,6 @@ Graph *duplicateGraph(Graph *__G) {
     return copy_of_g;
 }
 
-void printVertices(Vertex __vs) {
-
-    Vertex it = __vs;
-    while (it) {
-        printf("%d ", it->data);
-        it = it->next;
-    }
-    printf("\n");
-
-}
-
 void printGraph(Graph *__g) {
 
     printf("N edges: %d, N vertices: %d\n", __g->nedge, __g->nvert);
@@ -145,25 +70,6 @@ void printGraph(Graph *__g) {
         printVertices(__g->adj[i]);
     }
 }
-
-void freeNode(Node *__n) {
-    if (__n) free(__n);
-}
-
-void freeList(Node *__n) {
-    Node *it = __n;
-    Node *prev = it;
-    if(!__n) return;
-
-    while(it) {
-        prev = it;
-        it = it->next;
-        free(prev);
-    }
-}
-
-enum VERTEX_STATUS { NEW_VERTEX, OLD_VERTEX };
-
 
 int _add_vertex(Graph *__g, int __v1, int __v2) {
 
@@ -179,7 +85,6 @@ int _add_vertex(Graph *__g, int __v1, int __v2) {
     Vertex it = v1;
 
     while(it) {
-
 
         if(it->data == __v2) return OLD_VERTEX; // then we already have these two elements joined
         else if (!it->next) {
@@ -198,76 +103,8 @@ int addVertex(Graph *__g, int __v1, int __v2) {
     if (!__g->di) _add_vertex(__g, __v2, __v1);
 }
 
-// Count how many vertices come after this one (and including it)
-int countVertex(Vertex __v) {
-
-    int count = 0;
-    Vertex it = __v;
-    while (it) {
-        count ++;
-        it = it->next;
-    }
-
-    return count;
-}
-
-// Count how many unvisited vertices are adjacent to this one, without modifying the
-// visited array.
-int countUnvisitedVertex(Vertex __v, bool *__visited) {
-    int count = 0;
-    Vertex it = __v;
-    while(it) {
-        if (!__visited[it->data - 1]) count++;
-        it = it->next;
-    }
-    return count;
-}
-
-// Write a vertex to a file
-void writeVertex(Vertex __v, FILE *__f, bool __di, bool *__visited) {
-
-    Vertex it = __v;
-    char *sep = " -- ";
-
-    if (!it) {
-        // fprintf(stderr, "Passed vertex is null!\n");
-        fprintf(__f, "\n");
-        return;
-    }
-    if (__di) sep = " -> ";
-
-
-    // fprintf(stderr, "Going to count vertices...\n");
-    int countUnvisited = countUnvisitedVertex(__v, __visited);
-    fprintf(__f, "%s", sep);
-
-    // printf("Counted vertices: %d\n", count);
-
-    if (countUnvisited == 1) fprintf(__f, "%d", it->data); // if this is the only unvisited node in this adjacency list, print it
-    if (countUnvisited > 1) {
-
-        fprintf(__f, "{ ");
-
-        while (it) {
-            if (!__visited[it->data - 1]) {
-                fprintf(__f, "%d ", it->data);
-                // __visited[it->data - 1] = true; // This vertex will always get counted as visited.
-            }
-            it = it->next;
-        }
-
-        fprintf(__f, "}");
-    }
-
-    fprintf(__f, "\n");
-
-
-}
-
 // Scan from a stdinput
 Graph *readGraph(const char *__filename, bool __digraph) {
-// Graph *readGraph() {
-
 
     FILE *f = fopen(__filename, "r");
     int nvert = 0;
@@ -275,8 +112,7 @@ Graph *readGraph(const char *__filename, bool __digraph) {
     int vert1 = 0; // Left hand vertex when reading the file
     int vert2 = 0; // Right hand vertex when reading in the graph
 
-
-    char line[256];
+    char line[256]; // buffer for a line
 
     // get the number of vertices;
     if (fgets(line, sizeof(line), f)) sscanf(line, "%d", &nvert);
@@ -288,34 +124,20 @@ Graph *readGraph(const char *__filename, bool __digraph) {
     while (fgets(line, sizeof(line), f)) {
 
         sscanf(line, "%d %d", &vert1, &vert2);
-        // sscanf(line, "", &vert2);
-
-        // printf("line: %s; v1: %d, v2: %d\n", line, vert1, vert2);
-
         addVertex(g, vert1, vert2);
-        // addVertex(g, vert2, vert1);
-
-        // printf("%s", line);
-
     }
 
-    // sscanf("%d\n", &nvert);
-    // scanf("%d\n", &nedge)
     fclose(f);
-    // while()
 
     return g;
 }
+
 // Initialize an array of booleans to false to check if they've been visited or not
 bool *visitedArray(Graph *__g) {
 
     bool *visited = (bool *) calloc(sizeof(bool), __g->nvert);
     return visited;
 
-}
-
-bool visited(Vertex __v, bool *__visited) {
-    return __visited[__v->data - 1];
 }
 
 // Create a dot output of the loaded graph to be visualized with graphviz
@@ -339,35 +161,6 @@ int createDot(Graph *g, const char *__filename) {
 
     return 0;
 }
-
-
-
-// Depth-first search involves using an array to keep track of visited
-// check if __v and __s are connected via Depth-First, a recursive routine
-// that uses a matrix to store already visited or not
-// Accessing with a[1] is the first element...
-// bool dfs(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __s, bool *__visited) {
-//     // base case, we didnt find it
-//     // if (__g->adj[__v - 1] == NULL) return false;
-//     __visited[__v - 1] = true; // Set this node as visited
-
-//     // We can use recursion to check the depth of a tree first
-//     // if (__v == __s) {
-//     //     __visited[__s - 1] = true;
-//     //     return true;
-//     // }
-//     if (__v == __s) return true;
-
-//     Vertex it = __g->adj[__v - 1];
-//     while (it) {
-//         // recursion for EVERY node connected to this vertex!
-//         if (!visited(__v, __visited)) return dfs(__g, it->data, __s, __visited);
-//         it = it -> next;
-//     }
-
-//     return false;
-
-// }
 
 // Wrapper routine to access the adjacency list of vertex v
 Vertex graphAdj(Graph *__g, Vertex __v) {
@@ -423,75 +216,6 @@ bool dfsConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u) {
     return areConnected;
 }
 
-
-// As a coding exercise, I'd like to also implement a BFS (Breadth-first search)
-// In order to do so, I need a "Queue" object. This is a FIFO data structure that can
-// be modelled with two pointers.
-
-typedef struct {
-
-    Vertex first;
-    Vertex last;
-
-} Queue;
-
-Queue *newQueue() {
-
-    Queue *q = (Queue *) malloc(sizeof(Queue));
-    q->first = NULL;
-    q->last = NULL;
-
-}
-
-// Add the value __val to the queue
-void enQueue(Queue *__q, GRAPH_TYPE __val) {
-
-    // If nobody is in line, add this one as the first and last pointer
-    if (!__q->first) {
-        __q->first = newNode(__val);
-        __q->last = __q->first;
-    } else { // Add this node to the end of the line
-        __q->last->next = newNode(__val);
-        __q->last = __q->last->next;
-    }
-}
-
-Vertex deQueue(Queue *__q) {
-
-    if (!__q->first) return NULL; // If line is empty
-
-    Vertex temp = __q->first;
-    __q->first = __q->first->next;
-
-    return temp;
-}
-
-void printQueue(Queue *__q) {
-
-    if (!__q) return;
-
-    Vertex it = __q->first;
-
-    printf("Queue: {");
-
-    while (it) {
-        printf("%d, ", it->data);
-        it = it->next;
-    }
-
-    printf("}\n");
-}
-
-// Now that I've got a working queue, I can actually implement BFS Search!!!
-void queueInfo(Queue *__q) {
-    if (!__q) return;
-
-    printf("First: %x, Last: %x ", __q->first, __q->last);
-    if (__q->first) printf("first->data: %d, ", __q->first->data);
-    if (__q->last) printf("last->data: %d", __q->last->data);
-    printf("\n");
-}
-
 // Take in the extra bool array visited
 void bfsVisualize_(Graph *__g, int __v, bool *__visited, Queue *__q) {
 
@@ -537,8 +261,6 @@ void subgraph_(Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited
     }
 }
 
-
-
 // Using DFS, extract all the elements that are connected to v
 Graph *subgraph(Graph *__g, int __v) {
 
@@ -553,49 +275,9 @@ Graph *subgraph(Graph *__g, int __v) {
     return g;
 }
 
-// Write a vertex to a file
-void writeVertexSubgraph(int __root, Vertex __v, FILE *__f, bool __di, bool *__visited) {
-
-    Vertex it = __v;
-    char *sep = " -- ";
-
-    if (!it) {
-        // fprintf(stderr, "Passed vertex is null!\n");
-        fprintf(__f, "\n");
-        return;
-    }
-    if (__di) sep = " -> ";
-
-
-    // fprintf(stderr, "Going to count vertices...\n");
-    int countUnvisited = countUnvisitedVertex(__v, __visited);
-    fprintf(__f, "%d %s", __root, sep);
-
-    // printf("Counted vertices: %d\n", count);
-
-    if (countUnvisited == 1) fprintf(__f, "%d", it->data); // if this is the only unvisited node in this adjacency list, print it
-    if (countUnvisited > 1) {
-
-        fprintf(__f, "{ ");
-
-        while (it) {
-            if (!__visited[it->data - 1]) {
-                fprintf(__f, "%d ", it->data);
-                // __visited[it->data - 1] = true; // This vertex will always get counted as visited.
-            }
-            it = it->next;
-        }
-
-        fprintf(__f, "}");
-    }
-
-    fprintf(__f, "\n");
-}
-
 void createDotSubgraph(Graph *g, const char *__filename) {
 // Create a dot output of the loaded graph to be visualized with graphviz
 // A subgraph will not include nodes that have no connections
-// int createDot(Graph *g, const char *__filename) {
 
     // first open the file to write
     FILE *f = fopen(__filename, "w");
