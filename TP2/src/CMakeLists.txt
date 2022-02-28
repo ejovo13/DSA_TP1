@@ -1,0 +1,1 @@
+add_library(tp2 graph.c list.c queue.c stack.c)
