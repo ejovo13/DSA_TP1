@@ -6,6 +6,8 @@ Queue *newQueue() {
     q->first = NULL;
     q->last = NULL;
 
+    return q;
+
 }
 
 // Add the value __val to the queue
@@ -55,4 +57,22 @@ void queueInfo(Queue *__q) {
     if (__q->first) printf("first->data: %d, ", __q->first->data);
     if (__q->last) printf("last->data: %d", __q->last->data);
     printf("\n");
+}
+
+// If queue is empty, return 0.
+// If the pointer __q is null, return -1
+int queueSize(Queue *__q) {
+
+    if (!__q) return -1;
+
+    int count = 0;
+
+    Vertex it = __q->first;
+
+    while (it) {
+        count ++;
+        it = it->next;
+    }
+
+    return count;
 }

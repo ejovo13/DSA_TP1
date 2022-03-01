@@ -24,3 +24,7 @@ void printQueue(Queue *__q);
 
 // Now that I've got a working queue, I can actually implement BFS Search!!!
 void queueInfo(Queue *__q);
+
+// If queue is empty, return 0.
+// If the pointer __q is null, return -1
+int queueSize(Queue *__q);

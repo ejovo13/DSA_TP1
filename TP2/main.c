@@ -19,7 +19,7 @@ int main() {
     // createDot(g3, "g3.dot");
     // createDot(g4, "g4.dot");
     // createDot(g5, "g5.dot");
-    createDot(e, "e.dot");
+    // createDot(e, "e.dot");
 
     int v = 1;
     int u = 3;
@@ -56,8 +56,16 @@ int main() {
 
     printf("============= Finished DFS ==============\n");
 
+    // Apparantly I'm getting a seg fault here UGH.
+    printf("Attempting bfs visualize...\n");
+    printGraph(e);
+
+
     bfsVisualize(e, 1);
     printf("============= Finished BFS ==============\n");
+
+
+
 
     bfsVisualize(e, 2);
     printf("============= Finished BFS ==============\n");

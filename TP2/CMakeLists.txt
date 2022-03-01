@@ -12,7 +12,9 @@ file(MAKE_DIRECTORY ${BIN}) # Make binary directory if it doesnt already exist
 add_subdirectory(src)
 add_subdirectory(test)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY CMAKE_BINARY_DIR)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_executable(g main.c)
 target_link_libraries(g tp2)
+# target_compile_options(g g)
+add_compile_options(-g)
