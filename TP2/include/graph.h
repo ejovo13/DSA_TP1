@@ -116,6 +116,9 @@ Graph *stronglyConnected(const Graph *__g);
 
 void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visited);
 
+void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited);
+
+
 /**========================================================================
  *!                           Utility functions
  *========================================================================**/

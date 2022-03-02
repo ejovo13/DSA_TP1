@@ -50,4 +50,6 @@ void t_stronglyConnected() {
 
     printf("Started search at %d\n", getVertex(g));
 
+    createDot(sg, "t_stronglyConnectedComponents.dot");
+
 }

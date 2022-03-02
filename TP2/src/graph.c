@@ -397,7 +397,7 @@ void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited)
 // The obvious return type is a graph whose only elements are the strongly connected ones...
 Graph *stronglyConnected(const Graph *__g) {
 
-    bool *visited = visitedArray(__g);
+    bool *vis = visitedArray(__g);
     Stack *stack = newStack();
 
     int ind = getVertex(__g);
@@ -405,14 +405,30 @@ Graph *stronglyConnected(const Graph *__g) {
 
     Graph *gnew = newGraph(__g->nvert, 0, __g->di);
 
-    stronglyConnected_(__g, ind + 1, stack, visited);
+    stronglyConnected_(__g, ind + 1, stack, vis);
     // Add the end points and the the precedent of already visited nodes to
     // the stack
 
     Graph *grev = reverseGraph(__g);
 
+    // Nw we have to start from the top vertex of the stack,
+    // traverse its child vertices.
 
+    // Now let's iterate through the stack, adding edges between unvisited vertices
 
+    free(vis);
+
+    vis = visitedArray(__g);
+
+    Vertex it = popStack(stack);
+
+    while (it) {
+
+        if (!visited(it, vis)) stronglyConnectedRev_(grev, gnew, it->data, stack, vis);
+        free(it);
+        it = popStack(stack);
+
+    }
 
     printf("Found strongly connected components\n");
     printStack(stack);
@@ -461,6 +477,30 @@ void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visit
     printf("Adding %d to the stack!\n", __v);
 
     pushStack(__stack, __v);
+
+}
+
+void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited) {
+
+    __visited[__v - 1] = true;
+
+
+
+    Vertex it = __g->adj[__v - 1];
+
+
+
+    if (it) {
+        printf("Adding vertex %d\n", it->data);
+        addVertex(__gnew, it->data, __v);
+    }
+
+    while (it) {
+
+        if (!visited(it, __visited)) stronglyConnectedRev_(__g, __gnew, it->data, __stack, __visited);
+        it = it->next;
+
+    }
 
 }
 
