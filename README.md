@@ -1,5 +1,5 @@
-![example workflow](https://github.com/ejovo13/DSA_TP1/actions/workflows/mac/badge.svg)
-![example workflow](https://github.com/ejovo13/DSA_TP1/actions/workflows/ubuntu/badge.svg)
+![example workflow](https://github.com/ejovo13/DSA_TP1/actions/workflows/mac.yml/badge.svg)
+![example workflow](https://github.com/ejovo13/DSA_TP1/actions/workflows/ubuntu.yml/badge.svg)
 
 # Travaux Pratiques pour Algorithmique Générale
 
