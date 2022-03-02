@@ -405,7 +405,14 @@ Graph *stronglyConnected(const Graph *__g) {
 
     Graph *gnew = newGraph(__g->nvert, 0, __g->di);
 
-    stronglyConnected_(__g, gnew, ind + 1, stack, visited);
+    stronglyConnected_(__g, ind + 1, stack, visited);
+    // Add the end points and the the precedent of already visited nodes to
+    // the stack
+
+    Graph *grev = reverseGraph(__g);
+
+
+
 
     printf("Found strongly connected components\n");
     printStack(stack);
@@ -415,7 +422,7 @@ Graph *stronglyConnected(const Graph *__g) {
 
 }
 
-void stronglyConnected_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited) {
+void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visited) {
 
     printf("Visiting %d\n", __v);
     __visited[__v - 1] = true;
@@ -433,13 +440,27 @@ void stronglyConnected_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack
         if (!graphAdj(__g, it)) {
             pushStack(__stack, it->data);
             printf("Pushing end point to stack!\n");
+            return;
         }
 
-        if (!visited(it, __visited)) stronglyConnected_(__g, __gnew, it->data, __stack, __visited);
+        if (!visited(it, __visited)) stronglyConnected_(__g,it->data, __stack, __visited);
 
         it = it->next;
     }
 
+    // outside of the depth first search, start going in reverse.
+    // If all of the children of this node are visited, then add it to the stack
+
+    it = __g->adj[__v - 1];
+
+    while (it) {
+        if (!visited(it, __visited)) return;
+        it = it->next;
+    }
+
+    printf("Adding %d to the stack!\n", __v);
+
+    pushStack(__stack, __v);
 
 }
 

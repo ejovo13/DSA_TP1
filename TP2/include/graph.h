@@ -114,7 +114,7 @@ void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited)
 // The obvious return type is a graph whose only elements are the strongly connected ones...
 Graph *stronglyConnected(const Graph *__g);
 
-void stronglyConnected_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited);
+void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visited);
 
 /**========================================================================
  *!                           Utility functions
