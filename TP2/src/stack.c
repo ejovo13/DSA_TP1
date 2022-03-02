@@ -1,6 +1,6 @@
 #include "stack.h"
 
-Stack *newStack(int __vertex) {
+Stack *newStack() {
 
     Stack *stack = (Stack *) malloc(sizeof(Stack));
     stack->top = NULL;
@@ -12,7 +12,7 @@ Stack *newStack(int __vertex) {
 // the final position
 void pushStack(Stack *__stack, int __vertex) {
 
-    if (!__stack) {
+    if (!__stack->top) {
         __stack->top = newNode(__vertex);
         return;
     }
@@ -41,14 +41,13 @@ Vertex popStack(Stack *__stack) {
 
 void printStack(Stack *__stack) {
 
-    if (!__stack) {
+    if (!__stack->top) {
         printf("Stack empty\n");
         return;
     }
 
     Vertex it = __stack->top;
-
-    if (it) printf("%d", it->data);
+    printf("%d", it->data);
 
     while (it->next) {
 
@@ -76,4 +75,34 @@ int stackSize(Stack *__stack) {
     }
 
     return count;
+}
+
+// Free all of the elements that exist in a stack. This will NOT free the
+// memory of the POINTER __stack. This will only free the memory that is pointed
+// to by the nodes (vertices) of the __stack, starting from __stack->top
+void freeStack(Stack *__stack) {
+
+    Vertex it = __stack->top;
+    Vertex temp;
+
+    while (it) {
+
+        temp = it;
+        it = it->next;
+        free(temp);
+
+    }
+}
+
+// Free the nodes of the stack, free the memory pointed to by a stack pointer
+// and then set that pointer to NULL so that we never try to access the memory again
+void releaseStack(Stack **__stack) {
+
+    if (!__stack) return; // This is kinda redundant right?
+    if (!*__stack) return; // If the stack isn't pointing to anything, do nothing
+
+    freeStack(*__stack);
+    free(*__stack);
+
+    *__stack = NULL;
 }

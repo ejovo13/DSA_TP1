@@ -22,7 +22,6 @@ list(APPEND TEST_INC
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN}/test)
 
 # set(TEST_BIN_DIR "${CMAKE_CURRENT_BINARY_DIR}" PARENT_SCOPE)
-
 macro(ejovo_add_test TESTNAME)
 
     # create an exectuable in which the tests will be stored

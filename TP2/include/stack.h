@@ -41,3 +41,12 @@ Vertex popStack(Stack *__stack);
 void printStack(Stack *__stack);
 
 int stackSize(Stack *__stack);
+
+// Free all of the elements that exist in a stack. This will NOT free the
+// memory of the POINTER __stack. This will only free the memory that is pointed
+// to by the nodes (vertices) of the __stack, starting from __stack->top
+void freeStack(Stack *__stack);
+
+// Free the nodes of the stack, free the memory pointed to by a stack pointer
+// and then set that pointer to NULL so that we never try to access the memory again
+void releaseStack(Stack **__stack);
