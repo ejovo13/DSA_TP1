@@ -9,6 +9,7 @@
 list(APPEND TESTS
     queue
     stack
+    graph
 )
 
 list(APPEND TEST_LIBS

@@ -44,6 +44,16 @@ Graph *newGraph(int __nv, int __ne, bool __digraph);
 // replicate the connections of graph __G and return a newly allocated graph
 Graph *duplicateGraph(const Graph *__G);
 
+// Free all of the VERTICES that exist in the graph. The graph's adjacency matrix will NOT
+// be freed.
+void cleanGraph(Graph *__G);
+
+// Free all of the nodes of a graph and also free the adjacency matrix. This still does not
+// free the actual pointer __G. To do so, see releaseGraph
+void freeGraph(Graph *__G);
+
+void releaseGraph(Graph **__Gptr);
+
 void printGraph(const Graph *__g);
 
 int _add_vertex(Graph *__g, int __v1, int __v2);
@@ -102,7 +112,9 @@ void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited)
 
 // Implement Kosaraju's algorithm to find strongly connected components.
 // The obvious return type is a graph whose only elements are the strongly connected ones...
-Graph *stronglyConnected(const Graph *__G);
+Graph *stronglyConnected(const Graph *__g);
+
+void stronglyConnected_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited);
 
 /**========================================================================
  *!                           Utility functions
@@ -110,4 +122,6 @@ Graph *stronglyConnected(const Graph *__G);
 
 // I want a function that get's a non null vertex from a Graph.
 // If the Graph is empty (i.e.) there are no connections
-Vertex getVertex(const Graph *__G);
+// get the INDEX of the position of a vertex
+// returns -1 if there are no connections
+int getVertex(const Graph *__G);

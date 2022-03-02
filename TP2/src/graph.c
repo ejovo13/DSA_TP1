@@ -33,7 +33,8 @@ Graph *newGraph(int __nv, int __ne, bool __digraph) {
     }
 
     g->nvert = __nv;
-    g->nedge = __ne;
+    // g->nedge = __ne;
+    g->nedge = 0;
     g->di = __digraph;
 
     for (int i = 0; i < __nv; i++) {
@@ -57,6 +58,37 @@ Graph *duplicateGraph(const Graph *__G) {
     return copy_of_g;
 }
 
+// Free all of the VERTICES that exist in the graph. The graph's adjacency matrix will NOT
+// be freed.
+void cleanGraph(Graph *__G) {
+
+    if (!__G) return;
+
+    for (int i = 0; i < __G->nedge; i++) {
+        freeList(__G->adj[i]);
+    }
+
+    __G->nedge = 0;
+}
+
+// Free all of the nodes of a graph and also free the adjacency matrix. This still does not
+// free the actual pointer __G. To do so, see releaseGraph
+void freeGraph(Graph *__G) {
+
+    cleanGraph(__G);
+    if (__G->adj) free(__G->adj);
+
+}
+
+void releaseGraph(Graph **__Gptr) {
+
+    if (!__Gptr) return;
+
+    freeGraph(*__Gptr);
+    *__Gptr = NULL;
+}
+
+
 void printGraph(const Graph *__g) {
 
     printf("N edges: %d, N vertices: %d\n", __g->nedge, __g->nvert);
@@ -68,6 +100,8 @@ void printGraph(const Graph *__g) {
 }
 
 int _add_vertex(Graph *__g, int __v1, int __v2) {
+
+    __g->nedge ++;
 
     Vertex v1 = __g->adj[__v1 - 1];
 
@@ -361,11 +395,50 @@ void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited)
 
 // Implement Kosaraju's algorithm to find strongly connected components.
 // The obvious return type is a graph whose only elements are the strongly connected ones...
-Graph *stronglyConnected(const Graph *__G) {
+Graph *stronglyConnected(const Graph *__g) {
 
+    bool *visited = visitedArray(__g);
     Stack *stack = newStack();
 
-    Vertex it = getVertex(__G);
+    int ind = getVertex(__g);
+    // start searching from a confirmed position
+
+    Graph *gnew = newGraph(__g->nvert, 0, __g->di);
+
+    stronglyConnected_(__g, gnew, ind + 1, stack, visited);
+
+    printf("Found strongly connected components\n");
+    printStack(stack);
+
+
+    return gnew;
+
+}
+
+void stronglyConnected_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited) {
+
+    printf("Visiting %d\n", __v);
+    __visited[__v - 1] = true;
+
+    Vertex it = __g->adj[__v - 1];
+    // printf("it: %d\n", it->data);
+
+    while (it) {
+        // if (!visited(it, __visited)) dfsConnected_(__g, it->data, __u, __visited);
+        if (visited(it, __visited)) {
+            pushStack(__stack, __v);
+            printf("Pushing to stack!\n");
+        }
+
+        if (!graphAdj(__g, it)) {
+            pushStack(__stack, it->data);
+            printf("Pushing end point to stack!\n");
+        }
+
+        if (!visited(it, __visited)) stronglyConnected_(__g, __gnew, it->data, __stack, __visited);
+
+        it = it->next;
+    }
 
 
 }
@@ -376,11 +449,11 @@ Graph *stronglyConnected(const Graph *__G) {
 
 // I want a function that get's a non null vertex from a Graph.
 // If the Graph is empty (i.e.) there are no connections
-Vertex getVertex(const Graph *__G) {
+int getVertex(const Graph *__G) {
 
     for (int i = 0; i < __G->nvert; i++) {
-        if (__G->adj[i]) return __G->adj[i]; // If the pointer is non null (i.e. there is a connection)
+        if (__G->adj[i]) return i; // If the pointer is non null (i.e. there is a connection)
     }
 
-    return NULL;
+    return -1;
 }
