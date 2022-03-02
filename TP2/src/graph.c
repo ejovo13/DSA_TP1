@@ -45,7 +45,7 @@ Graph *newGraph(int __nv, int __ne, bool __digraph) {
 }
 
 // replicate the connections of graph __G and return a newly allocated graph
-Graph *duplicateGraph(Graph *__G) {
+Graph *duplicateGraph(const Graph *__G) {
 
     Graph *copy_of_g = newGraph(__G->nvert, __G->nedge, __G->di); // initialize the adjacency list
 
@@ -57,7 +57,7 @@ Graph *duplicateGraph(Graph *__G) {
     return copy_of_g;
 }
 
-void printGraph(Graph *__g) {
+void printGraph(const Graph *__g) {
 
     printf("N edges: %d, N vertices: %d\n", __g->nedge, __g->nvert);
 
@@ -129,7 +129,7 @@ Graph *readGraph(const char *__filename, bool __digraph) {
 }
 
 // Initialize an array of booleans to false to check if they've been visited or not
-bool *visitedArray(Graph *__g) {
+bool *visitedArray(const Graph *__g) {
 
     bool *visited = (bool *) calloc(sizeof(bool), __g->nvert);
     return visited;
@@ -137,7 +137,7 @@ bool *visitedArray(Graph *__g) {
 }
 
 // Create a dot output of the loaded graph to be visualized with graphviz
-int createDot(Graph *g, const char *__filename) {
+int createDot(const Graph *g, const char *__filename) {
 
     // first open the file to write
     FILE *f = fopen(__filename, "w");
@@ -159,19 +159,19 @@ int createDot(Graph *g, const char *__filename) {
 }
 
 // Wrapper routine to access the adjacency list of vertex v
-Vertex graphAdj(Graph *__g, Vertex __v) {
+Vertex graphAdj(const Graph *__g, Vertex __v) {
     return __g->adj[__v->data - 1];
 }
 
 // __v is the starting vertex
-void dfsVisualize(Graph *__g, GRAPH_TYPE __v) {
+void dfsVisualize(const Graph *__g, GRAPH_TYPE __v) {
     bool *visited = visitedArray(__g);
     _dfsVisualize(__g, __v, visited);
     free(visited);
 }
 
 // This routine has a bool array that is passed down between successive calls.
-void _dfsVisualize(Graph *__g, int __v, bool *__visited) {
+void _dfsVisualize(const Graph *__g, int __v, bool *__visited) {
 
     // Print that we've visited this node
     printf("Visiting node %d\n", __v);
@@ -186,7 +186,7 @@ void _dfsVisualize(Graph *__g, int __v, bool *__visited) {
 }
 
 // Return true iff the two elements are connected
-bool dfsConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u) {
+bool dfsConnected(const Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u) {
 
     bool *visited = visitedArray(__g);
     dfsConnected_(__g, __v, __u, visited);
@@ -197,7 +197,7 @@ bool dfsConnected(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u) {
     return areConnected;
 }
 
-void dfsConnected_(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u, bool *__visited) {
+void dfsConnected_(const Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u, bool *__visited) {
 
     // bool *visited = visitedArray(__g);
     // printf("Visiting node %d\n", __v);
@@ -212,7 +212,7 @@ void dfsConnected_(Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u, bool *__visited) 
     }
 }
 
-void bfsVisualize(Graph *__g, int __v) {
+void bfsVisualize(const Graph *__g, int __v) {
 
     bool *visited = visitedArray(__g);
     Queue *q = newQueue();
@@ -222,7 +222,7 @@ void bfsVisualize(Graph *__g, int __v) {
 }
 
 // Take in the extra bool array visited
-void bfsVisualize_(Graph *__g, int __v, bool *__visited, Queue *__q) {
+void bfsVisualize_(const Graph *__g, int __v, bool *__visited, Queue *__q) {
 
     // Mark as visited
     __visited[__v - 1] = true;
@@ -244,7 +244,7 @@ void bfsVisualize_(Graph *__g, int __v, bool *__visited, Queue *__q) {
 }
 
 // Using DFS, extract all the elements that are connected to v
-Graph *subgraph(Graph *__g, int __v) {
+Graph *subgraph(const Graph *__g, int __v) {
 
     // First create a new graph with the same dimensions
     Graph *g = newGraph(__g->nvert, __g->nedge, __g->di);
@@ -257,7 +257,7 @@ Graph *subgraph(Graph *__g, int __v) {
     return g;
 }
 
-void subgraph_(Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited) {
+void subgraph_(const Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited) {
 
     if (!__visited[__v - 1]) addVertex(__gnew, __start, __v);
     __visited[__v - 1] = true;
@@ -271,7 +271,7 @@ void subgraph_(Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited
     }
 }
 
-void createDotSubgraph(Graph *g, const char *__filename) {
+void createDotSubgraph(const Graph *g, const char *__filename) {
 // Create a dot output of the loaded graph to be visualized with graphviz
 // A subgraph will not include nodes that have no connections
 
@@ -296,7 +296,7 @@ void createDotSubgraph(Graph *g, const char *__filename) {
 
 // Return true if every node can be reached starting from node 1 and performing a
 // Depth first search.
-bool isConnected(Graph *g) {
+bool isConnected(const Graph *g) {
 
     int count = 0;
     bool *visited = visitedArray(g);
@@ -309,7 +309,7 @@ bool isConnected(Graph *g) {
 }
 
 // DFS search to see if the graph is connected
-void isConnected_(Graph *__g, int __v, bool *__visited, int *__count) {
+void isConnected_(const Graph *__g, int __v, bool *__visited, int *__count) {
 
     __visited[__v - 1] = true;
     (*__count) ++;
@@ -324,7 +324,7 @@ void isConnected_(Graph *__g, int __v, bool *__visited, int *__count) {
 
 // Take a directional graph and reverse the direction of its edges.
 // This function allocates the space for a new graph.
-Graph *reverseGraph(Graph *__G) {
+Graph *reverseGraph(const Graph *__G) {
 
     if (!__G->di) return duplicateGraph(__G);
 
@@ -345,7 +345,7 @@ Graph *reverseGraph(Graph *__G) {
 }
 
 // Here I'm traversing __G while adding to __dup.
-void *reverseGraph_(Graph *__G, Graph *__dup, int __node, bool *__visited) {
+void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited) {
 
     __visited[__node - 1] = true;
 
@@ -357,4 +357,30 @@ void *reverseGraph_(Graph *__G, Graph *__dup, int __node, bool *__visited) {
         if (!visited(it, __visited)) reverseGraph_(__G, __dup, it->data, __visited);
         it = it->next;
     }
+}
+
+// Implement Kosaraju's algorithm to find strongly connected components.
+// The obvious return type is a graph whose only elements are the strongly connected ones...
+Graph *stronglyConnected(const Graph *__G) {
+
+    Stack *stack = newStack();
+
+    Vertex it = getVertex(__G);
+
+
+}
+
+/**========================================================================
+ *!                           Utility functions
+ *========================================================================**/
+
+// I want a function that get's a non null vertex from a Graph.
+// If the Graph is empty (i.e.) there are no connections
+Vertex getVertex(const Graph *__G) {
+
+    for (int i = 0; i < __G->nvert; i++) {
+        if (__G->adj[i]) return __G->adj[i]; // If the pointer is non null (i.e. there is a connection)
+    }
+
+    return NULL;
 }
