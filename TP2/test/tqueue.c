@@ -1,5 +1,6 @@
-#include "queue.h"
 #include <assert.h>
+
+#include "queue.h"
 
 int main() {
 
@@ -14,17 +15,36 @@ int main() {
 
     assert(queueSize(q) == 4);
 
-    assert(deQueue(q)->data == 10);
-    assert(deQueue(q)->data == 3);
+    Vertex tmp = deQueue(q);
+
+    assert(tmp->data == 10);
+    free(tmp);
+
+    tmp = deQueue(q);
+    assert(tmp->data == 3);
+
+    free(tmp);
 
     assert(queueSize(q) == 2);
 
     enQueue(q, 100);
     assert(queueSize(q) == 3);
 
-    assert(deQueue(q)->data == -3);
-    assert(deQueue(q)->data == 15);
-    assert(deQueue(q)->data == 100);
+    tmp = deQueue(q);
+    assert(tmp->data == -3);
+    free(tmp);
+
+    tmp = deQueue(q);
+    assert(tmp->data == 15);
+
+    free(tmp);
+
+    tmp = deQueue(q);
+    assert(tmp->data == 100);
+    free(tmp);
+
+    releaseQueue(&q);
+    assert(!q);
 
     printf("All checks validated, queue working properly\n");
 

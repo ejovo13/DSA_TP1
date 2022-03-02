@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdlib.h>
+
 #include "list.h"
 
 // As a coding exercise, I'd like to also implement a BFS (Breadth-first search)
@@ -28,3 +30,10 @@ void queueInfo(Queue *__q);
 // If queue is empty, return 0.
 // If the pointer __q is null, return -1
 int queueSize(Queue *__q);
+
+// Free the contents of a queue.
+void freeQueue(Queue *__q);
+
+// Free the memory that points to this Queue object itself, set the pointer to NULL,
+// and free all of the elements in the queue
+void releaseQueue(Queue **__q);

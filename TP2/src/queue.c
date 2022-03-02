@@ -76,3 +76,34 @@ int queueSize(Queue *__q) {
 
     return count;
 }
+
+// Free the contents of a queue.
+void freeQueue(Queue *__q) {
+
+    Vertex it = __q->first;
+    Vertex temp;
+
+    while (it) {
+
+        temp = it;
+        it = it->next;
+        free(temp);
+
+    }
+
+    __q->first = NULL;
+    __q->last  = NULL;
+}
+
+// Free the memory that points to this Queue object itself, set the pointer to NULL,
+// and free all of the elements in the queue
+void releaseQueue(Queue **__q) {
+
+    if (!__q) return;
+    if (!*__q) return;
+
+    freeQueue(*__q);
+    free(*__q);
+
+    *__q = NULL;
+}

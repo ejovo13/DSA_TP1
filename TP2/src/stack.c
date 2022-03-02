@@ -92,6 +92,8 @@ void freeStack(Stack *__stack) {
         free(temp);
 
     }
+
+    __stack->top = NULL;
 }
 
 // Free the nodes of the stack, free the memory pointed to by a stack pointer
