@@ -10,8 +10,8 @@ int main() {
 
     printGraph(g);
 
-    addVertex(g, 4, 3);
-    addVertex(g, 8, 1);
+    addEdge(g, 4, 3);
+    addEdge(g, 8, 1);
 
     printGraph(g);
 
@@ -30,17 +30,17 @@ void t_stronglyConnected() {
 
     Graph *g = newGraph(8, 0, true);
 
-    addVertex(g, 1, 2);
-    addVertex(g, 2, 3);
-    addVertex(g, 3, 4);
-    addVertex(g, 4, 1);
+    addEdge(g, 1, 2);
+    addEdge(g, 2, 3);
+    addEdge(g, 3, 4);
+    addEdge(g, 4, 1);
 
-    addVertex(g, 4, 5);
-    addVertex(g, 5, 6);
-    addVertex(g, 6, 7);
-    addVertex(g, 7, 5);
+    addEdge(g, 4, 5);
+    addEdge(g, 5, 6);
+    addEdge(g, 6, 7);
+    addEdge(g, 7, 5);
 
-    addVertex(g, 7, 8);
+    addEdge(g, 7, 8);
 
     createDot(g, "t_stronglyConnected.dot");
 

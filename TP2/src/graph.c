@@ -127,7 +127,7 @@ int _add_vertex(Graph *__g, int __v1, int __v2) {
 }
 
 // Return the position where this was added
-int addVertex(Graph *__g, int __v1, int __v2) {
+int addEdge(Graph *__g, int __v1, int __v2) {
 
     int stat = _add_vertex(__g, __v1, __v2);
     if (!__g->di) _add_vertex(__g, __v2, __v1);
@@ -154,7 +154,7 @@ Graph *readGraph(const char *__filename, bool __digraph) {
     while (fgets(line, sizeof(line), f)) {
 
         sscanf(line, "%d %d", &vert1, &vert2);
-        addVertex(g, vert1, vert2);
+        addEdge(g, vert1, vert2);
     }
 
     fclose(f);
@@ -293,7 +293,7 @@ Graph *subgraph(const Graph *__g, int __v) {
 
 void subgraph_(const Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited) {
 
-    if (!__visited[__v - 1]) addVertex(__gnew, __start, __v);
+    if (!__visited[__v - 1]) addEdge(__gnew, __start, __v);
     __visited[__v - 1] = true;
     Vertex it = __og->adj[__v - 1];
 
@@ -387,7 +387,7 @@ void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited)
 
     while (it) {
 
-        addVertex(__dup, it->data, __node);
+        addEdge(__dup, it->data, __node);
         if (!visited(it, __visited)) reverseGraph_(__G, __dup, it->data, __visited);
         it = it->next;
     }
@@ -398,6 +398,7 @@ void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited)
 Graph *stronglyConnected(const Graph *__g) {
 
     bool *vis = visitedArray(__g);
+    bool *scc = visitedArray(__g);
     Stack *stack = newStack();
 
     int ind = getVertex(__g);
@@ -422,13 +423,42 @@ Graph *stronglyConnected(const Graph *__g) {
 
     Vertex it = popStack(stack);
 
-    while (it) {
+    // while (it) {
+        // if (visited(it, vis)) addEdge(gnew, )
+        if (!visited(it, vis)) {
+            stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
+            traverse_(gnew, it->data, scc);
+        }
 
-        if (!visited(it, vis)) stronglyConnectedRev_(grev, gnew, it->data, stack, vis);
+        printGraph(gnew);
+
+        free(it);
+        it = popStack(stack);
+        it = popStack(stack);
+        it = popStack(stack);
+        it = popStack(stack);
+        it = popStack(stack);
+
+        if (!visited(it, vis)) {
+            stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
+            traverse_(gnew, it->data, scc);
+        }
+
+        printGraph(gnew);
+
         free(it);
         it = popStack(stack);
 
-    }
+        // it = popStack(stack);
+        // it = popStack(stack);
+        // it = popStack(stack);
+        // it = popStack(stack);
+
+
+        // if (!visited(it, vis)) stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
+        // free(it);
+
+    // }
 
     printf("Found strongly connected components\n");
     printStack(stack);
@@ -480,7 +510,7 @@ void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visit
 
 }
 
-void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited) {
+void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited, bool *__scc) {
 
     __visited[__v - 1] = true;
 
@@ -490,19 +520,28 @@ void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__st
 
 
 
-    if (it) {
-        printf("Adding vertex %d\n", it->data);
-        addVertex(__gnew, it->data, __v);
-    }
+    // if (it) {
+    //     printf("Adding vertex %d\n", it->data);
+    //     addEdge(__gnew, it->data, __v);
+    // }
 
     while (it) {
 
-        if (!visited(it, __visited)) stronglyConnectedRev_(__g, __gnew, it->data, __stack, __visited);
+        if (visited(it, __scc)) return;
+
+        addEdge(__gnew, it->data, __v);
+
+        if (visited(it, __visited)) return;
+
+        stronglyConnectedRev_(__g, __gnew, it->data, __stack, __visited, __scc);
+
         it = it->next;
 
     }
 
 }
+
+// mark strongly connected components
 
 /**========================================================================
  *!                           Utility functions
@@ -517,4 +556,27 @@ int getVertex(const Graph *__G) {
     }
 
     return -1;
+}
+
+
+// __v is the starting vertex
+bool *traverse(const Graph *__g, GRAPH_TYPE __v) {
+    bool *visited = visitedArray(__g);
+    _dfsVisualize(__g, __v, visited);
+    return visited;
+}
+
+// This routine has a bool array that is passed down between successive calls.
+void traverse_(const Graph *__g, int __v, bool *__visited) {
+
+    // Print that we've visited this node
+    printf("MARKING %d\n", __v);
+    __visited[__v - 1] = true; // Mark as visited
+
+    Vertex it = __g->adj[__v - 1];
+    // Iterate through all of the children
+    while (it) {
+        if (!visited(it, __visited)) traverse_(__g, it->data, __visited);
+        it = it->next;
+    }
 }

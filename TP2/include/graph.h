@@ -59,7 +59,7 @@ void printGraph(const Graph *__g);
 int _add_vertex(Graph *__g, int __v1, int __v2);
 
 // Return the position where this was added
-int addVertex(Graph *__g, int __v1, int __v2);
+int addEdge(Graph *__g, int __v1, int __v2);
 
 // Scan from a stdinput
 Graph *readGraph(const char *__filename, bool __digraph);
@@ -116,8 +116,7 @@ Graph *stronglyConnected(const Graph *__g);
 
 void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visited);
 
-void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited);
-
+void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited, bool *__scc);
 
 /**========================================================================
  *!                           Utility functions
@@ -128,3 +127,10 @@ void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__st
 // get the INDEX of the position of a vertex
 // returns -1 if there are no connections
 int getVertex(const Graph *__G);
+
+
+// __v is the starting vertex
+bool *traverse(const Graph *__g, GRAPH_TYPE __v);
+
+// This routine has a bool array that is passed down between successive calls.
+void traverse_(const Graph *__g, int __v, bool *__visited);
