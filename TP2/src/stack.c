@@ -46,14 +46,14 @@ void printStack(Stack *__stack) {
         return;
     }
 
-    Stack *it = __stack;
+    Vertex it = __stack->top;
 
-    printf("%d", it->vertex);
+    if (it) printf("%d", it->data);
 
-    while (it->prev) {
+    while (it->next) {
 
-        printf(" -> %d", it->prev->vertex);
-        it = it->prev;
+        printf(" -> %d", it->next->data);
+        it = it->next;
     }
 
     printf("\n");
@@ -66,13 +66,13 @@ int stackSize(Stack *__stack) {
 
     int count = 0;
 
-    Stack *it = __stack;
+    Vertex it = __stack->top;
 
     while(it) {
 
         count++;
 
-        it = it->prev;
+        it = it->next;
     }
 
     return count;

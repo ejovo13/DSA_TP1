@@ -1,6 +1,8 @@
 project(TP2_GRAPHS)
 cmake_minimum_required(VERSION 3.10)
 
+enable_testing(ON)
+
 include_directories(include)
 
 set(BIN ${CMAKE_SOURCE_DIR}/bin) # Include test binaries
