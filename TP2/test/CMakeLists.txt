@@ -14,14 +14,14 @@ list(APPEND TESTS
 
 list(APPEND TEST_LIBS
     tp2
-    gcov
+    # gcov
 )
 
 list(APPEND TEST_INC
     ${INC}
 )
 
-find_library(REQUIRED NAMES gcov )
+# find_library(REQUIRED NAMES gcov )
 
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN}/test)
 
@@ -35,8 +35,8 @@ macro(ejovo_add_test TESTNAME)
     add_executable(${TEST_BIN} "t${TESTNAME}.c")
     target_link_libraries(${TEST_BIN} ${TEST_LIBS})
     target_include_directories(${TEST_BIN} PUBLIC ${TEST_INC})
-    target_compile_options(${TEST_BIN} PUBLIC -g --coverage)
-    target_link_options(${TEST_BIN} PUBLIC --coverage)
+    # target_compile_options(${TEST_BIN} PUBLIC -g --coverage)
+    # target_link_options(${TEST_BIN} PUBLIC --coverage)
     # target_compile_options(${TEST_BIN} PUBLIC -g -fprofile-generate -fprofile-arcs -ftest-coverage -L /usr/lib -lgcov --coverage)
     set_target_properties(${TEST_BIN}
         PROPERTIES
@@ -49,7 +49,7 @@ endmacro()
 
 # Now for each test, generate an lcov report?
 
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gcoverage)
+# file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/gcoverage)
 
 
 foreach(T ${TESTS})
