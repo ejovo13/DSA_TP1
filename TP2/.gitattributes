@@ -1,0 +1,7 @@
+docs/* linguist-vendored
+site/* linguist-vendored
+instances/* linguist-vendored
+latex/* linguist-vendored
+dot/* linguist-vendored
+media/* linguist-vendored
+html/* linguist-vendored
