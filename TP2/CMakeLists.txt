@@ -5,6 +5,8 @@ enable_testing(ON)
 
 include_directories(include)
 
+
+
 set(BIN ${CMAKE_SOURCE_DIR}/bin) # Include test binaries
 set(SRC ${CMAKE_SOURCE_DIR}/src)
 set(INC ${CMAKE_SOURCE_DIR}/include)
@@ -15,6 +17,8 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+
+set(CMAKE_C_COMPILER gcc)
 
 add_executable(g main.c)
 target_link_libraries(g tp2)
