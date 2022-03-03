@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Stack - My Docs</title>
+  <title>Stack - TP2 Graphs</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -37,7 +37,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
     <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> My Docs</a>
+        <a href=".." class="icon icon-home"> TP2 Graphs</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
       <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -55,12 +55,28 @@
                     </li>
                 </ul>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../graph/">Graph</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../list/">Node / Vertex</a>
+                    </li>
+                </ul>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
                     </li>
                 </ul>
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Stack</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#construction">Construction</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pushpop">Push/Pop</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#freeing-memory">Freeing Memory</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inquiry">Inquiry</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -73,7 +89,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">My Docs</a>
+        <a href="..">TP2 Graphs</a>
       </nav>
 
       
@@ -100,8 +116,10 @@
                 <h1 id="stack">Stack</h1>
 <p>We can use the <code>Stack</code> structure as a LIFO container that is used to implement BFS and routines to determine strongly connected components.</p>
 <p>To instantiate a <code>Stack</code>, we use the function <code>newStack</code> to return a pointer to newly allocated <code>Stack</code> that currently holds no<code>Vertex</code></p>
+<h3 id="construction">Construction</h3>
 <pre><code>Stack *s = newStack();
 </code></pre>
+<h3 id="pushpop">Push/Pop</h3>
 <p>To Add vertices to the stack, we simple call the companion functions <code>pushStack</code>/<code>popStack</code>. Following conventions, pushing to the stack will add a new element on top whereas popping the stack will remove the top element from the stack and then return that element.</p>
 <pre><code>pushStack(s, 10);
 pushStack(s, 40);
@@ -111,6 +129,26 @@ Vertex v0 = popStack(s);
 Vertex v1 = popStack(s);
 Vertex v2 = popStack(s);
 </code></pre>
+<h3 id="freeing-memory">Freeing Memory</h3>
+<p>When it comes to freeing the memory that has been allocated on subsequent calls to <code>pushStack</code>, we can use handy utility function <code>freeStack</code>. This routine will remove all of the <code>Vertex</code> objects that currently exist in the stack, freeing them as they are released.</p>
+<pre><code>pushStack(s, 1);
+pushStack(s, 2);
+pushStack(s, 3);
+
+printf(&quot;Size of stack %d\n&quot;, stackSize(s)); // 3
+
+freeStack(s);
+
+printf(&quot;Size of stack %d\n&quot;, stackSize(s)); // 0
+
+pushStack(s, 10);
+</code></pre>
+<p>This routine is useful when we want a fresh start with the stack and we don't want any memory leaks in our program. If you no longer wish to use the <code>Stack *s</code>, consider calling the <code>releaseStack</code> function to also clean up the space allocated by <code>newStack</code> and to nullify the pointer s.</p>
+<pre><code>releaseStack(&amp;s) // s freed and set to NULL here
+</code></pre>
+<p><code>releaseStack</code> will free all of the nodes populating the stack and also release the memory pointed to by <code>s</code>. This shall be called when your program no longer needs to use the <code>Stack</code>.</p>
+<h3 id="inquiry">Inquiry</h3>
+<p>We can inspect the state of our <code>Stack</code> using the utility functions <code>stackSize</code> and <code>printStack</code>.</p>
               
             </div>
           </div>
