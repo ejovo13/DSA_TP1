@@ -2,8 +2,10 @@ site_name: My Docs
 
 theme: readthedocs
 
-plugins:
-    - search
+docs_dir: docs
+
+# plugins:
+    # - search
     # - doxygen-snippets:
         # doxygen-source: src
         # api-path: api
