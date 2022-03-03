@@ -59,27 +59,27 @@ endforeach(T)
 
 # Custom targets to try and work with gcov
 # add_custom_
-set(OBJECT_DIR ${CMAKE_BINARY_DIR}/src/CMakeFiles/tp2.dir)
+# set(OBJECT_DIR ${CMAKE_BINARY_DIR}/src/CMakeFiles/tp2.dir)
 
-add_custom_target(init
-    COMMAND ${CMAKE_MAKE_PROGRAM} clean
-    COMMAND rm -f ${OBJECT_DIR}/*.gcno
-    COMMAND rm -f ${OBJECT_DIR}/*.gcda
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-)
+# add_custom_target(init
+#     COMMAND ${CMAKE_MAKE_PROGRAM} clean
+#     COMMAND rm -f ${OBJECT_DIR}/*.gcno
+#     COMMAND rm -f ${OBJECT_DIR}/*.gcda
+#     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+# )
 
-add_custom_target(gcov)
-add_custom_target(lcov)
+# add_custom_target(gcov)
+# add_custom_target(lcov)
 
-add_custom_command(TARGET gcov
-    POST_BUILD
-    COMMAND echo "=================== GCOV ===================="
-    COMMAND echo "Object dir: ${OBJECT_DIR}"
-    COMMAND gcov -b ${CMAKE_SOURCE_DIR}/src/*.c -o ${OBJECT_DIR}
-    COMMAND echo "-- Source diretorie: ${CMAKE_SOURCE_DIR}/src/"
-    COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/gcoverage"
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/gcoverage
-)
+# add_custom_command(TARGET gcov
+#     POST_BUILD
+#     COMMAND echo "=================== GCOV ===================="
+#     COMMAND echo "Object dir: ${OBJECT_DIR}"
+#     COMMAND gcov -b ${CMAKE_SOURCE_DIR}/src/*.c -o ${OBJECT_DIR}
+#     COMMAND echo "-- Source diretorie: ${CMAKE_SOURCE_DIR}/src/"
+#     COMMAND echo "-- Coverage files have been output to ${CMAKE_BINARY_DIR}/gcoverage"
+#     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/gcoverage
+# )
 
 # add_custom_command(TARGET lcov
 #     COMMAND echo "=================== LCOV ===================="
