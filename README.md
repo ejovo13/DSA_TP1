@@ -1,7 +1,7 @@
 ![example workflow](https://github.com/ejovo13/DSA_TP1/actions/workflows/mac.yml/badge.svg)
 ![example workflow](https://github.com/ejovo13/DSA_TP1/actions/workflows/ubuntu.yml/badge.svg)
 [![Readthedocs](https://readthedocs.org/projects/polytech-sorbonne-main-tp2/badge/?version=latest)](https://polytech-sorbonne-main-tp2.readthedocs.io/en/latest/?badge=latest)
-![Doxygen](https://github.com/ejovo13/DSA_TP1/actions/workflows/Doxygen.yml/badge.svg)
+[![Doxygen](https://github.com/ejovo13/DSA_TP1/actions/workflows/Doxygen.yml/badge.svg)](https://ejovo13.github.io/DSA_TP1/)
 
 # Travaux Pratiques pour Algorithmique Générale
 
