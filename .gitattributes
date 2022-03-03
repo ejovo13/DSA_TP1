@@ -5,3 +5,11 @@ TP2/latex/* linguist-vendored
 TP2/dot/* linguist-vendored
 TP2/media/* linguist-vendored
 TP2/html/* linguist-vendored
+
+TP2/docs/* linguist-documentation
+TP2/site/* linguist-documentation
+TP2/instances/* linguist-documentation
+TP2/latex/* linguist-documentation
+TP2/dot/* linguist-documentation
+TP2/media/* linguist-documentation
+TP2/html/* linguist-documentation
