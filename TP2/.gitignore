@@ -1,5 +1,6 @@
 build/*
 bin/*
+# site/*
 g
 latex
 html

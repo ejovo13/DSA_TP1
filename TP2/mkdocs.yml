@@ -4,7 +4,7 @@ theme: readthedocs
 
 plugins:
     - search
-    - doxygen-snippets:
+    # - doxygen-snippets:
         # doxygen-source: src
         # api-path: api
         # debug: False
