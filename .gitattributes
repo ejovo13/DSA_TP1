@@ -7,7 +7,9 @@ TP2/media/** linguist-vendored
 TP2/html/** linguist-vendored
 
 TP1/tex/** linguist-vendored
-**.tex linguist-vendored
+**/*.tex linguist-vendored
+**/*.dot linguist-vendored
+# **/*.dot linguist-vendored
 
 # TP2/docs/* linguist-documentation
 # TP2/site/* linguist-documentation
