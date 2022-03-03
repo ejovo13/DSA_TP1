@@ -29,6 +29,7 @@ jobs:
         doxyfile-path: ${{github.workspace}}/TP2/Doxyfile # default is ./Doxyfile
         # Working directory
         working-directory: ${{github.workspace}}/TP2 # default is .
+        run: echo "============== HELLO ${{github.workspace}}"
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
