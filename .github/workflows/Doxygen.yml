@@ -26,9 +26,9 @@ jobs:
       uses: mattnotmitt/doxygen-action@v1.1.0
       with:
         # Path to Doxyfile
-        doxyfile-path: {{github.workspace}}/TP2/Doxyfile # default is ./Doxyfile
+        doxyfile-path: ${{github.workspace}}/TP2/Doxyfile # default is ./Doxyfile
         # Working directory
-        working-directory: {{github.workspace}}/TP2 # default is .
+        working-directory: ${{github.workspace}}/TP2 # default is .
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
