@@ -423,31 +423,35 @@ Graph *stronglyConnected(const Graph *__g) {
 
     Vertex it = popStack(stack);
 
-    // while (it) {
+    while (it) {
         // if (visited(it, vis)) addEdge(gnew, )
         if (!visited(it, vis)) {
             stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
+            printf("<=== SCC ===> ");
+            printf("Starting from %d\n", it->data);
+            printf("<=== SCC ===> ");
+            printf("Already visited? %d\n", scc[it->data - 1]);
             traverse_(gnew, it->data, scc);
         }
 
-        printGraph(gnew);
+        // printGraph(gnew);
 
         free(it);
         it = popStack(stack);
-        it = popStack(stack);
-        it = popStack(stack);
-        it = popStack(stack);
-        it = popStack(stack);
+        // it = popStack(stack);
+        // it = popStack(stack);
+        // it = popStack(stack);
+        // it = popStack(stack);
 
-        if (!visited(it, vis)) {
-            stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
-            traverse_(gnew, it->data, scc);
-        }
+        // if (!visited(it, vis)) {
+        //     stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
+        //     traverse_(gnew, it->data, scc);
+        // }
 
-        printGraph(gnew);
+        // printGraph(gnew);
 
-        free(it);
-        it = popStack(stack);
+        // free(it);
+        // it = popStack(stack);
 
         // it = popStack(stack);
         // it = popStack(stack);
@@ -458,7 +462,7 @@ Graph *stronglyConnected(const Graph *__g) {
         // if (!visited(it, vis)) stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
         // free(it);
 
-    // }
+    }
 
     printf("Found strongly connected components\n");
     printStack(stack);
@@ -512,6 +516,7 @@ void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visit
 
 void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited, bool *__scc) {
 
+    printf("<=== REV ===> visiting %d\n", __v);
     __visited[__v - 1] = true;
 
 
@@ -527,7 +532,10 @@ void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__st
 
     while (it) {
 
-        if (visited(it, __scc)) return;
+        if (visited(it, __scc)) {
+            it = it->next;
+            continue;
+        };
 
         addEdge(__gnew, it->data, __v);
 
@@ -570,7 +578,7 @@ bool *traverse(const Graph *__g, GRAPH_TYPE __v) {
 void traverse_(const Graph *__g, int __v, bool *__visited) {
 
     // Print that we've visited this node
-    printf("MARKING %d\n", __v);
+    printf("<=== Trv ===> MARKING %d\n", __v);
     __visited[__v - 1] = true; // Mark as visited
 
     Vertex it = __g->adj[__v - 1];

@@ -44,6 +44,10 @@ void t_stronglyConnected() {
 
     createDot(g, "t_stronglyConnected.dot");
 
+    Graph *rev = reverseGraph(g);
+
+    createDot(rev, "reverse_graph.dot");
+
     Graph *sg = stronglyConnected(g);
 
     printGraph(sg);
