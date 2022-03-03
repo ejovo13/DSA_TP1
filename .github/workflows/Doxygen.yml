@@ -26,10 +26,10 @@ jobs:
       uses: mattnotmitt/doxygen-action@v1.1.0
       with:
         # Path to Doxyfile
-        doxyfile-path: ${{github.workspace}}/TP2/Doxyfile # default is ./Doxyfile
+        working-directory: ./TP2 # default is .
+        doxyfile-path: ./Doxyfile # default is ./Doxyfile
         # Working directory
-        working-directory: ${{github.workspace}}/TP2 # default is .
-        run: echo "============== HELLO ${{github.workspace}}"
+        # run: echo "============== HELLO ${{github.workspace}}"
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
