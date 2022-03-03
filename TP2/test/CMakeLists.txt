@@ -88,3 +88,6 @@ add_custom_command(TARGET gcov
 #     COMMAND echo "-- Generating HTML output files"
 #     COMMAND genhtml lcoverage/main_coverage.info --output-directory lcoverage
 # )
+
+file(COPY ${CMAKE_SOURCE_DIR}/instances/digraph-1.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+message("Moving digraph to ${CMAKE_CURRENT_BINARY_DIR}/digrapht.txt")

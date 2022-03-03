@@ -19,7 +19,7 @@ int main() {
 
     printf("V: %d\n", v);
 
-    t_stronglyConnected();
+    t_stronglyConnected(); // The strongly connected components function seems to be working!!
 
     return 0;
 }
@@ -55,5 +55,17 @@ void t_stronglyConnected() {
     printf("Started search at %d\n", getVertex(g));
 
     createDot(sg, "t_stronglyConnectedComponents.dot");
+
+    g = readGraph("digraph-1.txt", true);
+
+    createDot(g, "t_digraph.dot");
+
+    sg = stronglyConnected(g);
+
+    createDot(sg, "t_digraph_sg.dot");
+
+
+    printGraph(g);
+
 
 }

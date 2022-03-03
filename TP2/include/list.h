@@ -13,6 +13,12 @@
 
 #define GRAPH_TYPE int
 
+/**
+ * @brief Implement a Linked List data type that will be used in the adjacency list of the Graph
+ * @file
+ *
+ */
+
 typedef struct node_t {
 
     GRAPH_TYPE data;

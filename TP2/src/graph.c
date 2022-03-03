@@ -22,6 +22,16 @@
 // We are going to assume that the elements are integers. we will make this "generic" code by including
 // a preprocessor graph type
 
+/**
+ *
+ * @brief Hello hello
+ *
+ * @param __nv
+ * @param __ne
+ * @param __digraph
+ * @return * Graph*
+ */
+
 Graph *newGraph(int __nv, int __ne, bool __digraph) {
 
     // First thing to do is allocate the space for a new adjacency list matrix
