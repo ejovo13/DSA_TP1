@@ -1,6 +1,6 @@
 version: 2
 
-docs_dir: TP2/docs
+# docs_dir: TP2/docs
 
 mkdocs:
   configuration: TP2/mkdocs.yml
