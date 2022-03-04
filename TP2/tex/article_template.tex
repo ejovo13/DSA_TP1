@@ -52,7 +52,7 @@ VOYLES Evan\\}
 \vspace{1cm}
 
 La documentation générale pour ce travail se trouve \href{https://polytech-sorbonne-main-tp2.readthedocs.io/en/latest/}{ici}, la documentation
-technique se trouve \href{https://ejovo13.github.io/DSA_TP1/}{là}, le répo \href{https://github.com/ejovo13/DSA_TP1}{git}.
+technique se trouve \href{https://ejovo13.github.io/DSA_TP1/}{là}, et \href{https://github.com/ejovo13/DSA_TP1}{voici} le répertoire git.
 
 \vspace{1cm}
 \noindent \asgold{Partie A :} \aspurp{Préliminaires}
@@ -97,8 +97,11 @@ et un tableau qui contient des listes d'adjacènes est créé. Le pointeur qui e
 
 Un choix d'organisation de la structure se revèle. Pour les graphes non-oriéntés, j'ai décidé que chaque fois que l'on relie
 des sommets, je rajoute deux nouvelles arrêts qui vont dans le deux sens. C'est comme si implicitement je rajoutais deux connections orienté.
-La justification pour cela c'est quand il s'agit de parcourir un graphe par DFS. Concentrons sur les sommets 1 et 9. Sur ligne 5 de \texttt{graph-2.txt}, on relie
-les deux sommets 1 et 9. On voit cet arrêt stocké dans le graphe
+La justification pour cela c'est quand il s'agit de parcourir un graphe par DFS. Concentrons sur les sommets 1 et 6. Sur ligne 6 de \texttt{graph-2.txt}, on relie
+les deux sommets 1 et 6. On voit cet arrêt stocké dans le graphe dans les deux sens; un sens 1 \ding{235} 6 et l'autre sens 6 \ding{235} 1. Imagine si on n'avait pas cette connexion
+allant dans le deuxième sens. Si on commence un DFS à partir du sommet 6, on va pas reconnaitre que 1 est adjacent à 6. Cela ne semble pas grave pour cet exemple,
+mais il devient clair quand on considère le cas ou 6 est adjacent au sommet 1 et qu'il n'a plus de voisin. Dans ce cas-là un DFS qui démarre de 6 s'arrete immediatement
+comme il semble qu'il n'y a plus de chemins. Le cas où le graphe est orienté, on crée un seul arrêt entre les deux sommets dans le sens propre.
 
 \begin{itemize}
     \item [2.] Implémenter une procédure permettant d'exporter au format \texttt{.dot} un graphe donné en argument.
@@ -107,6 +110,8 @@ les deux sommets 1 et 9. On voit cet arrêt stocké dans le graphe
 
 
 La fonction \texttt{createDot} dont la signature :
+
+\newpage
 \begin{figure}[h!]
     \centering
     \includegraphics[height=.5cm]{media/createDot.png}
@@ -168,7 +173,7 @@ Si on débarque à partir du sommet 5 du graphe2, on visite les noeuds dans l'or
 \begin{figure}[h!]
     \centering
     \includegraphics[width=4cm]{media/dfs_vis.png}
-    \caption{dfs viz}
+    \caption{Visualisation d'un parcours DFS.}
     \label{Fig:viz}
 \end{figure}
 
@@ -225,7 +230,7 @@ fortement connexes. Une visualisation est en ordre.
     \begin{subfigure}{0.45\textwidth}
         \centering
         \includegraphics[width=5cm]{media/digraph.png}
-        \caption{Graphe définit en digraph-1.txt}
+        % \caption{Graphe définit en digraph-1.txt}
     \end{subfigure}
     % \hspace{1.25cm}
     \ding{233}
@@ -233,7 +238,7 @@ fortement connexes. Une visualisation est en ordre.
     \begin{subfigure}{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{media/digraph_sg.png}
-        \caption{Les composantes fortement connexes.}
+        % \caption{Les composantes fortement connexes.}
     \end{subfigure}
     \caption{Algorithme qui souligne les composantes fortements connexes. On interprète le graphe à droite pour dire qu'il y a 2 composantes qui sont (pas trivialement) fortements connexes. Une version
     meilleure du code aurait implémenté une procédure qui crée une visualisation qui préserve les connexions originales du graphes, en soulignant les composantes fortement connexes avec des couleurs distinctes.
@@ -247,6 +252,9 @@ fortement connexes. Une visualisation est en ordre.
     \item [2.] Analyser la complexité de votre algorithme.
 \end{itemize}
 
+Cet algorithme consiste en deux appels à un parcours DFS, ce qui a une complexité de $O(V + E)$. Entretemps l'algorithme utilise une pile dont les actions associé ont une complexité de
+$O(V)$. Alors la complexité de cet algorithme est $2*O(V+E) + O(V) \in O(V + E)$
+
 \begin{itemize}
     \item [3.] Implémenter une procédure permettant d'exporter au format \texttt{dot} un graphe donné en argument et indiquant ses composantes fortement connexes.
 \end{itemize}
@@ -256,6 +264,29 @@ Comme cette fonctionalité a déjà été implémenté implicitement pour la pre
 qu'entre des composantes fortement connexes. On visualise donc ce graphe avec un appel à la fonction \texttt{createDot} que l'on a vu auparavant. Justement, cette suite de fonctions nous permet
 de créer l'image trouvée en Figure \ref{Fig:scc}.
 
+\begin{figure}[h!]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.25\textwidth]{media/scc.png}
+        % \caption{Graphe pour tester la procédure \texttt{stronglyConnected} défini en \texttt{tgraph.c}}
+    \end{subfigure}
+    % \hspace{1.25cm}
+    \ding{233}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{media/scc_s.png}
+        % \caption{Les composantes fortement connexes.}
+    \end{subfigure}
+    \caption{Application de \texttt{stronglyConnected} avec un autre graphe qui est simple. L'image à droite sougligne les composantes
+    fortement connexes du graphe à gauche.}
+    \label{Fig:scc2}
+
+\end{figure}
+
+Une version future du code pourra utiliser des couleurs différentes dans la génération d'un fichier \texttt{.dot}
+pour distinguer les composantes fortement connexes.
 
 \vspace{.5cm}
 \noindent \asgold{Partie C :} \aspurp{Orientation forte d'un graphe}
@@ -269,18 +300,47 @@ un pont ou pas. Si on enlève l'arrêt concerné d'un graphe et le graphe résul
 sans pont si les arrêts sont tous pas de ponts. Le code s'écrit aisement, on parcours tous les arrêts et si il y a un seul entre eux qui soit un pont,
 notre fonction \texttt{hasBridge} renvoie vrai.
 
+Pour déterminer sa complexité on considère le fait qu'on devrait verifier si \textit{chaque} arrêt est un pont. Donc, on devrait appeler la fonction
+\texttt{isBridge} $E$ fois. La fonction \texttt{isBridge} teste si un arrêt est un pont en quittant la connexion et vérifiant si le graphe qui en résulte est connexe
+ou pas. Finalement, la procédure pour déterminer si un graphe est connexe ou pas consiste d'un seul parcours DFS. On conclut alors que \texttt{isBridge} consiste d'un parcours
+DFS et donc est de class de complexité $O(V + E)$, et que la procédure \texttt{hasBridge} consiste de $E$ appels d'une procédure de complexité $O(V + E)$. Alors, la complexité
+de la procédure testant si un graphe est sans pont est $O(E(V + E))$.
+
 \begin{itemize}
     \item [2.] Démontrer qu'un graphe $G$ est fortement orientable si et seulement si $G$ ne possède pas de pont.
 \end{itemize}
+
+Pour démontrer cela, on suppose que G est fortement orientable. Par définition, cela veut dire qu'il existe une orientation fortement connexe de $G$. De plus, cela implique
+que pour deux sommets quelconque $u$ et $v$, il existe un chemin de $u$ vers $v$ et un chemin de $v$ vers $u$. Si on imagine le scénario où on enlève
+n'importe quel arc du graphe $G$, on peut - au pire - casser l'un des chemins entre $u$ et $v$. Vu qu'un arc a une et seulement une orientation, il est impossible que le chemin en avance
+$u$ \ding{235} $v$ et le chemin $v$ \ding{235} $u$ en revers traverse l'arrêt qu'on va enlever. Autrement dit, comme un arc a un seul sens, si on enlève un arc quelconque on aura \textbf{toujours} un graphe
+qui reste quand même \textit{connexe}, mais pas forcémment \textit{fortement connexe}. Par conséquence, $G$ ne contient pas de pont et on a démontré l'égalité dans la direction en avant.
+
+Pour attaquer la deuxième direction, on suppose que $G$ ne possède pas de pont. Alors, on peut toujours supprimer un arrêt du $G$ sans le priver d'être connexe. Il existe alors une orientation telle que
+pour deux sommets quelconque $u$ et $v$, il existe un chemin de $u$ vers $v$ ou un chemin de $v$ vers $u$. Cela est une conséquence immédiate de la connectivité du graphe. Pour vérifier un orientation forte, on
+doit garantir qu'il existe un chemin dans les deux sens! Comme il n'y a aucun pont, il y a toujours un arc "en extra" pour aller dans l'autre sens et compléter le cycle d'un graphe.
+
+On a donc vérifié l'égalité dans les deux sens.
 
 \begin{itemize}
     \item [3.] Implémenter une procédure déterminant une orientation forte d'un graphe non orienté sans pont. Analyser sa complexité.
 \end{itemize}
 
+    Une version future du code qui sera mise à jour sur github implémentera cette routine.
+
 \begin{itemize}
-    \item[4.] Exécecuter l'algorithme
+    \item[4.] Exécuter l'algorithme
 \end{itemize}
 
+    Une version future du code qui sera mise à jour sur github testera cette procédure.
+
+\vspace{.5cm}
+\noindent \asgold{Remarques :} \aspurp{Repo github}
+
+Une version minimale du répertoire sera inclu dans le zip à rendre sur moodle. Pour voir le répertoire complet et mis à jour, consultez le
+github. Les procédures basiques qui sont utilisées dans ce TP sont testées au moment de la construction avec le logiciel \texttt{CTest} et \texttt{CMake}. Si jamais cela vous intéresse,
+vous pouvez construire le projet en suivant les instructions sur le \texttt{README.md} du projet. De la documentation technique a été générée par \texttt{Doxygen} et de la
+documentation du projet qui est plus générale et qui contient des exemples pour montrer l'API a été construite avec \texttt{Mkdocs} et hébergé par \texttt{readthedocs}.
 
 
 % \newpage
