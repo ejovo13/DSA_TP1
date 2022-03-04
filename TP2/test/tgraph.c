@@ -6,6 +6,8 @@ void t_stronglyConnected();
 void t_parti3();
 void t_hasBridge();
 void t_removeMirror();
+void t_readGraph();
+void t_visualize();
 
 int main() {
 
@@ -26,8 +28,38 @@ int main() {
     t_parti3();
     t_hasBridge();
     t_removeMirror();
+    t_readGraph();
+    t_visualize();
 
     return 0;
+}
+
+void t_readGraph() {
+
+    printf("================== Read Graph =================\n");
+
+    Graph *g = readGraph("graph-2.txt", false);
+
+    printGraph(g);
+
+    createDot(g, "graph2.dot");
+
+
+}
+
+void t_visualize() {
+
+    printf("================== Visualize Graph =================\n");
+
+    Graph *g = readGraph("graph-2.txt", false);
+
+    printGraph(g);
+
+    createDot(g, "graph2.dot");
+
+    dfsVisualize(g, 5);
+
+
 }
 
 void t_stronglyConnected() {

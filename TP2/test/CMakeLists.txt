@@ -91,5 +91,6 @@ endforeach(T)
 
 file(COPY ${CMAKE_SOURCE_DIR}/instances/digraph-1.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/instances/migraph-1.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_SOURCE_DIR}/instances/graph-2.txt DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 message("Moving digraph to ${CMAKE_CURRENT_BINARY_DIR}/digrapht.txt")
 # message("Moving digraph to ${CMAKE_CURRENT_BINARY_DIR}/digrapht.txt")

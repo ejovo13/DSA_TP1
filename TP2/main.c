@@ -6,7 +6,7 @@ int main() {
     Graph *dg1 = readGraph("./instances/digraph-1.txt", true);
     Graph *g1 = readGraph("./instances/graph-1.txt", false);
     Graph *g2 = readGraph("./instances/graph-2.txt", false);
-    Graph *g3 = readGraph("./instances/graph-3.txt", false);
+    Graph *g3 = readGraph("./instances/graph-2.txt", false);
     Graph *g4 = readGraph("./instances/graph-4.txt", false);
     Graph *g5 = readGraph("./instances/graph-5.txt", false);
 
