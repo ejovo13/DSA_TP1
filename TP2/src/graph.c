@@ -428,58 +428,39 @@ Graph *stronglyConnected(const Graph *__g) {
     // Now let's iterate through the stack, adding edges between unvisited vertices
 
     free(vis);
-
     vis = visitedArray(__g);
 
     Vertex it = popStack(stack);
 
     while (it) {
-        // if (visited(it, vis)) addEdge(gnew, )
-        if (!visited(it, vis)) {
-            stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
-            printf("<=== SCC ===> ");
-            printf("Starting from %d\n", it->data);
-            printf("<=== SCC ===> ");
-            printf("Already visited? %d\n", scc[it->data - 1]);
-            traverse_(gnew, it->data, scc);
-        }
 
-        // printGraph(gnew);
+        if (!visited(it, vis)) {
+
+            // If the node in our stack has 0 neighbors, add it to the scc and move on.
+            if (!graphAdj(__g, it)) {
+
+                scc[it->data - 1] = true;
+                free(it);
+                it = popStack(stack);
+                continue;
+
+            }
+
+            // _dfsVisualize(gnew, it->data, vis);
+            stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
+            traverse_(gnew, it->data, scc); // Mark all the components connected to it as being part of
+                                            // a strongly connected component
+        }
 
         free(it);
         it = popStack(stack);
-        // it = popStack(stack);
-        // it = popStack(stack);
-        // it = popStack(stack);
-        // it = popStack(stack);
-
-        // if (!visited(it, vis)) {
-        //     stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
-        //     traverse_(gnew, it->data, scc);
-        // }
-
-        // printGraph(gnew);
-
-        // free(it);
-        // it = popStack(stack);
-
-        // it = popStack(stack);
-        // it = popStack(stack);
-        // it = popStack(stack);
-        // it = popStack(stack);
-
-
-        // if (!visited(it, vis)) stronglyConnectedRev_(grev, gnew, it->data, stack, vis, scc);
-        // free(it);
 
     }
 
-    printf("Found strongly connected components\n");
-    printStack(stack);
-
+    free(vis);
+    free(scc);
 
     return gnew;
-
 }
 
 void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visited) {
@@ -494,12 +475,10 @@ void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visit
         // if (!visited(it, __visited)) dfsConnected_(__g, it->data, __u, __visited);
         if (visited(it, __visited)) {
             pushStack(__stack, __v);
-            printf("Pushing to stack!\n");
         }
 
         if (!graphAdj(__g, it)) {
             pushStack(__stack, it->data);
-            printf("Pushing end point to stack!\n");
             return;
         }
 
@@ -518,27 +497,15 @@ void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visit
         it = it->next;
     }
 
-    printf("Adding %d to the stack!\n", __v);
-
     pushStack(__stack, __v);
 
 }
 
 void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited, bool *__scc) {
 
-    printf("<=== REV ===> visiting %d\n", __v);
     __visited[__v - 1] = true;
 
-
-
     Vertex it = __g->adj[__v - 1];
-
-
-
-    // if (it) {
-    //     printf("Adding vertex %d\n", it->data);
-    //     addEdge(__gnew, it->data, __v);
-    // }
 
     while (it) {
 
@@ -547,6 +514,9 @@ void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__st
             continue;
         };
 
+        // Here the problem is that no matter what I do, I add an Edge. What I need to consider is the case
+        // where I end up at a leaf without having found a strongly connected component. So what I really need
+        // to do is only end up adding a set to the list if I've actually found a strongly connected component.
         addEdge(__gnew, it->data, __v);
 
         if (visited(it, __visited)) return;
@@ -598,3 +568,40 @@ void traverse_(const Graph *__g, int __v, bool *__visited) {
         it = it->next;
     }
 }
+
+
+bool isStronglyConnected(const Graph *__rev, int __v, bool *__visited, bool *__scc) {
+
+    // traverse by dfs
+    __visited[__v - 1] = true;
+    Vertex it = __rev->adj[__v - 1];
+
+    while (it) {
+
+        if (visited(it, __visited) && !visited(it, __scc)) {
+            printf("Stopping at visited component (but not in scc) !!! left from %d, exiting at %d\n", 0, __v);
+            return true;
+        }
+
+        if (visited(it, __visited)) {
+            it = it->next;
+            continue;
+        }
+
+
+        return isStronglyConnected(__rev, it->data, __visited, __scc);
+        it = it->next;
+    }
+
+    return false;
+
+}
+
+
+// Need to implement a new procedure here that Actually exports the strongly connected components to a new
+// dot file, adding color to unique components/somehow indicate that all of the vertices of a certain cluster
+// are strongly connected.
+
+//=========================== PARTIE 3 ============================
+
+// First proc

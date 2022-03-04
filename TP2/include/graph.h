@@ -293,3 +293,5 @@ bool *traverse(const Graph *__g, GRAPH_TYPE __v);
  * @param __visited
  */
 void traverse_(const Graph *__g, int __v, bool *__visited);
+
+bool isStronglyConnected(const Graph *__rev, int __v, bool *__visited, bool *__scc);
