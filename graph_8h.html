@@ -108,105 +108,105 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a773be8de63f276658b86352e80142f59"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a773be8de63f276658b86352e80142f59">newGraph</a> (int __nv, int __ne, bool __digraph)</td></tr>
-<tr class="memdesc:a773be8de63f276658b86352e80142f59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate space for a new <a class="el" href="structGraph.html" title="Implementation of the Graph data structure using an adjacency list.">Graph</a>.  <a href="graph_8h.html#a773be8de63f276658b86352e80142f59">More...</a><br /></td></tr>
-<tr class="separator:a773be8de63f276658b86352e80142f59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad717c8654006916b25d2716bc8d7da2b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#ad717c8654006916b25d2716bc8d7da2b">duplicateGraph</a> (const <a class="el" href="structGraph.html">Graph</a> *__G)</td></tr>
-<tr class="memdesc:ad717c8654006916b25d2716bc8d7da2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a deep copy of a graph.  <a href="graph_8h.html#ad717c8654006916b25d2716bc8d7da2b">More...</a><br /></td></tr>
-<tr class="separator:ad717c8654006916b25d2716bc8d7da2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4446b61852fd3b3bc10a2a72d5beee49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a4446b61852fd3b3bc10a2a72d5beee49">cleanGraph</a> (<a class="el" href="structGraph.html">Graph</a> *__G)</td></tr>
-<tr class="memdesc:a4446b61852fd3b3bc10a2a72d5beee49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the connections between __G's vertices.  <a href="graph_8h.html#a4446b61852fd3b3bc10a2a72d5beee49">More...</a><br /></td></tr>
-<tr class="separator:a4446b61852fd3b3bc10a2a72d5beee49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9954ec87f9bc74da65a8cb95e7c8e396"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a9954ec87f9bc74da65a8cb95e7c8e396">freeGraph</a> (<a class="el" href="structGraph.html">Graph</a> *__G)</td></tr>
-<tr class="memdesc:a9954ec87f9bc74da65a8cb95e7c8e396"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean the nodes of a graph and free it's adjacency list array.  <a href="graph_8h.html#a9954ec87f9bc74da65a8cb95e7c8e396">More...</a><br /></td></tr>
-<tr class="separator:a9954ec87f9bc74da65a8cb95e7c8e396"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e791fc8bcf42df354c2eeaa965a2448"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a7e791fc8bcf42df354c2eeaa965a2448">releaseGraph</a> (<a class="el" href="structGraph.html">Graph</a> **__Gptr)</td></tr>
-<tr class="memdesc:a7e791fc8bcf42df354c2eeaa965a2448"><td class="mdescLeft">&#160;</td><td class="mdescRight">call freeGraph(*__Gptr), free *__Gptr, and set *__Gptr to NULL.  <a href="graph_8h.html#a7e791fc8bcf42df354c2eeaa965a2448">More...</a><br /></td></tr>
-<tr class="separator:a7e791fc8bcf42df354c2eeaa965a2448"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecb3ad85bbc0c7c7cd34dbf97a980860"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#aecb3ad85bbc0c7c7cd34dbf97a980860">printGraph</a> (const <a class="el" href="structGraph.html">Graph</a> *__g)</td></tr>
-<tr class="memdesc:aecb3ad85bbc0c7c7cd34dbf97a980860"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the connections stored in the adjacency list of a graph.  <a href="graph_8h.html#aecb3ad85bbc0c7c7cd34dbf97a980860">More...</a><br /></td></tr>
-<tr class="separator:aecb3ad85bbc0c7c7cd34dbf97a980860"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56c2ca3036ff48131a49227249dabd88"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a56c2ca3036ff48131a49227249dabd88">addEdge</a> (<a class="el" href="structGraph.html">Graph</a> *__g, int __v1, int __v2)</td></tr>
-<tr class="memdesc:a56c2ca3036ff48131a49227249dabd88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new connection between two vertices in a graph.  <a href="graph_8h.html#a56c2ca3036ff48131a49227249dabd88">More...</a><br /></td></tr>
-<tr class="separator:a56c2ca3036ff48131a49227249dabd88"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa23aa7408f050e19709cb0500b239201"><td class="memItemLeft" align="right" valign="top"><a id="aa23aa7408f050e19709cb0500b239201" name="aa23aa7408f050e19709cb0500b239201"></a>
-<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>readGraph</b> (const char *__filename, bool __digraph)</td></tr>
-<tr class="separator:aa23aa7408f050e19709cb0500b239201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a77020f00fdd1180240ca4d29133ab1"><td class="memItemLeft" align="right" valign="top"><a id="a5a77020f00fdd1180240ca4d29133ab1" name="a5a77020f00fdd1180240ca4d29133ab1"></a>
-bool *&#160;</td><td class="memItemRight" valign="bottom"><b>visitedArray</b> (const <a class="el" href="structGraph.html">Graph</a> *__g)</td></tr>
-<tr class="separator:a5a77020f00fdd1180240ca4d29133ab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53d946240b1a542c4bdd289c753639af"><td class="memItemLeft" align="right" valign="top"><a id="a53d946240b1a542c4bdd289c753639af" name="a53d946240b1a542c4bdd289c753639af"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>createDot</b> (const <a class="el" href="structGraph.html">Graph</a> *g, const char *__filename)</td></tr>
-<tr class="separator:a53d946240b1a542c4bdd289c753639af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2109ca0efb3996d2411cba438d00dd83"><td class="memItemLeft" align="right" valign="top"><a id="a2109ca0efb3996d2411cba438d00dd83" name="a2109ca0efb3996d2411cba438d00dd83"></a>
-<a class="el" href="structnode__t.html">Vertex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>graphAdj</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, <a class="el" href="structnode__t.html">Vertex</a> __v)</td></tr>
-<tr class="separator:a2109ca0efb3996d2411cba438d00dd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a132ceb27bc756ca95df55e62817a99a3"><td class="memItemLeft" align="right" valign="top"><a id="a132ceb27bc756ca95df55e62817a99a3" name="a132ceb27bc756ca95df55e62817a99a3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>dfsVisualize</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, GRAPH_TYPE __v)</td></tr>
-<tr class="separator:a132ceb27bc756ca95df55e62817a99a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74c1b5e33b88e3dfc805ebfe74d6c06a"><td class="memItemLeft" align="right" valign="top"><a id="a74c1b5e33b88e3dfc805ebfe74d6c06a" name="a74c1b5e33b88e3dfc805ebfe74d6c06a"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>dfsConnected</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, GRAPH_TYPE __v, GRAPH_TYPE __u)</td></tr>
-<tr class="separator:a74c1b5e33b88e3dfc805ebfe74d6c06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5e9ca21bc60a69d659a89b78e57a09e7"><td class="memItemLeft" align="right" valign="top"><a id="a5e9ca21bc60a69d659a89b78e57a09e7" name="a5e9ca21bc60a69d659a89b78e57a09e7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>bfsVisualize</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, int __v)</td></tr>
-<tr class="separator:a5e9ca21bc60a69d659a89b78e57a09e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a998ba8e017fc331d5210ef35c2337018"><td class="memItemLeft" align="right" valign="top"><a id="a998ba8e017fc331d5210ef35c2337018" name="a998ba8e017fc331d5210ef35c2337018"></a>
-<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>subgraph</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, int __v)</td></tr>
-<tr class="separator:a998ba8e017fc331d5210ef35c2337018"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b5b9d132daea7e84242e81409612651"><td class="memItemLeft" align="right" valign="top"><a id="a2b5b9d132daea7e84242e81409612651" name="a2b5b9d132daea7e84242e81409612651"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>createDotSubgraph</b> (const <a class="el" href="structGraph.html">Graph</a> *g, const char *__filename)</td></tr>
-<tr class="separator:a2b5b9d132daea7e84242e81409612651"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46ff6e1c9150c0c66dd2df2107f94c1c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a46ff6e1c9150c0c66dd2df2107f94c1c">newGraph</a> (int nv, int ne, bool digraph)</td></tr>
+<tr class="memdesc:a46ff6e1c9150c0c66dd2df2107f94c1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate space for a new <a class="el" href="structGraph.html" title="Implementation of the Graph data structure using an adjacency list.">Graph</a>.  <a href="graph_8h.html#a46ff6e1c9150c0c66dd2df2107f94c1c">More...</a><br /></td></tr>
+<tr class="separator:a46ff6e1c9150c0c66dd2df2107f94c1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcb4dc3b1fa90a9a45d01dbfa1ebf513"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#adcb4dc3b1fa90a9a45d01dbfa1ebf513">duplicateGraph</a> (const <a class="el" href="structGraph.html">Graph</a> *G)</td></tr>
+<tr class="memdesc:adcb4dc3b1fa90a9a45d01dbfa1ebf513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a deep copy of a graph.  <a href="graph_8h.html#adcb4dc3b1fa90a9a45d01dbfa1ebf513">More...</a><br /></td></tr>
+<tr class="separator:adcb4dc3b1fa90a9a45d01dbfa1ebf513"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44d037c2cf43d6862abd6312caf3df35"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a44d037c2cf43d6862abd6312caf3df35">cleanGraph</a> (<a class="el" href="structGraph.html">Graph</a> *G)</td></tr>
+<tr class="memdesc:a44d037c2cf43d6862abd6312caf3df35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the connections between G's vertices.  <a href="graph_8h.html#a44d037c2cf43d6862abd6312caf3df35">More...</a><br /></td></tr>
+<tr class="separator:a44d037c2cf43d6862abd6312caf3df35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64652706025e466d3dd0780a420be5ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a64652706025e466d3dd0780a420be5ca">freeGraph</a> (<a class="el" href="structGraph.html">Graph</a> *G)</td></tr>
+<tr class="memdesc:a64652706025e466d3dd0780a420be5ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean the nodes of a graph and free it's adjacency list array.  <a href="graph_8h.html#a64652706025e466d3dd0780a420be5ca">More...</a><br /></td></tr>
+<tr class="separator:a64652706025e466d3dd0780a420be5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74bda5b62fea51c95e5feaedbd4efc8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a74bda5b62fea51c95e5feaedbd4efc8b">releaseGraph</a> (<a class="el" href="structGraph.html">Graph</a> **Gptr)</td></tr>
+<tr class="memdesc:a74bda5b62fea51c95e5feaedbd4efc8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">call freeGraph(*Gptr), free *Gptr, and set *Gptr to NULL.  <a href="graph_8h.html#a74bda5b62fea51c95e5feaedbd4efc8b">More...</a><br /></td></tr>
+<tr class="separator:a74bda5b62fea51c95e5feaedbd4efc8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11f0f8d257faa7554c2f61aceeee4f0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a11f0f8d257faa7554c2f61aceeee4f0b">printGraph</a> (const <a class="el" href="structGraph.html">Graph</a> *g)</td></tr>
+<tr class="memdesc:a11f0f8d257faa7554c2f61aceeee4f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the connections stored in the adjacency list of a graph.  <a href="graph_8h.html#a11f0f8d257faa7554c2f61aceeee4f0b">More...</a><br /></td></tr>
+<tr class="separator:a11f0f8d257faa7554c2f61aceeee4f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64fe695492a31994ea11c94cc719937f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="graph_8h.html#a64fe695492a31994ea11c94cc719937f">addEdge</a> (<a class="el" href="structGraph.html">Graph</a> *g, int v1, int v2)</td></tr>
+<tr class="memdesc:a64fe695492a31994ea11c94cc719937f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new connection between two vertices in a graph.  <a href="graph_8h.html#a64fe695492a31994ea11c94cc719937f">More...</a><br /></td></tr>
+<tr class="separator:a64fe695492a31994ea11c94cc719937f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fdb6de8724127254814f5960ce237a7"><td class="memItemLeft" align="right" valign="top"><a id="a2fdb6de8724127254814f5960ce237a7" name="a2fdb6de8724127254814f5960ce237a7"></a>
+<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>readGraph</b> (const char *filename, bool digraph)</td></tr>
+<tr class="separator:a2fdb6de8724127254814f5960ce237a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fd159f80fc7de128b24ee2bcad4a2b1"><td class="memItemLeft" align="right" valign="top"><a id="a9fd159f80fc7de128b24ee2bcad4a2b1" name="a9fd159f80fc7de128b24ee2bcad4a2b1"></a>
+bool *&#160;</td><td class="memItemRight" valign="bottom"><b>visitedArray</b> (const <a class="el" href="structGraph.html">Graph</a> *g)</td></tr>
+<tr class="separator:a9fd159f80fc7de128b24ee2bcad4a2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd55a7cefb1cc652edb08f8c6e64074e"><td class="memItemLeft" align="right" valign="top"><a id="acd55a7cefb1cc652edb08f8c6e64074e" name="acd55a7cefb1cc652edb08f8c6e64074e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>createDot</b> (const <a class="el" href="structGraph.html">Graph</a> *g, const char *filename)</td></tr>
+<tr class="separator:acd55a7cefb1cc652edb08f8c6e64074e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b275e8dcc5571c5afa237d334da89c8"><td class="memItemLeft" align="right" valign="top"><a id="a4b275e8dcc5571c5afa237d334da89c8" name="a4b275e8dcc5571c5afa237d334da89c8"></a>
+<a class="el" href="structnode__t.html">Vertex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>graphAdj</b> (const <a class="el" href="structGraph.html">Graph</a> *g, <a class="el" href="structnode__t.html">Vertex</a> v)</td></tr>
+<tr class="separator:a4b275e8dcc5571c5afa237d334da89c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2eefdf8d210fc80b2767505e69cff31"><td class="memItemLeft" align="right" valign="top"><a id="aa2eefdf8d210fc80b2767505e69cff31" name="aa2eefdf8d210fc80b2767505e69cff31"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>dfsVisualize</b> (const <a class="el" href="structGraph.html">Graph</a> *g, GRAPH_TYPE v)</td></tr>
+<tr class="separator:aa2eefdf8d210fc80b2767505e69cff31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95817b166c93644447974818ea1a325b"><td class="memItemLeft" align="right" valign="top"><a id="a95817b166c93644447974818ea1a325b" name="a95817b166c93644447974818ea1a325b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>dfsConnected</b> (const <a class="el" href="structGraph.html">Graph</a> *g, GRAPH_TYPE v, GRAPH_TYPE u)</td></tr>
+<tr class="separator:a95817b166c93644447974818ea1a325b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7525c444d2f04dc0a27f9bd121314d80"><td class="memItemLeft" align="right" valign="top"><a id="a7525c444d2f04dc0a27f9bd121314d80" name="a7525c444d2f04dc0a27f9bd121314d80"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>bfsVisualize</b> (const <a class="el" href="structGraph.html">Graph</a> *g, int v)</td></tr>
+<tr class="separator:a7525c444d2f04dc0a27f9bd121314d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a334efdb9704c73da9b9116ab99836f13"><td class="memItemLeft" align="right" valign="top"><a id="a334efdb9704c73da9b9116ab99836f13" name="a334efdb9704c73da9b9116ab99836f13"></a>
+<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>subgraph</b> (const <a class="el" href="structGraph.html">Graph</a> *g, int v)</td></tr>
+<tr class="separator:a334efdb9704c73da9b9116ab99836f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19936fbe244f6483f00483b6c66d5f76"><td class="memItemLeft" align="right" valign="top"><a id="a19936fbe244f6483f00483b6c66d5f76" name="a19936fbe244f6483f00483b6c66d5f76"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>createDotSubgraph</b> (const <a class="el" href="structGraph.html">Graph</a> *g, const char *filename)</td></tr>
+<tr class="separator:a19936fbe244f6483f00483b6c66d5f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9d8fbd0bc33092b21ee9dbbe885c39d"><td class="memItemLeft" align="right" valign="top"><a id="ae9d8fbd0bc33092b21ee9dbbe885c39d" name="ae9d8fbd0bc33092b21ee9dbbe885c39d"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isConnected</b> (const <a class="el" href="structGraph.html">Graph</a> *g)</td></tr>
 <tr class="separator:ae9d8fbd0bc33092b21ee9dbbe885c39d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a767b71ca52d8b2e08b993ba40ae604ec"><td class="memItemLeft" align="right" valign="top"><a id="a767b71ca52d8b2e08b993ba40ae604ec" name="a767b71ca52d8b2e08b993ba40ae604ec"></a>
-<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>reverseGraph</b> (const <a class="el" href="structGraph.html">Graph</a> *__G)</td></tr>
-<tr class="separator:a767b71ca52d8b2e08b993ba40ae604ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a131d52fb1d8c888db3c2720417fc7b2e"><td class="memItemLeft" align="right" valign="top"><a id="a131d52fb1d8c888db3c2720417fc7b2e" name="a131d52fb1d8c888db3c2720417fc7b2e"></a>
-<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>stronglyConnected</b> (const <a class="el" href="structGraph.html">Graph</a> *__g)</td></tr>
-<tr class="separator:a131d52fb1d8c888db3c2720417fc7b2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a648ed1cee0ea26a634995d84d3dcfc9d"><td class="memItemLeft" align="right" valign="top"><a id="a648ed1cee0ea26a634995d84d3dcfc9d" name="a648ed1cee0ea26a634995d84d3dcfc9d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>getVertex</b> (const <a class="el" href="structGraph.html">Graph</a> *__G)</td></tr>
-<tr class="separator:a648ed1cee0ea26a634995d84d3dcfc9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94f95dde1d5ffca2ba7911a26722f6fc"><td class="memItemLeft" align="right" valign="top"><a id="a94f95dde1d5ffca2ba7911a26722f6fc" name="a94f95dde1d5ffca2ba7911a26722f6fc"></a>
-bool *&#160;</td><td class="memItemRight" valign="bottom"><b>traverse</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, GRAPH_TYPE __v)</td></tr>
-<tr class="separator:a94f95dde1d5ffca2ba7911a26722f6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fdee10a27063129a12db70b981297ec"><td class="memItemLeft" align="right" valign="top"><a id="a0fdee10a27063129a12db70b981297ec" name="a0fdee10a27063129a12db70b981297ec"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isStronglyConnected</b> (const <a class="el" href="structGraph.html">Graph</a> *__rev, int __v, bool *__visited, bool *__scc)</td></tr>
-<tr class="separator:a0fdee10a27063129a12db70b981297ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19a114f3392c74f09ac33d972a716542"><td class="memItemLeft" align="right" valign="top"><a id="a19a114f3392c74f09ac33d972a716542" name="a19a114f3392c74f09ac33d972a716542"></a>
-<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdge</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, int __v1, int __v2)</td></tr>
-<tr class="separator:a19a114f3392c74f09ac33d972a716542"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8f359d1fa070f53fe26596dce6547f0"><td class="memItemLeft" align="right" valign="top"><a id="af8f359d1fa070f53fe26596dce6547f0" name="af8f359d1fa070f53fe26596dce6547f0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdge_</b> (<a class="el" href="structGraph.html">Graph</a> *__g, int __v1, int __v2)</td></tr>
-<tr class="separator:af8f359d1fa070f53fe26596dce6547f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a755bf393dadf926eb8b2ff5dbc70ff7b"><td class="memItemLeft" align="right" valign="top"><a id="a755bf393dadf926eb8b2ff5dbc70ff7b" name="a755bf393dadf926eb8b2ff5dbc70ff7b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>adjacentTo</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, int __v1, int __v2)</td></tr>
-<tr class="separator:a755bf393dadf926eb8b2ff5dbc70ff7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a535afe6f483d2ef0092df755a6c6d648"><td class="memItemLeft" align="right" valign="top"><a id="a535afe6f483d2ef0092df755a6c6d648" name="a535afe6f483d2ef0092df755a6c6d648"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isBridge</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, int __v1, int __v2)</td></tr>
-<tr class="separator:a535afe6f483d2ef0092df755a6c6d648"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7671b236a15855a4c6ece55d80812440"><td class="memItemLeft" align="right" valign="top"><a id="a7671b236a15855a4c6ece55d80812440" name="a7671b236a15855a4c6ece55d80812440"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBridge</b> (const <a class="el" href="structGraph.html">Graph</a> *__g)</td></tr>
-<tr class="separator:a7671b236a15855a4c6ece55d80812440"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfe187ced2a97962243943ead3fefd09"><td class="memItemLeft" align="right" valign="top"><a id="adfe187ced2a97962243943ead3fefd09" name="adfe187ced2a97962243943ead3fefd09"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBridge_</b> (const <a class="el" href="structGraph.html">Graph</a> *__g, int __v, bool *__visited)</td></tr>
-<tr class="separator:adfe187ced2a97962243943ead3fefd09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c0aeaa4b36f9c8113507425aedf9066"><td class="memItemLeft" align="right" valign="top"><a id="a6c0aeaa4b36f9c8113507425aedf9066" name="a6c0aeaa4b36f9c8113507425aedf9066"></a>
-<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>removeMirrorConnection</b> (const <a class="el" href="structGraph.html">Graph</a> *__g)</td></tr>
-<tr class="separator:a6c0aeaa4b36f9c8113507425aedf9066"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b44015c0212e9de07ec19a7512c2bd1"><td class="memItemLeft" align="right" valign="top"><a id="a3b44015c0212e9de07ec19a7512c2bd1" name="a3b44015c0212e9de07ec19a7512c2bd1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>removeMirrorConnection_</b> (<a class="el" href="structGraph.html">Graph</a> *__g, int __v, bool *__visited)</td></tr>
-<tr class="separator:a3b44015c0212e9de07ec19a7512c2bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4638154ae1e14d5d07a6966ca9bfa81"><td class="memItemLeft" align="right" valign="top"><a id="ae4638154ae1e14d5d07a6966ca9bfa81" name="ae4638154ae1e14d5d07a6966ca9bfa81"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a class="el" href="structGraph.html">Graph</a> *__g, int __v1, int __v2)</td></tr>
-<tr class="separator:ae4638154ae1e14d5d07a6966ca9bfa81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a95c3d74a80fd449520c3603ba83321"><td class="memItemLeft" align="right" valign="top"><a id="a9a95c3d74a80fd449520c3603ba83321" name="a9a95c3d74a80fd449520c3603ba83321"></a>
+<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>reverseGraph</b> (const <a class="el" href="structGraph.html">Graph</a> *G)</td></tr>
+<tr class="separator:a9a95c3d74a80fd449520c3603ba83321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a439026c945fbd00e90e19bf46b9b63c9"><td class="memItemLeft" align="right" valign="top"><a id="a439026c945fbd00e90e19bf46b9b63c9" name="a439026c945fbd00e90e19bf46b9b63c9"></a>
+<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>stronglyConnected</b> (const <a class="el" href="structGraph.html">Graph</a> *g)</td></tr>
+<tr class="separator:a439026c945fbd00e90e19bf46b9b63c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac41c01a4e6de97eaa7e7dbb6a9e1bd01"><td class="memItemLeft" align="right" valign="top"><a id="ac41c01a4e6de97eaa7e7dbb6a9e1bd01" name="ac41c01a4e6de97eaa7e7dbb6a9e1bd01"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>getVertex</b> (const <a class="el" href="structGraph.html">Graph</a> *G)</td></tr>
+<tr class="separator:ac41c01a4e6de97eaa7e7dbb6a9e1bd01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb86d29666e103b688faa7bcb12e5c46"><td class="memItemLeft" align="right" valign="top"><a id="aeb86d29666e103b688faa7bcb12e5c46" name="aeb86d29666e103b688faa7bcb12e5c46"></a>
+bool *&#160;</td><td class="memItemRight" valign="bottom"><b>traverse</b> (const <a class="el" href="structGraph.html">Graph</a> *g, GRAPH_TYPE v)</td></tr>
+<tr class="separator:aeb86d29666e103b688faa7bcb12e5c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae140ec44c9305bcfbc3e517982e1a334"><td class="memItemLeft" align="right" valign="top"><a id="ae140ec44c9305bcfbc3e517982e1a334" name="ae140ec44c9305bcfbc3e517982e1a334"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isStronglyConnected</b> (const <a class="el" href="structGraph.html">Graph</a> *rev, int v, bool *visited, bool *scc)</td></tr>
+<tr class="separator:ae140ec44c9305bcfbc3e517982e1a334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2741ebf281f843af9dbe78d2643a10a8"><td class="memItemLeft" align="right" valign="top"><a id="a2741ebf281f843af9dbe78d2643a10a8" name="a2741ebf281f843af9dbe78d2643a10a8"></a>
+<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdge</b> (const <a class="el" href="structGraph.html">Graph</a> *g, int v1, int v2)</td></tr>
+<tr class="separator:a2741ebf281f843af9dbe78d2643a10a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e45ff4146b65fee4df2dfa60a4e4df"><td class="memItemLeft" align="right" valign="top"><a id="a98e45ff4146b65fee4df2dfa60a4e4df" name="a98e45ff4146b65fee4df2dfa60a4e4df"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removeEdge_</b> (<a class="el" href="structGraph.html">Graph</a> *g, int v1, int v2)</td></tr>
+<tr class="separator:a98e45ff4146b65fee4df2dfa60a4e4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a224c58b86b4eca189ea3d43274d637f6"><td class="memItemLeft" align="right" valign="top"><a id="a224c58b86b4eca189ea3d43274d637f6" name="a224c58b86b4eca189ea3d43274d637f6"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>adjacentTo</b> (const <a class="el" href="structGraph.html">Graph</a> *g, int v1, int v2)</td></tr>
+<tr class="separator:a224c58b86b4eca189ea3d43274d637f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53bcac78db68c45cde8860b67c44a691"><td class="memItemLeft" align="right" valign="top"><a id="a53bcac78db68c45cde8860b67c44a691" name="a53bcac78db68c45cde8860b67c44a691"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isBridge</b> (const <a class="el" href="structGraph.html">Graph</a> *g, int v1, int v2)</td></tr>
+<tr class="separator:a53bcac78db68c45cde8860b67c44a691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b7c38e1283190ff9a48444526958771"><td class="memItemLeft" align="right" valign="top"><a id="a3b7c38e1283190ff9a48444526958771" name="a3b7c38e1283190ff9a48444526958771"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBridge</b> (const <a class="el" href="structGraph.html">Graph</a> *g)</td></tr>
+<tr class="separator:a3b7c38e1283190ff9a48444526958771"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5778266bdfcc218fcb18a54c14724fc"><td class="memItemLeft" align="right" valign="top"><a id="af5778266bdfcc218fcb18a54c14724fc" name="af5778266bdfcc218fcb18a54c14724fc"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasBridge_</b> (const <a class="el" href="structGraph.html">Graph</a> *g, int v, bool *visited)</td></tr>
+<tr class="separator:af5778266bdfcc218fcb18a54c14724fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed3eeb738f215be35752252502de107e"><td class="memItemLeft" align="right" valign="top"><a id="aed3eeb738f215be35752252502de107e" name="aed3eeb738f215be35752252502de107e"></a>
+<a class="el" href="structGraph.html">Graph</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>removeMirrorConnection</b> (const <a class="el" href="structGraph.html">Graph</a> *g)</td></tr>
+<tr class="separator:aed3eeb738f215be35752252502de107e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae38a09ca12236fdd438fcbb24dd1038f"><td class="memItemLeft" align="right" valign="top"><a id="ae38a09ca12236fdd438fcbb24dd1038f" name="ae38a09ca12236fdd438fcbb24dd1038f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>removeMirrorConnection_</b> (<a class="el" href="structGraph.html">Graph</a> *g, int v, bool *visited)</td></tr>
+<tr class="separator:ae38a09ca12236fdd438fcbb24dd1038f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4951799a173e36e0dd62612db3f897bc"><td class="memItemLeft" align="right" valign="top"><a id="a4951799a173e36e0dd62612db3f897bc" name="a4951799a173e36e0dd62612db3f897bc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a class="el" href="structGraph.html">Graph</a> *g, int v1, int v2)</td></tr>
+<tr class="separator:a4951799a173e36e0dd62612db3f897bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >This is my new file. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a56c2ca3036ff48131a49227249dabd88" name="a56c2ca3036ff48131a49227249dabd88"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56c2ca3036ff48131a49227249dabd88">&#9670;&nbsp;</a></span>addEdge()</h2>
+<a id="a64fe695492a31994ea11c94cc719937f" name="a64fe695492a31994ea11c94cc719937f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64fe695492a31994ea11c94cc719937f">&#9670;&nbsp;</a></span>addEdge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -215,19 +215,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
           <td class="memname">int addEdge </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structGraph.html">Graph</a> *&#160;</td>
-          <td class="paramname"><em>__g</em>, </td>
+          <td class="paramname"><em>g</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>__v1</em>, </td>
+          <td class="paramname"><em>v1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>__v2</em>&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -240,9 +240,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
 <p>Create a new connection between two vertices in a graph. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">__g</td><td>The graph in which the new connection will be made </td></tr>
-    <tr><td class="paramname">__v1</td><td>The first vertex </td></tr>
-    <tr><td class="paramname">__v2</td><td>The second vertex </td></tr>
+    <tr><td class="paramname">g</td><td>The graph in which the new connection will be made </td></tr>
+    <tr><td class="paramname">v1</td><td>The first vertex </td></tr>
+    <tr><td class="paramname">v2</td><td>The second vertex </td></tr>
   </table>
   </dd>
 </dl>
@@ -250,8 +250,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
 
 </div>
 </div>
-<a id="a4446b61852fd3b3bc10a2a72d5beee49" name="a4446b61852fd3b3bc10a2a72d5beee49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4446b61852fd3b3bc10a2a72d5beee49">&#9670;&nbsp;</a></span>cleanGraph()</h2>
+<a id="a44d037c2cf43d6862abd6312caf3df35" name="a44d037c2cf43d6862abd6312caf3df35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44d037c2cf43d6862abd6312caf3df35">&#9670;&nbsp;</a></span>cleanGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -260,25 +260,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
           <td class="memname">void cleanGraph </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structGraph.html">Graph</a> *&#160;</td>
-          <td class="paramname"><em>__G</em></td><td>)</td>
+          <td class="paramname"><em>G</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Clear the connections between __G's vertices. </p>
-<p >Free all of the nodes that are contained in __G's adjacency list. This function does <em>NOT</em> free the actual array pointed to by __G-&gt;adj, only the connections that currently exist.</p>
+<p>Clear the connections between G's vertices. </p>
+<p >Free all of the nodes that are contained in G's adjacency list. This function does <em>NOT</em> free the actual array pointed to by G-&gt;adj, only the connections that currently exist.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">__G</td><td>The graph whose connections will be wiped </td></tr>
+    <tr><td class="paramname">G</td><td>The graph whose connections will be wiped </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ad717c8654006916b25d2716bc8d7da2b" name="ad717c8654006916b25d2716bc8d7da2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad717c8654006916b25d2716bc8d7da2b">&#9670;&nbsp;</a></span>duplicateGraph()</h2>
+<a id="adcb4dc3b1fa90a9a45d01dbfa1ebf513" name="adcb4dc3b1fa90a9a45d01dbfa1ebf513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adcb4dc3b1fa90a9a45d01dbfa1ebf513">&#9670;&nbsp;</a></span>duplicateGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -287,17 +287,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
           <td class="memname"><a class="el" href="structGraph.html">Graph</a> * duplicateGraph </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structGraph.html">Graph</a> *&#160;</td>
-          <td class="paramname"><em>__G</em></td><td>)</td>
+          <td class="paramname"><em>G</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Perform a deep copy of a graph. </p>
-<p >Create a new graph whose connections are exactly the same as __G, but whose adjacency list is full of newly allocated nodes. This way the new graph has complete control of the elements that it points to</p>
+<p >Create a new graph whose connections are exactly the same as G, but whose adjacency list is full of newly allocated nodes. This way the new graph has complete control of the elements that it points to</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">__G</td><td>The <a class="el" href="structGraph.html" title="Implementation of the Graph data structure using an adjacency list.">Graph</a> to duplicate </td></tr>
+    <tr><td class="paramname">G</td><td>The <a class="el" href="structGraph.html" title="Implementation of the Graph data structure using an adjacency list.">Graph</a> to duplicate </td></tr>
   </table>
   </dd>
 </dl>
@@ -305,8 +305,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
 
 </div>
 </div>
-<a id="a9954ec87f9bc74da65a8cb95e7c8e396" name="a9954ec87f9bc74da65a8cb95e7c8e396"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9954ec87f9bc74da65a8cb95e7c8e396">&#9670;&nbsp;</a></span>freeGraph()</h2>
+<a id="a64652706025e466d3dd0780a420be5ca" name="a64652706025e466d3dd0780a420be5ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64652706025e466d3dd0780a420be5ca">&#9670;&nbsp;</a></span>freeGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -315,25 +315,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
           <td class="memname">void freeGraph </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structGraph.html">Graph</a> *&#160;</td>
-          <td class="paramname"><em>__G</em></td><td>)</td>
+          <td class="paramname"><em>G</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Clean the nodes of a graph and free it's adjacency list array. </p>
-<p >This routine still doesn't free the actual memory that the pointer __G points to. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="graph_8h.html#a7e791fc8bcf42df354c2eeaa965a2448" title="call freeGraph(*__Gptr), free *__Gptr, and set *__Gptr to NULL.">releaseGraph</a></dd></dl>
+<p >This routine still doesn't free the actual memory that the pointer G points to. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="graph_8h.html#a74bda5b62fea51c95e5feaedbd4efc8b" title="call freeGraph(*Gptr), free *Gptr, and set *Gptr to NULL.">releaseGraph</a></dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">__G</td><td></td></tr>
+    <tr><td class="paramname">G</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a773be8de63f276658b86352e80142f59" name="a773be8de63f276658b86352e80142f59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a773be8de63f276658b86352e80142f59">&#9670;&nbsp;</a></span>newGraph()</h2>
+<a id="a46ff6e1c9150c0c66dd2df2107f94c1c" name="a46ff6e1c9150c0c66dd2df2107f94c1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46ff6e1c9150c0c66dd2df2107f94c1c">&#9670;&nbsp;</a></span>newGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -342,19 +342,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
           <td class="memname"><a class="el" href="structGraph.html">Graph</a> * newGraph </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>__nv</em>, </td>
+          <td class="paramname"><em>nv</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>__ne</em>, </td>
+          <td class="paramname"><em>ne</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>__digraph</em>&#160;</td>
+          <td class="paramname"><em>digraph</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -367,9 +367,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
 <p>Allocate space for a new <a class="el" href="structGraph.html" title="Implementation of the Graph data structure using an adjacency list.">Graph</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">__nv</td><td>Number of vertices </td></tr>
-    <tr><td class="paramname">__ne</td><td>Number of edges </td></tr>
-    <tr><td class="paramname">__digraph</td><td>True if the graph is oriented </td></tr>
+    <tr><td class="paramname">nv</td><td>Number of vertices </td></tr>
+    <tr><td class="paramname">ne</td><td>Number of edges </td></tr>
+    <tr><td class="paramname">digraph</td><td>True if the graph is oriented </td></tr>
   </table>
   </dd>
 </dl>
@@ -377,8 +377,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
 
 </div>
 </div>
-<a id="aecb3ad85bbc0c7c7cd34dbf97a980860" name="aecb3ad85bbc0c7c7cd34dbf97a980860"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecb3ad85bbc0c7c7cd34dbf97a980860">&#9670;&nbsp;</a></span>printGraph()</h2>
+<a id="a11f0f8d257faa7554c2f61aceeee4f0b" name="a11f0f8d257faa7554c2f61aceeee4f0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11f0f8d257faa7554c2f61aceeee4f0b">&#9670;&nbsp;</a></span>printGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -387,7 +387,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
           <td class="memname">void printGraph </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structGraph.html">Graph</a> *&#160;</td>
-          <td class="paramname"><em>__g</em></td><td>)</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -396,15 +396,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
 <p>Print the connections stored in the adjacency list of a graph. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">__g</td><td></td></tr>
+    <tr><td class="paramname">g</td><td></td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a7e791fc8bcf42df354c2eeaa965a2448" name="a7e791fc8bcf42df354c2eeaa965a2448"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e791fc8bcf42df354c2eeaa965a2448">&#9670;&nbsp;</a></span>releaseGraph()</h2>
+<a id="a74bda5b62fea51c95e5feaedbd4efc8b" name="a74bda5b62fea51c95e5feaedbd4efc8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74bda5b62fea51c95e5feaedbd4efc8b">&#9670;&nbsp;</a></span>releaseGraph()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -413,17 +413,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>reverseEdge</b> (<a c
           <td class="memname">void releaseGraph </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structGraph.html">Graph</a> **&#160;</td>
-          <td class="paramname"><em>__Gptr</em></td><td>)</td>
+          <td class="paramname"><em>Gptr</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>call freeGraph(*__Gptr), free *__Gptr, and set *__Gptr to NULL. </p>
-<p >This is a routine used to completely free all of the allocated memory associated with the graph *__Gptr. This routine should be called when a program is no longer in use of the <a class="el" href="structGraph.html" title="Implementation of the Graph data structure using an adjacency list.">Graph</a> pointed to by *__Gptr.</p>
+<p>call freeGraph(*Gptr), free *Gptr, and set *Gptr to NULL. </p>
+<p >This is a routine used to completely free all of the allocated memory associated with the graph *Gptr. This routine should be called when a program is no longer in use of the <a class="el" href="structGraph.html" title="Implementation of the Graph data structure using an adjacency list.">Graph</a> pointed to by *Gptr.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">__Gptr</td><td></td></tr>
+    <tr><td class="paramname">Gptr</td><td></td></tr>
   </table>
   </dd>
 </dl>

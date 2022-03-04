@@ -1,11 +1,11 @@
 var graph_8h =
 [
     [ "Graph", "structGraph.html", null ],
-    [ "addEdge", "graph_8h.html#a56c2ca3036ff48131a49227249dabd88", null ],
-    [ "cleanGraph", "graph_8h.html#a4446b61852fd3b3bc10a2a72d5beee49", null ],
-    [ "duplicateGraph", "graph_8h.html#ad717c8654006916b25d2716bc8d7da2b", null ],
-    [ "freeGraph", "graph_8h.html#a9954ec87f9bc74da65a8cb95e7c8e396", null ],
-    [ "newGraph", "graph_8h.html#a773be8de63f276658b86352e80142f59", null ],
-    [ "printGraph", "graph_8h.html#aecb3ad85bbc0c7c7cd34dbf97a980860", null ],
-    [ "releaseGraph", "graph_8h.html#a7e791fc8bcf42df354c2eeaa965a2448", null ]
+    [ "addEdge", "graph_8h.html#a64fe695492a31994ea11c94cc719937f", null ],
+    [ "cleanGraph", "graph_8h.html#a44d037c2cf43d6862abd6312caf3df35", null ],
+    [ "duplicateGraph", "graph_8h.html#adcb4dc3b1fa90a9a45d01dbfa1ebf513", null ],
+    [ "freeGraph", "graph_8h.html#a64652706025e466d3dd0780a420be5ca", null ],
+    [ "newGraph", "graph_8h.html#a46ff6e1c9150c0c66dd2df2107f94c1c", null ],
+    [ "printGraph", "graph_8h.html#a11f0f8d257faa7554c2f61aceeee4f0b", null ],
+    [ "releaseGraph", "graph_8h.html#a74bda5b62fea51c95e5feaedbd4efc8b", null ]
 ];
