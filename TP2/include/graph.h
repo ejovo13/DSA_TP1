@@ -295,3 +295,10 @@ bool *traverse(const Graph *__g, GRAPH_TYPE __v);
 void traverse_(const Graph *__g, int __v, bool *__visited);
 
 bool isStronglyConnected(const Graph *__rev, int __v, bool *__visited, bool *__scc);
+
+Graph *removeEdge(const Graph *__g, int __v1, int __v2);
+
+void removeEdge_(Graph *__g, int __v1, int __v2);
+
+// Return true if __v1 is ADJACENT to __v2
+bool adjacentTo(const Graph *__g, int __v1, int __v2);

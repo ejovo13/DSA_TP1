@@ -604,4 +604,68 @@ bool isStronglyConnected(const Graph *__rev, int __v, bool *__visited, bool *__s
 
 //=========================== PARTIE 3 ============================
 
-// First proc
+// First procedure that I want to implement is a way to delete a connection from a graph.
+
+Graph *removeEdge(const Graph *__g, int __v1, int __v2) {
+
+    // Duplicate the graph and remove the edge (if it exists);
+    Graph *dup = duplicateGraph(__g);
+
+    // The first thing that I want to do is see if the connection even exists...
+    if (adjacentTo(__g, __v1, __v2)) {
+
+        removeEdge_(dup, __v1, __v2);
+        if (__g->di) removeEdge_(dup, __v2, __v1);
+
+
+    }
+
+    return dup;
+}
+
+void removeEdge_(Graph *__g, int __v1, int __v2) {
+
+    Vertex it = __g->adj[__v1 - 1];
+    Vertex prev = it;
+
+    // If the connection is the top of the adjacency list...
+    if (prev) {
+
+        if (prev->data == __v2) {
+
+            printf("Removing first connection..\n");
+            __g->adj[__v1 - 1] = it->next;
+            // free(prev);
+            return;
+        }
+    }
+
+    while (it) {
+
+        if (it->data == __v2) {
+            prev->next = it->next;
+            free(it);
+            return;
+        }
+
+        prev = it;
+        it = it->next;
+    }
+}
+
+// Return true if __v1 is ADJACENT to __v2
+bool adjacentTo(const Graph *__g, int __v1, int __v2) {
+
+    // Iterate through the neighbors of __v1 and see if __v2 is contained.
+
+    Vertex it = __g->adj[__v1 - 1];
+
+    while (it) {
+
+        if (it->data == __v2) return true;
+        it = it->next;
+    }
+
+    return false;
+
+}

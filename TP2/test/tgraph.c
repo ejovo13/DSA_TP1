@@ -3,6 +3,7 @@
 
 
 void t_stronglyConnected();
+void t_parti3();
 
 int main() {
 
@@ -20,6 +21,7 @@ int main() {
     printf("V: %d\n", v);
 
     t_stronglyConnected(); // The strongly connected components function seems to be working!!
+    t_parti3();
 
     return 0;
 }
@@ -68,4 +70,37 @@ void t_stronglyConnected() {
     printGraph(g);
 
 
+}
+
+void t_parti3() {
+
+    printf("\n=============== Parti 3 ==============\n");
+
+    Graph *g = newGraph(8, 0, true);
+
+    addEdge(g, 1, 2);
+    addEdge(g, 2, 3);
+    addEdge(g, 3, 4);
+    addEdge(g, 4, 1);
+
+    addEdge(g, 4, 5);
+    addEdge(g, 5, 6);
+    addEdge(g, 6, 7);
+    addEdge(g, 7, 5);
+
+    addEdge(g, 7, 8);
+
+    printGraph(g);
+
+    printf("Removing connection between 1 and 2\n");
+
+    Graph *g2 = removeEdge(g, 1, 2);
+
+    printf("Address of g2->adj[0]: %x\n", g2->adj[0]);
+
+    printGraph(g2);
+
+    g2 = removeEdge(g2, 4, 1);
+
+    printGraph(g2);
 }
