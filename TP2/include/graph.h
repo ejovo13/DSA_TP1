@@ -53,160 +53,160 @@ typedef struct {
 /**
  * @brief Allocate space for a new Graph
  *
- * @param __nv Number of vertices
- * @param __ne Number of edges
- * @param __digraph True if the graph is oriented
+ * @param nv Number of vertices
+ * @param ne Number of edges
+ * @param digraph True if the graph is oriented
  * @return Graph* A pointer to the newly allocated Graph structure
  */
-Graph *newGraph(int __nv, int __ne, bool __digraph);
+Graph *newGraph(int nv, int ne, bool digraph);
 
-// replicate the connections of graph __G and return a newly allocated graph
+// replicate the connections of graph G and return a newly allocated graph
 /**
  * @brief Perform a deep copy of a graph
  *
- * Create a new graph whose connections are exactly the same as __G, but whose adjacency list
+ * Create a new graph whose connections are exactly the same as G, but whose adjacency list
  * is full of newly allocated nodes. This way the new graph has complete control of the elements that
  * it points to
  *
- * @param __G The Graph to duplicate
+ * @param G The Graph to duplicate
  * @return A pointer to the newly allocated copy
  */
-Graph *duplicateGraph(const Graph *__G);
+Graph *duplicateGraph(const Graph *G);
 
 // Free all of the VERTICES that exist in the graph. The graph's adjacency matrix will NOT
 // be freed.
 /**
- * @brief Clear the connections between __G's vertices
+ * @brief Clear the connections between G's vertices
  *
- * Free all of the nodes that are contained in __G's adjacency list. This function does *NOT*
- * free the actual array pointed to by __G->adj, only the connections that currently exist.
+ * Free all of the nodes that are contained in G's adjacency list. This function does *NOT*
+ * free the actual array pointed to by G->adj, only the connections that currently exist.
  *
- * @param __G The graph whose connections will be wiped
+ * @param G The graph whose connections will be wiped
  */
-void cleanGraph(Graph *__G);
+void cleanGraph(Graph *G);
 
 // Free all of the nodes of a graph and also free the adjacency matrix. This still does not
-// free the actual pointer __G. To do so, see releaseGraph
+// free the actual pointer G. To do so, see releaseGraph
 /**
  * @brief Clean the nodes of a graph and free it's adjacency list array.
  *
- * This routine still doesn't free the actual memory that the pointer __G points to.
+ * This routine still doesn't free the actual memory that the pointer G points to.
  * @see releaseGraph
  *
- * @param __G
+ * @param G
  */
-void freeGraph(Graph *__G);
+void freeGraph(Graph *G);
 
 /**
- * @brief call freeGraph(*__Gptr), free *__Gptr, and set *__Gptr to NULL.
+ * @brief call freeGraph(*Gptr), free *Gptr, and set *Gptr to NULL.
  *
- * This is a routine used to completely free all of the allocated memory associated with the graph *__Gptr.
- * This routine should be called when a program is no longer in use of the Graph pointed to by *__Gptr.
+ * This is a routine used to completely free all of the allocated memory associated with the graph *Gptr.
+ * This routine should be called when a program is no longer in use of the Graph pointed to by *Gptr.
  *
- * @param __Gptr
+ * @param Gptr
  */
-void releaseGraph(Graph **__Gptr);
+void releaseGraph(Graph **Gptr);
 
 /**
  * @brief Print the connections stored in the adjacency list of a graph.
  *
- * @param __g
+ * @param g
  */
-void printGraph(const Graph *__g);
+void printGraph(const Graph *g);
 
 /**
  * @brief
  * @private
  * @deprecated
  *
- * @param __g
- * @param __v1
- * @param __v2
+ * @param g
+ * @param v1
+ * @param v2
  * @return int
  */
-int _add_vertex(Graph *__g, int __v1, int __v2);
+int _add_vertex(Graph *g, int v1, int v2);
 
 // Return the position where this was added
 /**
  * @brief Create a new connection between two vertices in a graph
  *
- * @param __g  The graph in which the new connection will be made
- * @param __v1 The first vertex
- * @param __v2 The second vertex
+ * @param g  The graph in which the new connection will be made
+ * @param v1 The first vertex
+ * @param v2 The second vertex
  * @return int
  */
-int addEdge(Graph *__g, int __v1, int __v2);
+int addEdge(Graph *g, int v1, int v2);
 
 // Scan from a stdinput
-Graph *readGraph(const char *__filename, bool __digraph);
+Graph *readGraph(const char *filename, bool digraph);
 
 // Initialize an array of booleans to false to check if they've been visited or not
-bool *visitedArray(const Graph *__g);
+bool *visitedArray(const Graph *g);
 
 // Create a dot output of the loaded graph to be visualized with graphviz
-int createDot(const Graph *g, const char *__filename);
+int createDot(const Graph *g, const char *filename);
 
 // Wrapper routine to access the adjacency list of vertex v
-Vertex graphAdj(const Graph *__g, Vertex __v);
+Vertex graphAdj(const Graph *g, Vertex v);
 
-// __v is the starting vertex
-void dfsVisualize(const Graph *__g, GRAPH_TYPE __v);
+// v is the starting vertex
+void dfsVisualize(const Graph *g, GRAPH_TYPE v);
 
 // This routine has a bool array that is passed down between successive calls.
 /**
  * @brief
  * @private
  *
- * @param __g
- * @param __v
- * @param __visited
+ * @param g
+ * @param v
+ * @param visited
  */
-void _dfsVisualize(const Graph *__g, int __v, bool *__visited);
+void _dfsVisualize(const Graph *g, int v, bool *visited);
 
 // Return true iff the two elements are connected
-bool dfsConnected(const Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u);
+bool dfsConnected(const Graph *g, GRAPH_TYPE v, GRAPH_TYPE u);
 
 /**
  * @brief
  * @private
  *
- * @param __g
- * @param __v
- * @param __u
- * @param __visited
+ * @param g
+ * @param v
+ * @param u
+ * @param visited
  */
-void dfsConnected_(const Graph *__g, GRAPH_TYPE __v, GRAPH_TYPE __u, bool *__visited);
+void dfsConnected_(const Graph *g, GRAPH_TYPE v, GRAPH_TYPE u, bool *visited);
 
-void bfsVisualize(const Graph *__g, int __v);
+void bfsVisualize(const Graph *g, int v);
 
 // Take in the extra bool array visited
 /**
  * @brief
  * @private
  *
- * @param __g
- * @param __v
- * @param __visited
- * @param __q
+ * @param g
+ * @param v
+ * @param visited
+ * @param q
  */
-void bfsVisualize_(const Graph *__g, int __v, bool *__visited, Queue *__q);
+void bfsVisualize_(const Graph *g, int v, bool *visited, Queue *q);
 
 // Using DFS, extract all the elements that are connected to v
-Graph *subgraph(const Graph *__g, int __v);
+Graph *subgraph(const Graph *g, int v);
 
 /**
  * @brief
  * @private
  *
- * @param __og
- * @param __gnew
- * @param __start
- * @param __v
- * @param __visited
+ * @param og
+ * @param gnew
+ * @param start
+ * @param v
+ * @param visited
  */
-void subgraph_(const Graph *__og, Graph *__gnew, int __start, int __v, bool *__visited);
+void subgraph_(const Graph *og, Graph *gnew, int start, int v, bool *visited);
 
-void createDotSubgraph(const Graph *g, const char *__filename);
+void createDotSubgraph(const Graph *g, const char *filename);
 
 // Return true if every node can be reached starting from node 1 and performing a
 // Depth first search.
@@ -217,57 +217,57 @@ bool isConnected(const Graph *g);
  * @brief
  * @private
  *
- * @param __g
- * @param __v
- * @param __visited
- * @param __count
+ * @param g
+ * @param v
+ * @param visited
+ * @param count
  */
-void isConnected_(const Graph *__g, int __v, bool *__visited, int *__count);
+void isConnected_(const Graph *g, int v, bool *visited, int *count);
 
 // Take a directional graph and reverse the direction of its edges.
 // This function allocates the space for a new graph.
-Graph *reverseGraph(const Graph *__G);
+Graph *reverseGraph(const Graph *G);
 
 /**
  * @brief
  * @private
  *
- * @param __G
- * @param __dup
- * @param __node
- * @param __visited
+ * @param G
+ * @param dup
+ * @param node
+ * @param visited
  * @return void*
  */
-void *reverseGraph_(const Graph *__G, Graph *__dup, int __node, bool *__visited);
+void *reverseGraph_(const Graph *G, Graph *dup, int node, bool *visited);
 
 // Implement Kosaraju's algorithm to find strongly connected components.
 // The obvious return type is a graph whose only elements are the strongly connected ones...
-Graph *stronglyConnected(const Graph *__g);
+Graph *stronglyConnected(const Graph *g);
 
 /**
  * @brief
  * @private
  *
- * @param __g
- * @param __v
- * @param __stack
- * @param __visited
+ * @param g
+ * @param v
+ * @param stack
+ * @param visited
  */
-void stronglyConnected_(const Graph *__g, int __v, Stack *__stack, bool *__visited);
+void stronglyConnected_(const Graph *g, int v, Stack *stack, bool *visited);
 
 /**
  *
  * @brief
  * @private
  *
- * @param __g
- * @param __gnew
- * @param __v
- * @param __stack
- * @param __visited
- * @param __scc
+ * @param g
+ * @param gnew
+ * @param v
+ * @param stack
+ * @param visited
+ * @param scc
  */
-void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__stack, bool *__visited, bool *__scc);
+void stronglyConnectedRev_(const Graph *g, Graph *gnew, int v, Stack *stack, bool *visited, bool *scc);
 
 /*========================================================================
  *!                          Utility functions
@@ -277,46 +277,46 @@ void stronglyConnectedRev_(const Graph *__g, Graph *__gnew, int __v, Stack *__st
 // If the Graph is empty (i.e.) there are no connections
 // get the INDEX of the position of a vertex
 // returns -1 if there are no connections
-int getVertex(const Graph *__G);
+int getVertex(const Graph *G);
 
 
-// __v is the starting vertex
-bool *traverse(const Graph *__g, GRAPH_TYPE __v);
+// v is the starting vertex
+bool *traverse(const Graph *g, GRAPH_TYPE v);
 
 // This routine has a bool array that is passed down between successive calls.
 /**
  * @brief
  * @private
  *
- * @param __g
- * @param __v
- * @param __visited
+ * @param g
+ * @param v
+ * @param visited
  */
-void traverse_(const Graph *__g, int __v, bool *__visited);
+void traverse_(const Graph *g, int v, bool *visited);
 
-bool isStronglyConnected(const Graph *__rev, int __v, bool *__visited, bool *__scc);
+bool isStronglyConnected(const Graph *rev, int v, bool *visited, bool *scc);
 
-Graph *removeEdge(const Graph *__g, int __v1, int __v2);
+Graph *removeEdge(const Graph *g, int v1, int v2);
 
-void removeEdge_(Graph *__g, int __v1, int __v2);
+void removeEdge_(Graph *g, int v1, int v2);
 
-// Return true if __v1 is ADJACENT to __v2
-bool adjacentTo(const Graph *__g, int __v1, int __v2);
+// Return true if v1 is ADJACENT to v2
+bool adjacentTo(const Graph *g, int v1, int v2);
 
-bool isBridge(const Graph *__g, int __v1, int __v2);
+bool isBridge(const Graph *g, int v1, int v2);
 
 // Return true if the any of the edges of a graph are bridges.
 // This is accomplished by performing a depth first search starting from
 // the first available node.
-bool hasBridge(const Graph *__g);
+bool hasBridge(const Graph *g);
 
 // simple dfs implementation
-bool hasBridge_(const Graph *__g, int __v, bool *__visited);
+bool hasBridge_(const Graph *g, int v, bool *visited);
 
 // On a non-oriented graph, remove the reciprocal connections that are only used for
 // storing purposes. For example, if 1 and 3 are connected, remove the connection 3 -- 1
-Graph *removeMirrorConnection(const Graph *__g);
+Graph *removeMirrorConnection(const Graph *g);
 
-void removeMirrorConnection_(Graph *__g, int __v, bool *__visited);
+void removeMirrorConnection_(Graph *g, int v, bool *visited);
 
-void reverseEdge(Graph *__g, int __v1, int __v2);
+void reverseEdge(Graph *g, int v1, int v2);
