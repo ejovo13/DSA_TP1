@@ -3,6 +3,7 @@ bin/*
 tex/*
 !tex/**.tex
 !tex/**.pdf
+!tex/media/
 # site/*
 g
 latex
