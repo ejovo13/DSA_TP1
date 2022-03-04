@@ -1,5 +1,8 @@
 build/*
 bin/*
+tex/*
+!tex/**.tex
+!tex/**.pdf
 # site/*
 g
 latex

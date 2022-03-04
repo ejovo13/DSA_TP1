@@ -1,0 +1,61 @@
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[10pt]{article} % use larger type; default would be 10pt
+
+\input{preamble.tex}
+
+\begin{document}
+
+% \vspace{-10pt}
+% This is the PERFECT SCALING, now we need to adjust the scale a little bit.
+\begin{tikzpicture}[remember picture,overlay,yshift=-.2cm, xshift=1.75cm] % LMAOOOOOO This is the EXACT POSITION!!!!
+    \node at (0,0) {\includegraphics[width=4.0cm,height=1.6cm]{media/1280px-Logo_Polytech_Sorbonne.png}};
+\end{tikzpicture}
+
+% \hspace{-5cm}
+% \hspace{-1cm}
+% \hspace{-1cm}
+
+\vspace{-1cm}
+\vspace{0.3cm}
+
+{\raggedleft \color{mygold} Algorithmique générale\\
+MAIN-3, année 2022\\
+Séance TP N\degree 2\\
+Février 2022\\
+VOYLES Evan\\}
+
+% This vspace accomodates my name
+\vspace{-0.42cm}
+\vspace{1.23cm}
+
+{\Large \noindent \color{mygold} Objectif}
+
+{\color{mygold}\noindent\rule{\textwidth}{1pt}}
+\vspace{0cm}
+\begin{itemize}
+    \item[{\color{mygold}\ding{43}}] Problème dans des graphes.
+\end{itemize}
+
+\vspace{1.2cm}
+{\color{dullgreen}\noindent \Large \bf Problème}
+
+\vspace{-0.28cm}
+{\vspace{0cm}\color{dullgreen}\noindent\rule{\textwidth}{1pt}}
+
+\begin{textblock*}{10cm}(12.16cm,7.2cm) % {block width} (coords)
+    \Large \aspurp{[Parcours dfs et applications]}
+\end{textblock*}
+
+\begin{enumerate}
+    % \item Réaliser un suivi à la trace de la procédure \verb|partitionBis| appliquée aux instances suivantes :
+    \item Réaliser un suivi à la trace de la procédure \texttt{partitionBis} appliquée aux instances suivantes :
+    \begin{equation*}
+        I_1 = [2,6,0,4,3,1,5], I_2 = [7,6,5,4,3,2,1]\ \ \mathrm{ et }\ \ I_3 = [1,2,3,4,5,6,7].
+    \end{equation*}
+\end{enumerate}
+
+% \newpage
+\end{document}
