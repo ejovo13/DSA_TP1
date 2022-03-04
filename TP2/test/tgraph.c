@@ -131,12 +131,17 @@ void t_hasBridge() {
 
 void t_removeMirror() {
 
-    Graph *g = readGraph("migraph-1.txt", false);
+    // Graph *g = readGraph("migraph-1.txt", false);
+    Graph *g = readGraph("migraph-1.txt", true);
 
     printGraph(g);
 
-    printGraph(removeMirrorConnection(g));
+    g = removeMirrorConnection(g);
 
+    printGraph(g);
 
+    reverseEdge(g, 4, 5);
+
+    printGraph(g);
 
 }

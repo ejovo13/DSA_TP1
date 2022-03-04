@@ -318,3 +318,5 @@ bool hasBridge_(const Graph *__g, int __v, bool *__visited);
 Graph *removeMirrorConnection(const Graph *__g);
 
 void removeMirrorConnection_(Graph *__g, int __v, bool *__visited);
+
+void reverseEdge(Graph *__g, int __v1, int __v2);

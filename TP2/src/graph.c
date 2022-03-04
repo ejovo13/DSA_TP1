@@ -755,3 +755,14 @@ void removeMirrorConnection_(Graph *__g, int __v, bool *__visited) {
     }
 
 }
+
+// Simply change the connection from (1 -> 3) to (3 -> 1)
+void reverseEdge(Graph *__g, int __v1, int __v2) {
+
+
+    if (adjacentTo(__g, __v1, __v2)) {
+        removeEdge_(__g, __v1, __v2);
+        addEdge(__g, __v2, __v1);
+    }
+
+}
