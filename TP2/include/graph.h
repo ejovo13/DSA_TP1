@@ -302,3 +302,19 @@ void removeEdge_(Graph *__g, int __v1, int __v2);
 
 // Return true if __v1 is ADJACENT to __v2
 bool adjacentTo(const Graph *__g, int __v1, int __v2);
+
+bool isBridge(const Graph *__g, int __v1, int __v2);
+
+// Return true if the any of the edges of a graph are bridges.
+// This is accomplished by performing a depth first search starting from
+// the first available node.
+bool hasBridge(const Graph *__g);
+
+// simple dfs implementation
+bool hasBridge_(const Graph *__g, int __v, bool *__visited);
+
+// On a non-oriented graph, remove the reciprocal connections that are only used for
+// storing purposes. For example, if 1 and 3 are connected, remove the connection 3 -- 1
+Graph *removeMirrorConnection(const Graph *__g);
+
+void removeMirrorConnection_(Graph *__g, int __v, bool *__visited);

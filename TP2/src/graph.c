@@ -181,12 +181,14 @@ bool *visitedArray(const Graph *__g) {
 }
 
 // Create a dot output of the loaded graph to be visualized with graphviz
-int createDot(const Graph *g, const char *__filename) {
+int createDot(const Graph *__g, const char *__filename) {
 
     // first open the file to write
     FILE *f = fopen(__filename, "w");
+    Graph *g = duplicateGraph(__g);
 
     if (g->di) fprintf(f, "di");
+    else g = removeMirrorConnection(__g);
     fprintf(f, "graph {\n");
 
     bool *__visited = visitedArray(g);
@@ -667,5 +669,89 @@ bool adjacentTo(const Graph *__g, int __v1, int __v2) {
     }
 
     return false;
+
+}
+
+
+// Return true if the highlighted edge is a bridge
+// An edge is a bridge if removing the edge leaves us with a non connected graph.
+bool isBridge(const Graph *__g, int __v1, int __v2) {
+
+    Graph *g_removed = removeEdge(__g, __v1, __v2);
+
+    bool out = isConnected(g_removed);
+
+    releaseGraph(&g_removed); // Take care of memory allocation for the graph.
+
+    return out;
+}
+
+// Return true if the any of the edges of a graph are bridges.
+// This is accomplished by performing a depth first search starting from
+// the first available node.
+bool hasBridge(const Graph *__g) {
+
+    bool *vis = visitedArray(__g);
+
+    int v = getVertex(__g);
+
+    if (v == -1) return false; // This graph has no connections
+
+    printf("Entering has bridge with v = %d\n", v);
+
+    return hasBridge_(__g, v + 1, vis);
+
+}
+
+// simple dfs implementation
+bool hasBridge_(const Graph *__g, int __v, bool *__visited) {
+
+    __visited[__v - 1] = true;
+
+    Vertex it = __g->adj[__v - 1];
+
+    while (it) {
+
+        if (isBridge(__g, __v, it->data)) {
+            printf("Bridge detected between %d-%d\n", __v, it->data);
+            return true;
+        }
+        if (!visited(it, __visited)) return hasBridge_(__g, it->data, __visited);
+
+        it = it->next;
+
+    }
+
+    return false;
+
+}
+
+// On a non-oriented graph, remove the reciprocal connections that are only used for
+// storing purposes. For example, if 1 and 3 are connected, remove the connection 3 -- 1
+Graph *removeMirrorConnection(const Graph *__g) {
+
+    if (__g->di) return duplicateGraph(__g);
+
+    // perform dfs on all of the nodes, removing the reverse as we arrive
+    Graph *g_dup = duplicateGraph(__g);
+    removeMirrorConnection_(g_dup, getVertex(g_dup) + 1, visitedArray(g_dup));
+
+    return g_dup;
+
+}
+
+void removeMirrorConnection_(Graph *__g, int __v, bool *__visited) {
+
+    __visited[__v - 1] = true;
+
+    Vertex it = __g->adj[__v - 1];
+
+    while (it) {
+
+        removeEdge_(__g, it->data, __v);
+        if (!visited(it, __visited)) removeMirrorConnection_(__g, it->data, __visited);
+
+        it = it->next;
+    }
 
 }

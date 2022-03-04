@@ -4,6 +4,8 @@
 
 void t_stronglyConnected();
 void t_parti3();
+void t_hasBridge();
+void t_removeMirror();
 
 int main() {
 
@@ -22,6 +24,8 @@ int main() {
 
     t_stronglyConnected(); // The strongly connected components function seems to be working!!
     t_parti3();
+    t_hasBridge();
+    t_removeMirror();
 
     return 0;
 }
@@ -103,4 +107,36 @@ void t_parti3() {
     g2 = removeEdge(g2, 4, 1);
 
     printGraph(g2);
+
+}
+
+void t_hasBridge() {
+
+    Graph *g = readGraph("migraph-1.txt", false);
+
+    printGraph(g);
+
+    createDot(g, "my-graph.dot");
+
+    printf("G has bridge: %d\n", hasBridge(g));
+
+    addEdge(g, 1, 4);
+    addEdge(g, 2, 1);
+
+    printf("G has bridge: %d\n", hasBridge(g));
+
+
+
+}
+
+void t_removeMirror() {
+
+    Graph *g = readGraph("migraph-1.txt", false);
+
+    printGraph(g);
+
+    printGraph(removeMirrorConnection(g));
+
+
+
 }
