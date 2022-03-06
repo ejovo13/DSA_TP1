@@ -246,7 +246,7 @@ BinTree *removeKey(BinTree *__bst, int __key) {
 
         printf("Node is a LEAF\n");
 
-        if (nodeOnLeft(parent, node)) { // then the node is on the left of the parent
+        if (parent->left->key == node->key) { // then the node is on the left of the parent
             printf("Node is on the left\n");
             parent->left = NULL; // remove from the tree.
             return node;
@@ -356,3 +356,13 @@ BinTree *createRandomTree(int __n) {
     return root;
 }
 
+int heightBST(const BinTree *__root) {
+
+    if (!__root) return 0;
+
+    int left_height = heightBST(__root->left);
+    int right_height = heightBST(__root->right);
+
+    return (left_height > right_height ? left_height : right_height) + 1; // return max(left, right) + 1
+
+}
