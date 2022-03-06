@@ -366,3 +366,10 @@ int heightBST(const BinTree *__root) {
     return (left_height > right_height ? left_height : right_height) + 1; // return max(left, right) + 1
 
 }
+
+int deqFactor(const BinTree *__root) {
+
+    if (!__root) return 0;
+
+    return abs(heightBST(__root->left) -  heightBST(__root->right));
+}

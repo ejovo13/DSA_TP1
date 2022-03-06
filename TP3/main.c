@@ -36,14 +36,15 @@ int main() {
 
     // BinTree *three = getKey(root, 3);
 
-    // removeKey(root, 3);
-    // createDotBST(root, "test_rem3.dot");
+    removeKey(root, 3);
+    createDotBST(root, "test_rem3.dot");
 
-    // removeKey(root, 1);
-    // createDotBST(root, "test_rem1.dot");
+    deleteKey(root, 13);
+    createDotBST(root, "test_rem13.dot");
 
-    // deleteKey(root, 13);
-    // createDotBST(root, "test_rem13.dot");
+    removeKey(root, 1);
+    createDotBST(root, "test_rem1.dot");
+
 
 
     removeKey(root, 10);
@@ -63,6 +64,12 @@ int main() {
     root = createRandomTree(140);
 
     createDotBST(root, "random.dot");
+
+    BinTree *rando = createRandomTree(10);
+    createDotBST(rando, "rando.dot");
+
+    printf("Height of rando: %d\n", heightBST(rando));
+    printf("Deq factor of rando: %d\n", deqFactor(rando));
 
 
     return 0;
