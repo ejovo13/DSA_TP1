@@ -22,7 +22,7 @@ int main() {
     addKeyBST(root, 25);
     addKeyBST(root, 3);
 
-    createDotBST(root, "test.dot");
+    // createDotBST(root, "test.dot");
 
     printf("After 10: %d\n", getNextKey(root)->key);
     printf("After 13: %d\n", getNextKey(getNextKey(root))->key);
@@ -63,10 +63,10 @@ int main() {
 
     root = createRandomTree(140);
 
-    createDotBST(root, "random.dot");
+    // createDotBST(root, "random.dot");
 
     BinTree *rando = createRandomTree(10);
-    createDotBST(rando, "rando.dot");
+    // createDotBST(rando, "rando.dot");
 
     printf("Height of rando: %d\n", heightBST(rando));
     printf("Deq factor of rando: %d\n", deqFactor(rando));
