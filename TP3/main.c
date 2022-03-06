@@ -1,7 +1,7 @@
-#include "src/tree.c"
-#include "include/ejovo_rand.h"
-#include "ejovo/ejovo_rand.c"
-
+// #include "src/tree.c"
+// #include "include/ejovo_rand.h"
+// #include "ejovo/ejovo_rand.c"
+#include "tree.h"
 
 int main() {
 
@@ -70,6 +70,8 @@ int main() {
 
     printf("Height of rando: %d\n", heightBST(rando));
     printf("Deq factor of rando: %d\n", deqFactor(rando));
+
+    printf("Depth(rando, 10): %d\n", depthKey(rando, 10));
 
 
     return 0;

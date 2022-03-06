@@ -1,15 +1,27 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "ejovo_rand.h"
+#include "tree.h"
 
-typedef struct binary_tree_t {
 
-    int key;
-    struct binary_tree_t *right;
-    struct binary_tree_t *left;
+Tourist *newTourist(const BinTree *__bst) {
 
-} BinTree;
+    Tourist *t = (Tourist *) malloc(sizeof(Tourist));
+    t->this = __bst;
+    t->count = 0;
+
+}
+
+Tourist visitRight(Tourist __t) {
+    if (!__t.this) return __t;
+    __t.this = __t.this->right;
+    __t.count ++;
+    return __t;
+}
+
+Tourist visitLeft(Tourist __t) {
+    if (!__t.this) return __t;
+    __t.this = __t.this->left;
+    __t.count ++;
+    return __t;
+}
 
 // Create a new root for a binary tree whose data value is
 // __root
@@ -373,3 +385,33 @@ int deqFactor(const BinTree *__root) {
 
     return abs(heightBST(__root->left) -  heightBST(__root->right));
 }
+
+// Make use of a "Tourist" to visit the nodes and keep track of how many nodes
+// visited
+void depthKey_(const BinTree *__root, int __key, Tourist __t, int *__count) {
+
+    if (!__root) return;
+    if (__root->key == __key) *__count = __t.count;
+
+    // If we need to go to the next level, increment the count
+
+    depthKey_(__root->right, __key, visitLeft(__t), __count);
+    depthKey_(__root->left, __key, visitRight(__t), __count);
+}
+
+// Return the depth of the key that contains the node
+int depthKey(const BinTree *__root, int __key) {
+
+    int count = 0;
+
+    if (__root->key == __key) return count;
+
+    Tourist t = {.count = 0, .this = __root};
+
+    depthKey_(__root, __key, t, &count);
+
+    if (count == 0) return -1;
+    else return count;
+
+}
+
