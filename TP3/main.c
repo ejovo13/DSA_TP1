@@ -6,6 +6,10 @@
 
 void t_linspace();
 void t_range();
+void partie_b();
+double raisedBy10(double);
+Vector *logspace(double, double, int);
+
 
 int main() {
 
@@ -79,6 +83,7 @@ int main() {
 
     t_linspace();
     t_range();
+    partie_b();
 
 
     return 0;
@@ -107,4 +112,77 @@ void t_range() {
     Matrix_free(v);
 
 
+}
+
+void partie_b() {
+
+    #define MAX_POWER 4 // 10^6 is already really SLOW!!!
+    #define N_GRAPHS 50
+
+    int length = MAX_POWER * 30;
+
+    Vector *N = logspace(1, MAX_POWER, length);
+
+    Matrix_print(N);
+
+    Vector *mean_height = Matrix_new(1, length);
+    Vector *mean_deq = Matrix_new(1, length);
+    Vector *log2_n = Matrix_new(1, length);
+
+    int n = 0;
+    BinTree *root = NULL;
+    int cum_height = 0;
+    int cum_deq = 0;
+
+    // Now iterate through the different N values
+    for (int i = 0; i < length; i++) {
+
+
+        n = Vector_at(N, i);
+        printf("Testing n = %d\n", n);
+        cum_height = 0;
+        cum_deq = 0;
+
+        // Now generate 50 graphs
+        for (int j = 0; j < N_GRAPHS; j++) {
+
+            root = createRandomTree(n);
+
+            cum_height += heightBST(root);
+            cum_deq += deqFactor(root);
+
+        }
+
+        Vector_set(mean_height, i, (double) cum_height / N_GRAPHS);
+        Vector_set(mean_deq, i, (double) cum_deq / N_GRAPHS);
+        Vector_set(log2_n, i, log2(n));
+
+    }
+
+    // Now I've got the average Height and
+    // The average disequilibrium factor
+
+    printf("Average height:\n");
+    Matrix_print(mean_height);
+    printf("Average deq:\n");
+    Matrix_print(mean_deq);
+    printf("log2(n)");
+    Matrix_print(log2_n);
+
+
+}
+
+double raisedBy10(double __input) {
+    return pow(10, __input);
+}
+
+Vector *logspace(double __start, double __end, int __n) {
+
+    Vector *exp = linspace(__start, __end, __n);
+
+    Vector *out = Vector_map(exp, raisedBy10);
+
+    Matrix_free(exp);
+
+    return out;
 }
