@@ -1,0 +1,3 @@
+[submodule "Informatique-TP"]
+	path = Informatique-TP
+	url = git@github.com:ejovo13/Informatique-TP.git
