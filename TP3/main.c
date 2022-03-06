@@ -2,6 +2,10 @@
 // #include "include/ejovo_rand.h"
 // #include "ejovo/ejovo_rand.c"
 #include "tree.h"
+#include "ejovo_matrix.h"
+
+void t_linspace();
+void t_range();
 
 int main() {
 
@@ -73,9 +77,34 @@ int main() {
 
     printf("Depth(rando, 10): %d\n", depthKey(rando, 10));
 
+    t_linspace();
+    t_range();
+
 
     return 0;
 }
 
 
 // Let's start gathering some data for different random variables
+void t_linspace() {
+
+    printf("Starting linspace!\n");
+
+    Matrix *v = linspace(0, 100, 10);
+    Matrix_print(v);
+
+    Matrix_free(v);
+
+}
+
+void t_range() {
+
+
+    Vector *v = range(1, 100, 3);
+
+    Matrix_print(v);
+
+    Matrix_free(v);
+
+
+}
