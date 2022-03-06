@@ -1,0 +1,16 @@
+site_name: TP3 Arbre Binaires
+
+site_description: High level API for the functions defined for TP3
+site_author: Evan Voyles
+
+# repo_url: https://github.com/ejovo13/DSA_TP1
+
+theme:
+  # name: mkdocs
+  name: readthedocs
+  # nav_style: dark
+  hljs_style: monokai
+
+# nav:
+#   - 'index.md'
+#   - 'bintree.md'
