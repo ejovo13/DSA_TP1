@@ -36,20 +36,20 @@ int main() {
 
     // BinTree *three = getKey(root, 3);
 
-    removeKey(root, 3);
-    createDotBST(root, "test_rem3.dot");
+    // removeKey(root, 3);
+    // createDotBST(root, "test_rem3.dot");
 
-    deleteKey(root, 13);
-    createDotBST(root, "test_rem13.dot");
+    // deleteKey(root, 13);
+    // createDotBST(root, "test_rem13.dot");
 
-    removeKey(root, 1);
-    createDotBST(root, "test_rem1.dot");
+    // removeKey(root, 1);
+    // createDotBST(root, "test_rem1.dot");
 
 
 
-    removeKey(root, 10);
-    // removeHead(&root);
-    createDotBST(root, "test_rem10.dot");
+    // removeKey(root, 10);
+    // // removeHead(&root);
+    // createDotBST(root, "test_rem10.dot");
 
     // printf("three: %x\n", three); // it appears that searching for a node that doesnt exist returns null.
 
@@ -76,3 +76,6 @@ int main() {
 
     return 0;
 }
+
+
+// Let's start gathering some data for different random variables
