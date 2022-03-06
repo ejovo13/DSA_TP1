@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "ejovo_rand.h"
 
 typedef struct binary_tree_t {
 
@@ -91,17 +92,38 @@ void createDotBST(const BinTree *__bst, const char *__filename) {
 
 }
 
+void getParent_(BinTree *__bst, int __key, BinTree **__out) {
+
+    if (!__bst) return;
+
+    if (__bst->key == __key) {
+        *__out = __bst;
+        return;
+    };
+
+    if (__bst->right && __bst->right->key == __key) {
+        *__out = __bst;
+        return;
+    }
+    if (__bst->left  &&  __bst->left->key == __key) {
+        *__out = __bst;
+        return;
+    }
+
+    if (__bst->right) getParent_(__bst->right, __key, __out);
+    if (__bst->left)  getParent_(__bst->left,  __key, __out);
+
+
+
+}
+
 BinTree *getParent(BinTree *__bst, int __key) {
 
-    if (!__bst) return NULL;
+   BinTree *out = NULL;
 
-    if (__bst->key == __key) return __bst;
+   getParent_(__bst, __key, &out);
 
-    if (__bst->right && __bst->right->key == __key) return __bst;
-    if (__bst->left  &&  __bst->left->key == __key) return __bst;
-
-    if (__bst->right) return getParent(__bst->right, __key);
-    if (__bst->left)  return getParent(__bst->left,  __key);
+   return out;
 
 }
 
@@ -119,19 +141,27 @@ BinTree *getNextKey(const BinTree *__bst) {
 
 }
 
+void getKey_(BinTree *__bst, int __key, BinTree **__out) {
+
+    if (__bst->key == __key) {
+        *__out = __bst;
+        return;
+    }
+
+    if (__bst->right) getKey_(__bst->right, __key, __out);
+    if (__bst->left ) getKey_(__bst->left , __key, __out);
+
+}
 // Return a pointer to the node that contains the key entered as an argument
 BinTree *getKey(BinTree *__bst, int __key) {
 
-    // printf("Visiting key: %d\n", __bst->key);
+    BinTree *out = NULL;
 
-    if (__bst->key == __key) return __bst;
+    getKey_(__bst, __key, &out);
 
-    if (__bst->right) getKey(__bst->right, __key);
-    if (__bst->left)  getKey(__bst->left, __key);
-
-    // printf("Reached end of the line, now returning NULL\n");
-    // return NULL;
+    return out;
 }
+
 
 bool nodeIsLeaf(const BinTree *__bst) {
     return (!__bst->left && !__bst->right);
@@ -151,73 +181,178 @@ int numChildren(const BinTree *__bst) {
 
 }
 
+BinTree *getOnlyChild(const BinTree *__parent) {
+
+    if (!__parent) return NULL;
+
+    if (__parent->left) return __parent->left;
+    if (__parent->right) return __parent->right;
+
+    return NULL;
+
+}
+
+// Take the chain 10 -> 13 -> 25 as an example. collapseChain(parent) => 10 -> 25,
+// where parent has the key 10.
+// parent may have two children and __key specifies which direction to collapse.
+// The child with key value __key must only have one child
+// return the middle value that is popped.
+BinTree *collapseChain(BinTree *__parent, int __key) {
+
+    BinTree *child = NULL;
+
+    bool isOnLeftSide = false; // check if the child that we want is on the left side of the parent.
+
+    if (__parent->right && __parent->right->key == __key) child = __parent->right;
+    if (__parent->left  && __parent->left ->key == __key) {
+        child = __parent->left ;
+        isOnLeftSide = true;
+    }
+
+    if (isOnLeftSide) {
+        __parent->left = getOnlyChild(child);
+    } else {
+        __parent->right = getOnlyChild(child);
+    }
+
+    child->right = NULL;
+    child->left = NULL;
+
+    return child;
+}
+
 // bool hasChild(const BinTree *__bst)
 
 // Need to implement a procedure to REMOVE a node from a tree.
+// This prodcedure will effectively pop the target key from the BST.
+// If you would instead like to free the key, call deleteKey()
 BinTree *removeKey(BinTree *__bst, int __key) {
 
     // First and foremost I need to locate the actual key.
     BinTree *node = getKey(__bst, __key);
-    if (!node) return NULL;
+
+    printf("Node found with key: %d\n", node->key);
+
+    if (!node) {
+        printf("ERROR - couldnt find key %d\n", __key);
+        return NULL;
+    }
     BinTree *parent = getParent(__bst, __key);
+
+    printf("Removing key %d with parent %d\n", node->key, parent->key);
 
     // 1. The node is a leaf
     if (nodeIsLeaf(node)) {
-        if (nodeOnLeft(node, parent)) { // then the node is on the left of the parent
+
+        printf("Node is a LEAF\n");
+
+        if (nodeOnLeft(parent, node)) { // then the node is on the left of the parent
+            printf("Node is on the left\n");
             parent->left = NULL; // remove from the tree.
+            return node;
         } else {
             parent->right = NULL;
+            return node;
         }
     }
 
     // 2. The node has a single child
     if (numChildren(node) == 1) {
-        if (node->left) {
-            if (nodeOnLeft(node, parent)) {
-                parent->left = node->left;
-            } else {
-                parent->right = node->left;
-            }
-        } else if (node->right) {
-            if (nodeOnLeft(node, parent)) {
-                parent->left = node->right;
-            } else {
-                parent->right = node->right;
-            }
-        }
+
+        return collapseChain(parent, node->key);
+
+        // printf("Node has ONE child\n");
+        // if (node->left) {
+        //     if (nodeOnLeft(parent, node)) {
+        //         parent->left = node->left;
+        //         return node;
+        //     } else {
+        //         parent->right = node->left;
+        //         return node;
+        //     }
+        // } else if (node->right) {
+        //     // printf("Replacing %d with node on the right, %d\n", node->key, next->key)
+        //     // ");
+        //     // !! I SHOULD BE REPLACING THE RIGHT SIDE HERE...
+        //     if (nodeOnLeft(parent, node)) {
+        //         printf("child: %d <= parent: %d\n", node->key, parent->key);
+        //         printf("Replacing left side of %d  with right side of %d\n", parent->key, node->key);
+        //         parent->left = node->right;
+        //         return node;
+        //     } else {
+        //         printf("Replacing right side of %d  with right side of %d\n", parent->key, node->key);
+        //         parent->right = node->right;
+        //         return node;
+        //     }
+        // }
     }
 
-    // 2. The node has two children. In this case, we find the next
+    // 3. The node has two children. In this case, we find the next
     // largest key and replace that with the node we want to delete, and then remove
     // the next largest key.
 
+    if (numChildren(node) == 2) {
+        printf("Node has TWO children\n");
 
-    // Need to consider some cases...
-    // if the node to remove is the root...
-    // if (node == __bst) {
-    //     BinTree *next = getNextKey(__bst);
-    //     BinTree *parent = getParent(__bst, next->key);
+        BinTree *next = getNextKey(node);
+
+        printf("Replacing %d with %d\n", node->key, next->key);
+
+        int tmp = node->key;
+        node->key = next->key;
+        next->key = tmp;
+        // switch the values
+
+        printf("Top node now contains %d, bottom node: %d\n", node->key, next->key);
+
+        // let's handle the removal manually instead of relying on the removeKey function
+        // at this stage we've reversed the two values.
 
 
 
-    // } else if (true) {
 
-    // }
+        // And now remove the same value
+        return removeKey(getParent(node, tmp), tmp);
 
+    }
 
 }
 
-// BinTree *getParent(BinTree *__bst, int __key) {
+// I would like a special case to remove a key that is the head.
+// Return a pointer to the old head and change the root pointer
+// in place
+// BinTree *removeHead(BinTree **__bst) {
 
-//     if (!__bst) return NULL;
+//     BinTree *root = *__bst;
 
-//     if (__bst->key == __key) return __bst;
+//     removeKey(root, root->key);
 
-//     if (__bst->right && __bst->right->key == __key) return __bst;
-//     if (__bst->left  &&  __bst->left->key == __key) return __bst;
+//     printf("New head key: %d\n", root->key);
 
-//     if (__bst->right) return getParent(__bst->right, __key);
-//     if (__bst->left)  return getParent(__bst->left,  __key);
+//     return NULL;
 
 // }
+
+void deleteKey(BinTree *__bst, int __key) {
+
+    BinTree *node = removeKey(__bst, __key);
+    free(node);
+
+}
+
+// Create a random binary search tree with the elements of a randomly suffled set of the integers {1, ... , n}
+BinTree *createRandomTree(int __n) {
+
+    int *fischer = fischer_yates(__n);
+
+    BinTree *root = newBinTree(fischer[0]);
+
+    for (int i = 1; i < __n; i++) {
+        addKeyBST(root, fischer[i]);
+    }
+
+    free(fischer);
+
+    return root;
+}
 
