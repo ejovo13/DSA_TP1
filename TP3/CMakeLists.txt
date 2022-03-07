@@ -16,7 +16,7 @@ add_subdirectory(src)
 add_subdirectory(test)
 
 ## Add the informatique TP as a dependency...
-add_subdirectory(${CMAKE_SOURCE_DIR}/../Informatique-TP ${CMAKE_BINARY_DIR}/dependency)
+add_subdirectory(${CMAKE_SOURCE_DIR}/../libejovo ${CMAKE_BINARY_DIR}/dependency)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
