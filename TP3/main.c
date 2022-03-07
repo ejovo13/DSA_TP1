@@ -17,8 +17,6 @@ bool lessThan10(double x);
 
 Vector *filter(const Vector *__v, predicate_fn __pred);
 
-
-
 /* I'm gonna get a little out of hand here and implement some additional data types that I will eventually be able to
 use as a data.frame like object */
 
@@ -294,6 +292,8 @@ bool uniformSpace(const Space *__space) {
 // Now I want a structure that is a pointer to a chain and a pointer to a space.
 // This object will be used for data exportation
 
+// I should also be able to add a new column to a data frame
+// when given a string and a conforming vector
 typedef struct data_frame_t {
 
     Chain *chain;
@@ -377,6 +377,25 @@ void foreachVector(const DataFrame *__df, vector_fn fn) {
     }
 }
 
+// print the name of the col and then the first __nel elements
+void printDataFrameCol(const String *__str, const Vector *__v) {
+
+    print(__str);
+    printf(": ");
+
+    int nel = 10;
+    // Print the first __nel elements
+    int n = nel < Matrix_size(__v) ? nel : Matrix_size(__v); // get the smaller element
+
+    printf("{");
+
+    for (int i = 0; i < n - 1; i++) {
+        printf("%7.3lf, ", Vector_at(__v, i));
+    }
+
+    printf("%7.3lf}\n", Vector_at(__v, n - 1));
+
+}
 
 void printDataFrame(const DataFrame *__df) {
 
@@ -385,9 +404,62 @@ void printDataFrame(const DataFrame *__df) {
     int nobs = Matrix_size(__df->space->data);
 
     printf("Df with %d observations and %d colums\n", nobs, dimDataFrame(__df));
+    foreachSV(__df, printDataFrameCol);
 
 }
 
+void writeCSV(const DataFrame *__df, const char *__filename) {
+
+    if (!__df) return;
+
+    FILE *f = fopen(__filename, "w");
+
+    // the first line is all of the strings, separated with a column
+    Chain *it = __df->chain;
+
+    while (it->next) {
+
+        fprintf(f, "%s,", it->data->str);
+        it = it->next;
+    }
+    fprintf(f, "%s\n", it->data->str);
+
+    // now iterate through all of vectors, accessing the ith print at each point.
+
+    int size = Vector_size(__df->space->data);
+
+    for (int i = 0; i < size; i++) {
+
+        Space *it = __df->space;
+
+        while (it->next) {
+
+            fprintf(f, "%lf,", Vector_at(it->data, i));
+            it = it->next;
+        }
+        fprintf(f, "%lf\n", Vector_at(it->data, i));
+    }
+
+    fclose(f);
+
+}
+
+// Return a pointer to the column in question
+// Columns shall be ZERO indexed
+Vector *getColDF(const DataFrame *__df, int __j) {
+
+    if (!__df) return NULL;
+
+    const Space *it = __df->space;
+
+    while (it && __j > 0) {
+        it = it->next;
+        __j --;
+    }
+
+    if (it) return it->data;
+    else return NULL;
+}
 
 void t_space() {
 
@@ -406,18 +478,74 @@ void t_space() {
 
 }
 
+void printMax(const Vector *__v) {
+    // let's simply print out to the console the max of each row
+    printf("max of vec: %7.3lf\n", max(__v));
+}
+
+void printMin(const Vector *__v) {
+    printf("min of vec: %7.3lf\n", min(__v));
+}
+
 void t_dataframe() {
 
-    Vector *v1 = Matrix_rand(10, 1);
-    Vector *v2 = Matrix_rand(10, 1);
-    Vector *v3 = Matrix_rand(10, 1);
+    int N = 10000;
 
-    Space *s = newSpaceVar(3, v1, v2, v3);
-    Chain *c = newChainVar(3, "v1", "v2", "v3");
+    Vector *v1 = Matrix_rand(N, 1);
+    Vector *v2 = Matrix_rand(N, 1);
+    Vector *v3 = Matrix_rand(N, 1);
+    Vector *v4 = Matrix_rand(N, 1);
+    Vector *v5 = Matrix_rand(N, 1);
+    Vector *v6 = Vector_runif(N, 0, 10);
+
+    Space *s = newSpaceVar(6, v1, v2, v3, v4, v5, v6);
+    // Space *s = newSpaceVar(5, v1, v2, v3, v4, v5);
+    Chain *c = newChainVar(6, "v1", "v2", "v3", "v4", "v5", "v6");
 
     DataFrame *df = newDataFrame(c, s);
     printDataFrame(df);
 
+    // foreachString(df, println);
+
+    // foreachVector(df, printMax);
+    // foreachVector(df, printMin);
+
+    writeCSV(df, "test.csv");
+
+    Vector *test1 = getColDF(df, 5);
+    Vector *test2 = getColDF(df, 5);
+
+    // Matrix_print(test1);
+    Vector_print_head(test1, 5);
+    Vector_print_head(test2, 5);
+
+    printf("correlation coefficient between v6 and itself: %lf\n", cor(test1, test2));
+
+    printf("var of test1: %lf\n", var(test1));
+    printf("mean of test1: %lf\n", mean(test1));
+    printf("mean_sqaured: %lf\n", mean_squared(test1));
+
+    printf("first raw moment of test1: %lf\n", rmoment(test1, 1));
+    printf("second raw moment %lf\n", rmoment(test1, 2));
+
+
+
+    printf("zeroth central moment of test1: %lf\n", cmoment(test1, 0));
+    printf("first central moment of test1: %lf\n", cmoment(test1, 1));
+    printf("second central moment of test1: %lf\n", cmoment(test1, 2));
+    printf("third central moment of test1: %lf\n", cmoment(test1, 3));
+
+
+
+    Vector *t = Matrix_from((double []) {1, 2, 3}, 3, 1);
+
+    Matrix_print(t);
+
+    mathadexp(t, 2);
+    Matrix_print(t);
+
+    // Print correlation between row 6 and itself.
+    // Need routines to access a pointer to the nth column
 
 }
 
