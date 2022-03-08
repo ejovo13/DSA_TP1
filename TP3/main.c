@@ -17,6 +17,8 @@ bool lessThan10(double x);
 
 Vector *filter(const Vector *__v, predicate_fn __pred);
 
+
+
 /* I'm gonna get a little out of hand here and implement some additional data types that I will eventually be able to
 use as a data.frame like object */
 
@@ -45,7 +47,7 @@ String *newStr(const char *__str) {
 
     // it's way faster to just copy over the bytes.
 
-    memcpy(str->str, __str, len);
+    memcpy(str->str, __str, len + 1);
     // for (int i = 0; i < len; i++) {
     //     str->str[i] = __str[i];
     // }
@@ -549,6 +551,59 @@ void t_dataframe() {
 
 }
 
+void t_demo() {
+
+    Matrix *m = Matrix_value(10, 10, 5);
+
+    Matrix_print(m);
+
+    Matrix *A = Matrix_rand(4, 3);
+    Matrix *B = Matrix_random(8, 13, 0, 200);
+
+    Matrix_print_fixed(A);
+    Matrix_print_fixed(B);
+
+    Matrix_reset(&A);
+    Matrix_reset(&B);
+
+    Vector *v = Vector_runif(100, -3, 8);
+    // Vector_print_as_row(
+    // )
+
+    Vector_print_head(v, 15);
+
+    v = Vector_linspace(0, 25, 9);
+
+    Matrix_print_fixed(v);
+
+    int n = 100;
+
+    Chain *c = newChainVar(3, "Discrete uniform    ", "Continuous Uniform  ", "Standord Normal     ");
+    Space *s = newSpaceVar(3, Vector_rand(n), Vector_runif(n, -5, 5), Vector_rnorm(n, 0, 1));
+
+    DataFrame *df = newDataFrame(c, s);
+
+    printDataFrame(df);
+
+    printf("Mean: %lf\n", mean(getColDF(df, 2)));
+    printf("std:  %lf\n",  std(getColDF(df, 2)));
+
+    Vector *rnorm = Vector_rnorm(1000, 0, 1);    // 1000 samples of X ~ N(0, 1)
+    Vector *runif = Vector_runif(1000, -10, 10); // 1000 samples of X ~ U(-10, 10)
+    Vector *rexp  = Vector_rexp (1000, 3);     // 1000 samples of an exponential distribution with rate parameter `1/3`
+
+    Space *root_alt = newSpaceVar(3, rnorm, runif, rexp);
+    Chain *data_desc = newChainVar(3, "X ~ N(0 1)", "Y ~ U(-10 10)", "Z ~ exp(rate = 3)");
+
+    // println(data_desc->data);
+
+    DataFrame *d = newDataFrame(data_desc, root_alt);
+    printDataFrame(d);
+
+    writeCSV(d, "df.csv");
+    // Vector_
+}
+
 
 
 int main() {
@@ -629,6 +684,7 @@ int main() {
     t_string();
     t_space();
     t_dataframe();
+    t_demo();
 
     return 0;
 }
