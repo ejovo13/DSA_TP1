@@ -5,7 +5,9 @@
 
 # Travaux Pratiques pour Algorithmique Générale
 
-This repository documents the work that I've done for a general introduction to data structures and algorithms.
+A high-level overview can be found [here](https://dsa-tp1.readthedocs.io/en/latest/)
+
+This repository documents the work that I've done for a an introduction to data structures and algorithms course.
 
 ## TP1
 
@@ -16,3 +18,7 @@ This TP focused on analyzing complexity and learning a practical application of 
 A high-level API overview can be found [here](https://polytech-sorbonne-main-tp2.readthedocs.io/en/latest/), while more technical details generated with Doxygen can be found [here](https://ejovo13.github.io/DSA_TP1/)
 
 This TP contained problems dealing with graphs, and various other data types like stacks and queues used to support numerous graph procedures. Main topics consist of depth-first search (DFS) and breadth-first search (BFS)
+
+## TP3
+
+This TP 
