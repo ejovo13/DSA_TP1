@@ -1,11 +1,11 @@
-# TP3 Binary Search Trees
+# Binary Search Trees
 
 This documentation shows the usage of the functions that are used in order as they appear in the TP3 document.
 
 ### Part A
 ##### BinTree Structure
 
-For a more information, consult [BinTree](./bintree.md)
+For more information, consult [BinTree](./bintree.md)
 
 ##### Insertion
 To insert an element, simply call `addKeyBST`

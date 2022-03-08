@@ -1,1 +1,0 @@
-Here are some nifty graphs my dude
