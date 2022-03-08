@@ -3,5 +3,5 @@ version: 2
 # docs_dir: TP2/docs
 
 mkdocs:
-  configuration: TP2/mkdocs.yml
+  configuration: ./mkdocs.yml
   fail_on_warning: false
