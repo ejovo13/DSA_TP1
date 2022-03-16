@@ -239,6 +239,8 @@ BinTree *collapseChain(BinTree *__parent, int __key) {
 // If you would instead like to free the key, call deleteKey()
 BinTree *removeKey(BinTree *__bst, int __key) {
 
+    if (!__bst) return NULL;
+
     // First and foremost I need to locate the actual key.
     BinTree *node = getKey(__bst, __key);
 
@@ -442,4 +444,34 @@ int countNodes(const BinTree *__root) {
     if (!__root) return 0;
 
     return 1 + countNodes(__root->right) + countNodes(__root->left);
+}
+
+bool isElement(const BinTree *__root, int __key) {
+
+    if (!__root) return false;
+
+    if (__root->key == __key) return true;
+
+    return isElement(__root->right, __key) || isElement(__root->left, __key);
+}
+
+#ifndef VAL_MIN_BST
+#define VAL_MIN_BST 0
+#endif
+
+#ifndef VAL_MAX_BST
+#define VAL_MAX_BST 10000
+#endif
+
+BinTree *randomBST(int __n) {
+
+    if (__n <= 0) return NULL;
+
+
+    Vector *rand_keys = Vector_random(__n, VAL_MIN_BST, VAL_MAX_BST);
+
+
+
+
+
 }

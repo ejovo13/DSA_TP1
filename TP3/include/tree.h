@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "ejovo_rand.h"
+#include "ejovo_matrix.h"
 
 
 typedef struct binary_tree_t {
@@ -114,3 +115,7 @@ int depthKey(const BinTree *__root, int __key);
 
 // count the number of nodes in a binary search tree.
 int countNodes(const BinTree *__root);
+
+// return true if __key is already an element in the binary search tree.
+bool isElement(const BinTree *__root, int __key);
+
