@@ -1,5 +1,3 @@
-add_library(tp3 ejovo_rand.c tree.c)
-
-if (UNIX)
-    target_link_libraries(tp3 PUBLIC m)
-endif (UNIX)
+add_library(tp3 tree.c)
+target_link_libraries(tp3 ejovo)
+target_include_directories(tp3 PUBLIC EJOVO_INCLUDE)

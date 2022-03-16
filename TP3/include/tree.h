@@ -15,6 +15,8 @@ typedef struct binary_tree_t {
 } BinTree;
 
 // A Tourist visits the nodes of a BinTree and keeps track of how long they've been travelling
+// Tourists are used when deleting a key and we need to know how many levels I went down to find a
+// nodes replacement
 typedef struct tourist_t {
 
     const struct binary_tree_t *this;
@@ -38,6 +40,12 @@ void addKeyBST(BinTree *__bst, int __key);
 
 // Let's remove a key and free the node.
 void removeKeyBST(BinTree *__bst, int __key);
+
+void releaseBST(BinTree **__bst);
+
+// recursively release the memory associated with this node,
+// performing 0 checks
+void releaseBST_(BinTree *__bst);
 
 
 void printBST(const BinTree *__bst);
@@ -104,3 +112,5 @@ void depthKey_(const BinTree *__root, int __key, Tourist __t, int *__count);
 // Return the depth of the key that contains the node
 int depthKey(const BinTree *__root, int __key);
 
+// count the number of nodes in a binary search tree.
+int countNodes(const BinTree *__root);

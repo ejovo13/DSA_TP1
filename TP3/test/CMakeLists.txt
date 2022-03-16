@@ -10,7 +10,7 @@ list(APPEND TESTS
     # queue
     # stack
     # graph
-    addkey
+    dsa_tp3
 )
 
 list(APPEND TEST_LIBS

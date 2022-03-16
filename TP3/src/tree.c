@@ -1,6 +1,5 @@
 #include "tree.h"
 
-
 Tourist *newTourist(const BinTree *__bst) {
 
     Tourist *t = (Tourist *) malloc(sizeof(Tourist));
@@ -243,7 +242,7 @@ BinTree *removeKey(BinTree *__bst, int __key) {
     // First and foremost I need to locate the actual key.
     BinTree *node = getKey(__bst, __key);
 
-    printf("Node found with key: %d\n", node->key);
+    // printf("Node found with key: %d\n", node->key);
 
     if (!node) {
         printf("ERROR - couldnt find key %d\n", __key);
@@ -251,15 +250,15 @@ BinTree *removeKey(BinTree *__bst, int __key) {
     }
     BinTree *parent = getParent(__bst, __key);
 
-    printf("Removing key %d with parent %d\n", node->key, parent->key);
+    // printf("Removing key %d with parent %d\n", node->key, parent->key);
 
     // 1. The node is a leaf
     if (nodeIsLeaf(node)) {
 
-        printf("Node is a LEAF\n");
+        // printf("Node is a LEAF\n");
 
         if (parent->left->key == node->key) { // then the node is on the left of the parent
-            printf("Node is on the left\n");
+            // printf("Node is on the left\n");
             parent->left = NULL; // remove from the tree.
             return node;
         } else {
@@ -304,18 +303,18 @@ BinTree *removeKey(BinTree *__bst, int __key) {
     // the next largest key.
 
     if (numChildren(node) == 2) {
-        printf("Node has TWO children\n");
+        // printf("Node has TWO children\n");
 
         BinTree *next = getNextKey(node);
 
-        printf("Replacing %d with %d\n", node->key, next->key);
+        // printf("Replacing %d with %d\n", node->key, next->key);
 
         int tmp = node->key;
         node->key = next->key;
         next->key = tmp;
         // switch the values
 
-        printf("Top node now contains %d, bottom node: %d\n", node->key, next->key);
+        // printf("Top node now contains %d, bottom node: %d\n", node->key, next->key);
 
         // let's handle the removal manually instead of relying on the removeKey function
         // at this stage we've reversed the two values.
@@ -350,6 +349,28 @@ void deleteKey(BinTree *__bst, int __key) {
     BinTree *node = removeKey(__bst, __key);
     free(node);
 
+}
+
+// Free all of the nodes that are connected to this binary search tree
+// and nullify the pointer.
+void releaseBST(BinTree **__bst) {
+
+    if (!__bst) return;
+    if (!*__bst) return;
+
+    releaseBST_(*__bst);
+
+    *__bst = NULL;
+}
+
+// recursively release the memory associated with this node,
+// performing 0 checks
+void releaseBST_(BinTree *__bst) {
+
+    if (__bst->right) releaseBST_(__bst->right);
+    if (__bst->left)  releaseBST_(__bst->left);
+
+    free(__bst);
 }
 
 // Create a random binary search tree with the elements of a randomly suffled set of the integers {1, ... , n}
@@ -415,3 +436,10 @@ int depthKey(const BinTree *__root, int __key) {
 
 }
 
+// I'm having trouble implementing these "pure" recursive routines.
+int countNodes(const BinTree *__root) {
+
+    if (!__root) return 0;
+
+    return 1 + countNodes(__root->right) + countNodes(__root->left);
+}

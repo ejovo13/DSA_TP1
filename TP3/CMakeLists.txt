@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 enable_testing(ON)
 
 include_directories(include)
-include_directories(ejovo)
 
 set(BIN ${CMAKE_SOURCE_DIR}/bin) # Include test binaries
 set(SRC ${CMAKE_SOURCE_DIR}/src)
