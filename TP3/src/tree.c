@@ -257,7 +257,10 @@ BinTree *removeKey(BinTree *__bst, int __key) {
     // 1. The node is a leaf
     if (nodeIsLeaf(node)) {
 
-        // printf("Node is a LEAF\n");
+        // basically if there is only one element in the tree
+        if (parent == __bst) {
+            return __bst;
+        }
 
         if (parent->left->key == node->key) { // then the node is on the left of the parent
             // printf("Node is on the left\n");

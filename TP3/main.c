@@ -3,16 +3,25 @@
 // #include "ejovo/ejovo_rand.c"
 #include "tree.h"
 #include "ejovo_matrix.h"
+#include "ejovo_rand.h"
 #include "ejovo_dataframe.h" // used to store values and make writing to csv super easy.
+#include "list.h"
 
 void partie_a();
 void partie_b();
+void partie_c(const int n, const int valMin, const int valMax);
 
+// #define N 10
+// #define valMin 0
+// #define v
 
 int main() {
 
     ejovo_seed(); // Seed the random number generator
 
+    // partie_a();
+    // partie_b();
+    partie_c(10, 0, 50);
 
     return 0;
 }
@@ -97,5 +106,122 @@ void partie_b() {
     Matrix_print(mean_deq);
     printf("log2(n)\n");
     Matrix_print(log2_n);
+
+}
+
+
+
+
+
+void partie_c(const int n, const int valMin, const int valMax) {
+
+    // Instaniate the machinery I need to tackle this problem
+
+    // generer uniformement SIZE_BST cles, toutes entre MIN_VALUE et MAX_VALUE
+    Vector *rando = Vector_random(n, valMin, valMax);
+    List *list = newList();
+    BinTree *tree = newBinTree(Vector_first(rando)); // instantiate the tree with the first element
+    appendList(list, tree->key);
+
+    int size_tree = 1;
+
+    int to_remove = -1;
+    int to_add    = -1;
+    Node *rem     = NULL;
+    double p      = -1;
+
+    for (int i = 1; i < n; i++) {
+
+        printList(list);
+        char buff[20] = {0};
+
+        sprintf(buff, "tree%d.dot", i);
+
+        printf("writing to %s\n", buff);
+        createDotBST(tree, buff);
+        printf("Starting iteration with i: %d, size_tree: %d, lenList: %d\n", i, size_tree, lenList(list));
+        printf("real size: %d\n", countNodes(tree));
+
+        // if size is 0
+        if (size_tree == 0) {
+
+            // then add to the tree.
+            to_add = Vector_at(rando, i);
+            printf("Tree is empty, adding %d\n", to_add);
+
+            appendList(list, to_add);
+
+            if (tree = NULL) {
+                tree = newBinTree(to_add);
+            } else {
+                addKeyBST(tree, to_add);
+            }
+
+            size_tree ++;
+            continue;
+        }
+
+        // generer a number between 0 and 1
+        p = unifd(0, 1);
+        // printf("Generating a random number p: %lf\n", p);
+
+        if (p < 0.5) {
+            // proceed to insert
+            add_element:
+            to_add = Vector_at(rando, i);
+
+            if (isElementList(list, to_add)) {
+                // then don't add this number right?
+                i++;
+                printf("Element already exists in the tree\n");
+                goto add_element;
+            } else {
+                // add the element
+                appendList(list, to_add);
+                addKeyBST(tree, to_add);
+                size_tree ++;
+
+                continue;
+            }
+
+        } else {
+            // Deal with single element
+            if (size_tree == 1) {
+                printf("Removing singular element\n");
+                free(tree);
+                tree = NULL;
+                size_tree = 0;
+                free(extractNode(list, 0));
+                continue;
+            }
+
+            // otherwise remove a random key
+            // generate the index from 0 to lenList() - 1 for a key to remove
+            int index = unif(0, size_tree - 1);
+
+            // printList(list);
+            rem = extractNode(list, index);
+            to_remove = rem->val;
+            // free(extractNode(list, index)); //remove node from list, free it at the same time
+
+            printf("Removing %d -> ", to_remove);
+            printList(list);
+
+            // printf("Is %d even in my graph?: %d\n", to_remove, isElement(tree, to_remove));
+            size_tree --;
+            printf("removed key: %d\n", removeKey(tree, to_remove)->key);
+
+            continue;
+
+        }
+
+
+
+
+    }
+
+
+
+
 
 }
