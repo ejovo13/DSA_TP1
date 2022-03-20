@@ -19,9 +19,9 @@ int main() {
 
     ejovo_seed(); // Seed the random number generator
 
-    // partie_a();
-    // partie_b();
-    partie_c(10, 0, 50);
+    partie_a();
+    partie_b();
+    // partie_c(10, 0, 50);
 
     return 0;
 }
@@ -54,10 +54,10 @@ void partie_a() {
 
 void partie_b() {
 
-    #define MAX_POWER 2 // 10^6 is already really SLOW!!!
+    #define MAX_POWER 5 // 10^6 is already really SLOW!!!
     #define N_GRAPHS 50
 
-    int length = MAX_POWER * 30;
+    int length = MAX_POWER * 5;
 
     Vector *N = logspace(1, MAX_POWER, length);
 
@@ -97,15 +97,21 @@ void partie_b() {
 
     }
 
+    // Now let's save the data in a data frame
+
+    DataFrame *df = newDataFrame(newChainVar(4, "n", "u_height", "u_deq", "log2n"), newSpaceVar(4, Matrix_as_index(N), mean_height, mean_deq, log2_n));
+
+    writeCSV(df, "average_data.csv");
+
     // Now I've got the average Height and
     // The average disequilibrium factor
 
-    printf("Average height:\n");
-    Matrix_print(mean_height);
-    printf("Average deq:\n");
-    Matrix_print(mean_deq);
-    printf("log2(n)\n");
-    Matrix_print(log2_n);
+    // printf("Average height:\n");
+    // Matrix_print(mean_height);
+    // printf("Average deq:\n");
+    // Matrix_print(mean_deq);
+    // printf("log2(n)\n");
+    // Matrix_print(log2_n);
 
 }
 

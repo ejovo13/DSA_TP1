@@ -1,0 +1,206 @@
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[10pt]{article} % use larger type; default would be 10pt
+
+\input{preamble.tex}
+
+\begin{document}
+
+% \vspace{-10pt}
+% This is the PERFECT SCALING, now we need to adjust the scale a little bit.
+\begin{tikzpicture}[remember picture,overlay,yshift=-.2cm, xshift=1.75cm] % LMAOOOOOO This is the EXACT POSITION!!!!
+    \node at (0,0) {\includegraphics[width=4.0cm,height=1.6cm]{media/1280px-Logo_Polytech_Sorbonne.png}};
+\end{tikzpicture}
+
+% \hspace{-5cm}
+% \hspace{-1cm}
+% \hspace{-1cm}
+
+\vspace{-1cm}
+\vspace{0.3cm}
+
+{\raggedleft \color{mygold} Algorithmique générale\\
+MAIN-3, année 2022\\
+Séance TP N\degree 3\\
+Mars 2022\\
+VOYLES Evan\\}
+
+% This vspace accomodates my name
+\vspace{-0.42cm}
+\vspace{1.23cm}
+
+{\Large \noindent \color{mygold} Objectif}
+
+{\color{mygold}\noindent\rule{\textwidth}{1pt}}
+\vspace{0cm}
+\begin{itemize}
+    \item[{\color{mygold}\ding{43}}] Arbres binaires de recherche.
+\end{itemize}
+
+\vspace{1.2cm}
+{\color{dullgreen}\noindent \Large \bf Problème}
+
+\vspace{-0.28cm}
+{\vspace{0cm}\color{dullgreen}\noindent\rule{\textwidth}{1pt}}
+
+\begin{textblock*}{8.75cm}(10.16cm,7.2cm) % {block width} (coords)
+    \Large \aspurp{[Arbres binaires de recherce aléatoires]}
+\end{textblock*}
+
+\vspace{1cm}
+
+La documentation générale pour ce travail se trouve \href{https://polytech-sorbonne-main-tp2.readthedocs.io/en/latest/}{ici}, la documentation
+technique se trouve \href{https://ejovo13.github.io/DSA_TP1/}{là}, et \href{https://github.com/ejovo13/DSA_TP1}{voici} le répertoire git.
+
+\vspace{1cm}
+\noindent \asgold{Partie A :} \aspurp{Structure Abr}
+
+La structure \texttt{bin\_tree\_t} et toutes les fonctions définies autour cet objet encodent l'interface pour un arbre
+binaire de recherche.
+
+\begin{itemize}
+    % \item Réaliser un suivi à la trace de la procédure \verb|partitionBis| appliquée aux instances suivantes :
+    \item[\ding{43}] l'insertion d'une nouvelle clé dans l'arbre.
+\end{itemize}
+
+% /* #include "tree.h" */
+\begin{lstlisting}[language=C, keywordstyle=\color{objectPurp}, otherkeywords={root}]
+    // Instantiation
+    BinTree *root = newBinTree(10);
+
+    // insertion
+    |\color{functionColor}addKeyBST|(root, 1);
+    |\color{functionColor}addKeyBST|(root, 0);
+    |\color{functionColor}addKeyBST|(root, 13);
+    |\color{functionColor}addKeyBST|(root, 5);
+    |\color{functionColor}addKeyBST|(root, 8);
+    |\color{functionColor}addKeyBST|(root, 25);
+    |\color{functionColor}addKeyBST|(root, 3);
+\end{lstlisting}
+
+Cet extrait de code encode l'arbre suivant (obtenu après un appel à la fonction \texttt{createDotBST}) :
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.25\textwidth]{media/bintree.png}
+    \caption{L'arbre binaire créé au-dessus.}
+    \label{fig:first_tree}
+\end{figure}
+
+\begin{itemize}
+    \item[\ding{43}] la suppression d'une clé de l'arbre
+\end{itemize}
+
+Pour supprimer des clés de l'arbre, on appelle la fonction \texttt{removeKeyBST}. L'implémentation de cette fonction
+traite trois cas distincts qu'on doit considérer pour enlever une clé de l'arbre. Le premier cas est si le noeud que l'on
+souhaite enlever n'a pas d'enfans. Pour ce cas-là, il est facile de supprimer l'élément de l'arbre parce que nous pouvons tout
+simplement mettre à jour le pointeur de son ancêtre pour pointer vers \texttt{NULL}.
+
+\begin{lstlisting}[language=C, keywordstyle=\color{objectPurp}, otherkeywords={root}]
+    |\color{functionColor}removeKeyBST|(root, 3);
+\end{lstlisting}
+
+% \newpage
+
+ce qui donne :
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.25\textwidth]{media/rem3.png}
+\end{figure}
+
+Le deuxième cas qu'on considère c'est quand le noeud que l'on voudrait enlever a un seul enfant. Pour le résoudre, on fait "condenser"
+la chaine qui consiste aux trois noeuds : le parent, celui qu'on va supprimer, et le seul enfant du noeud à supprimer. Pour le visualiser, on va
+supprimer la clé 13 en condensant \{10, 13, 25\} $\mapsto$ \{10, 25\}.
+
+\begin{lstlisting}[language=C, keywordstyle=\color{objectPurp}, otherkeywords={root}]
+    |\color{functionColor}removeKeyBST|(root, 13);
+\end{lstlisting}
+
+pour avoir
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.25\textwidth]{media/rem13.png}
+\end{figure}.
+
+Un troisième cas s'apparait quand on veut supprimer un élément qui a deux enfants. Dans ce cas-là on devrait tout d'abord trouver
+la clé qui va remplacer celle à supprimer. Pour le trouver, on doit parcourir l'arbre à partir de clé ciblée pour trouver le prochain élément en
+termes de magnitude.
+
+\begin{lstlisting}[language=C, keywordstyle=\color{objectPurp}, otherkeywords={root}]
+    |\color{functionColor}removeKeyBST|(root, 1);
+\end{lstlisting}
+
+et l'arbre binaire qui en résulte :
+
+\newpage
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.25\textwidth]{media/rem1.png}
+\end{figure}.
+
+\begin{itemize}
+    \item [\ding{43}] la suppression de l'arbre.
+\end{itemize}
+
+Pour supprimer un arbre, on utilise la fonction \texttt{releaseBST} ce qui recois en argument un \astype{BinTree **} et qui free toute la mémoire qui est alloué par rapport à l'arbre binaire qui est
+representé par sa racine. On passe un \astype{BinTree **} et pas un \astype{BinTree *} parce qu'à la fin de
+libérer la mémoire on reinitialiser le pointeur à \texttt{NULL}.
+
+\begin{lstlisting}[language=C, keywordstyle=\color{objectPurp}, otherkeywords={root}]
+    |\color{functionColor}releaseBST|(&root); // |\color{commentGray}root| -> NULL
+\end{lstlisting}
+
+\begin{itemize}
+    \item [\ding{43}] \textit{facteur de déséquilibre}
+\end{itemize}
+
+Pour calculer la facteur de déséquilibre, on implémente tout d'abord une fonction qui calcule récursivement la hauteur d'un
+arbre binaire à partir d'une racine. Ensuite, on calcule la hauteur du sousarbe à gauche et le sousarbre à droite pour renvoyer la
+facteur de déséquilibre qui est la positive différence entre ces deux hauteurs.
+
+\begin{itemize}
+    \item [\ding{43}] l'export de votre arbre au format .dot
+\end{itemize}
+
+Pour ce faire on appelle la fonction \texttt{createDotBST} qui prend en argument la racine d'un arbre binaire à visualiser et
+deuxièmement le nombre d'un fichier pour sauvegarder le contenu. C'est cette fonction que l'on a utilisé pour créer les figures dans
+ce rapport.
+
+\vspace{1cm}
+\noindent \asgold{Partie B :} \aspurp{Hauteur moyenne et facteur de déséquilibre moyen}
+
+Le code pour cette partie se trouve dans la fonction \texttt{partie\_b} qui est définie dans le fichier \texttt{main.c} du projet.
+
+Grosso modo, on génère 50 tableaux de taille \asred{N} et on calcule le moyen hauteur et facteurs de déséquilibre. On à choisi les valeurs entre 0 et N - 1,
+mélangé par la procédure Fischer-Yates pour avoir des valeurs unique et aléatoire. Voici un exemple:
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.6\textwidth]{media/random.png}
+    \caption{Un arbre binaire aléatoire de hauteur 17, facteur de déséquilibre 6. La sous-arbre à gauche a une hauteur de 10 et celui à droite a une hauteur de 16.}
+\end{figure}.
+
+
+\newpage
+En fixant \texttt{tailleMax} à 10E5, l'on obtient les résultats suivants:
+
+\begin{figure}[h!]
+    \centering
+    \include{media/average_height.tex}
+    \vspace{-1cm}
+    \caption{Les variations du moyen facteur de déséquilibre et moyen hauteur par rapport à $\log_2 n$. Il est évident qu'il y a une corresponance linéaire entre nos statistiques observés et on peut constater que $\mu_f,\ \mu_{hauteur} \in \Theta(\log_2 n)$. }
+\end{figure}
+
+\vspace{1cm}
+\noindent \asgold{Remarques :}
+
+Le code source de ce document se trouve sur le github dans le répertoire \texttt{tex/}. Le binaire \texttt{bst} compilé pour x86-64 est inclu dans le zip rendu sur moodle. Sinon, vous pouvez téléchargé le projet
+et suivre les instructions du \texttt{README.md} pour construire le projet tp3.
+
+% \newpage
+\end{document}
