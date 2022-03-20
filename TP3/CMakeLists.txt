@@ -16,6 +16,7 @@ add_subdirectory(test)
 
 ## Add the informatique TP as a dependency...
 add_subdirectory(${CMAKE_SOURCE_DIR}/../libejovo ${CMAKE_BINARY_DIR}/dependency)
+# add_subdirectory(${CMAKE_SOURCE_DIR}/../libejovo)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
@@ -28,3 +29,7 @@ target_include_directories(bst PUBLIC ${EJOVO_HEADERS})
 message("Including EJOVO_HEADERS: ${EJOVO_HEADERS}")
 # target_compile_options(g g)
 add_compile_options(-g)
+
+
+add_executable(list_test list_test.c)
+target_link_libraries(list_test tp3)
