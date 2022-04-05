@@ -618,6 +618,51 @@ Node **extractNodesWithEmpty(Node *__avl) {
     return node_arr;
 }
 
+// return the node that matches the value k
+Node *matchValue(Node **__node_arr, int __k, int __n_nodes) {
+    printf("Called matched value\n");
+    Node *out = NULL;
+    Node *it = NULL;
+    for (int i = 0; i < __n_nodes; i++) {
+        printf("entered loop: %d\n", i);
+        it = __node_arr[i];
+        if (!it) continue;
+        if (it->key == __k) {
+            printf("Matched value i: %d, it->key: %d\n", i, it->key);
+            return it;
+        }
+    }
+    if (out == NULL) printf("Out is null for match __k: %d\n", __k);
+    printf("Returning matched value: %d\n", out->key);
+    return out;
+}
+
+// implement a quick version of insertion sort to be able to traverse the empty
+// nodes in the proper direction
+void sortEmptyNodes(Node **__node_arr, int __n) {
+
+    for (int i = 0; i < __n; i++) {
+
+        Node *min = __node_arr[i];
+        int imin = i;
+
+        for (int j = i + 1; j < __n; j++) {
+
+            if (__node_arr[j]->key <= min->key) {
+                min = __node_arr[j];
+                imin = j;
+            }
+        }
+
+        printf("swapping %d and %d\n", __node_arr[i]->key, __node_arr[imin]->key);
+        // swap the two elements;
+        if (i == imin) continue;
+        Node *temp = __node_arr[i];
+        __node_arr[i] = min;
+        __node_arr[imin] = temp;
+    }
+}
+
 // I now have a method to iterate through the sorted elements
 void toBalise(Node *__avl) {
 
@@ -638,6 +683,7 @@ void toBalise(Node *__avl) {
 
     }
 
+    // print, in order, the nodes in this tree
     printf("Gathered elements: \n");
     for (int i = 0; i < n; i++) {
         printf("%d, ", keys[i]);
@@ -654,25 +700,58 @@ void toBalise(Node *__avl) {
     Node **node_array = extractNodesWithEmpty(__avl);
     Node *this = NULL;
 
-    for (int i = 0, j = 0; i < n_empty; i++) {
+    sortEmptyNodes(node_array, n_empty);
 
+    printf("Empty nodes after sort:\n");
+    for (int i = 0; i < n_empty; i++) {
+        printf("%d, ", node_array[i]->key);
+    }
+    printf("\n");
+
+    for (int i = 0, j = 0; i < n_empty; i++) {
+        printf("(i, j): %d, %d\n", i, j);
+        int k = keys[j];
+        printf("k: %d ", k);
+        // this = matchValue(node_array, keys[j], n_empty);
         this = node_array[i];
+
+        if (this == NULL) {
+            // printf("Trying to access NULL!\n");
+            continue;
+        }
         // printf("visiting %d\n", this->key);
 
-        while (numChildren(this) < 2 && j < n_nodes) {
-            // add the elements...
-            if (this->left == NULL) {
-                printf("key[%d]: %d\n", j, keys[j]);
-                // this->left = newNode(keys[j] * 1000);
-                this->left = newNode(keys[j]);
-                j++;
-            } else {
-                printf("key[%d]: %d\n", j, keys[j]);
-                // this->right = newNode(keys[j] * 1000);
-                this->right = newNode(keys[j]);
-                j++;
-            }
+        if (this->left == NULL && j < n_empty) {
+            printf("key[%d]: %d -> %d\n", j, this->key, keys[j]);
+            this->left = newNode(keys[j]);
+            j++;
         }
+        if (this->right == NULL && j < n_empty) {
+            printf("key[%d]: %d -> %d\n", j, this->key, keys[j]);
+            this->right = newNode(keys[j]);
+            j++;
+        }
+
+        // while (numChildren(this) < 2 && j < n_nodes) {
+        //     // add the elements...
+        //     if () {
+        //         if (this->left == NULL) {
+        //             printf("key[%d]: %d -> %d\n", j, this->key, keys[j]);
+        //             this->left = newNode(keys[j]);
+        //             j++;
+        //         } else if(this->right == NULL) {
+        //             printf("key[%d]: %d -> %d\n", j, this->key, keys[j]);
+        //             this->right = newNode(keys[j]);
+        //             j++;
+        //         }
+        //         // this->left = newNode(keys[j] * 1000);
+        //     } else {
+        //         printf("key[%d]: %d\n", j, keys[j]);
+        //         // this->right = newNode(keys[j] * 1000);
+        //         this->right = newNode(keys[j]);
+        //         j++;
+        //     }
+        // }
     }
 
 
@@ -859,6 +938,7 @@ void t_avl_left_chain();
 void t_avl_right_chain();
 void partie_a();
 void t_balise();
+void t_latex();
 
 int main() {
 
@@ -868,7 +948,8 @@ int main() {
     // t_avl_right_chain();
 
     partie_a();
-    t_balise();
+    // t_balise();
+    t_latex();
 
     return 0;
 }
@@ -940,6 +1021,8 @@ void partie_a() {
 
     toBalise(arb);
 
+    createDotBST(arb, "arb.dot");
+
     createDotBST(arb, "bal.dot");
 
     Node *test = getLeafBalise(arb, 7);
@@ -953,6 +1036,11 @@ void partie_a() {
 
     printHeights(arb);
 
+    // createDotBST(arb, "bal.dot");
+    arb = deleteBalise(arb, 47);
+    createDotBST(arb, "arb.dot");
+
+
     // Node *test_root = getLeafBalise(arb, 47);
 
 
@@ -965,7 +1053,42 @@ void partie_a() {
 }
 
 
+void t_latex() {
 
+    Node *avl = newNode(10);
+    addKeyBST(avl, 13);
+    addKeyBST(avl, 15);
+    addKeyBST(avl, 17);
+    addKeyBST(avl, 8);
+    addKeyBST(avl, 12);
+
+
+    createDotBST(avl, "tex_1.dot");
+
+    avl = rotLeft(avl, 10);
+
+    createDotBST(avl, "tex_1_rot.dot");
+
+
+    Node *tex2 = newNode(1);
+
+    tex2 = addKeyAVL(tex2, 4);
+    tex2 = addKeyAVL(tex2, 8);
+    tex2 = addKeyAVL(tex2, 3);
+    tex2 = addKeyAVL(tex2, 19);
+    tex2 = addKeyAVL(tex2, 30);
+    tex2 = addKeyAVL(tex2, 28);
+    tex2 = addKeyAVL(tex2, 37);
+    tex2 = addKeyAVL(tex2, 16);
+    tex2 = addKeyAVL(tex2, 40);
+
+    createDotBST(tex2, "tex_2.dot");
+
+    toBalise(tex2);
+    createDotBST(tex2, "tex_2_balise.dot");
+
+
+}
 
 
 
