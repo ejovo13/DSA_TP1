@@ -472,29 +472,6 @@ int numLeafs(const Node *__avl) {
     return countNodes(__avl) + 1;
 }
 
-// // I need a function to get the next value in a binary search tree
-// Node *nextNode(const Node *__avl, int __key) {
-
-//     // locate this node
-//     Node *this = getKey(__avl, __key);
-//     Node *parent = getParent(__avl, __key);
-
-//     // if there is a child larger than this node, compare it with this node's parent
-//     if (this->right) {
-//         // if the parent is larger than this, return the smallest between this's right child and this's parent
-//         if (isChildLeft(parent, this)) {
-//             return this->right->key < parent->key ? this->right : parent;
-//         }
-//     }
-
-//     if (parent == this) return NULL; // if the parent is the same as this one and theres nothing on the right, we are done
-
-//     if (isChildLeft(parent, this)) {
-//         return parent;
-//     }
-
-// }
-
 Node *getNextKey(const Node *__bst) {
 
     Node *it = __bst->right;
@@ -551,48 +528,6 @@ void nextNode_(Node *__avl, int __key, Node **__sup) {
         nextNode_(__avl->right, __key, __sup);
     }
 
-
-    // if this one is greater than the __key, go check the left
-    // if (__avl->key > __key) {
-
-    //     // if the left one is EQUAL to the node,
-    //     if (__avl->left) {
-
-    //         if (__avl->left->key == __key) {
-    //             // then we have to compare the parent and the descendant
-
-    //             if(!__avl->left->right) {
-    //                 *__sup = __avl;
-    //                 return;
-    //             }
-    //             else {
-    //                 *__sup = (__avl->left->right->key < __avl->key) ? __avl->left->right : __avl;
-    //                 return;
-    //             }
-
-    //         }
-
-    //         if (__avl->left->key < __key) {
-    //             // then we've found the next one! it's this one
-    //             // *__out = __avl;
-    //             // return;
-    //         }
-
-    //     } else if (__avl->right) {
-
-    //         // return the smaller between the parent and
-
-
-
-
-
-    //     }
-
-    // }
-
-
-
-
 }
 
 
@@ -637,6 +572,284 @@ Node *getMin(Node *__avl) {
 }
 
 
+int numChildren(const Node *__avl) {
+    int count = 0;
+    if (!__avl) return count;
+    if (__avl->right) count ++;
+    if (__avl->left) count ++;
+
+    return count;
+}
+
+int countElementsWithEmpty(const Node *__avl) {
+
+    if (!__avl) return 0;
+
+    int this = numChildren(__avl) < 2 ? 1 : 0;
+
+    return this + countElementsWithEmpty(__avl->left) + countElementsWithEmpty(__avl->right);
+
+}
+
+void extractNodes_(Node *__avl, Node ** __arr, int * __i) {
+
+    if (!__avl) return;
+
+    int nc = numChildren(__avl);
+    if (nc < 2) {
+        __arr[*__i] = __avl;
+        (*__i)++;
+    }
+
+    extractNodes_(__avl->left, __arr, __i);
+    extractNodes_(__avl->right, __arr, __i);
+}
+
+// Now actually go ahead and extract those nodes with empty spots
+Node **extractNodesWithEmpty(Node *__avl) {
+
+    int n = countElementsWithEmpty(__avl);
+
+    Node **node_arr = (Node **) malloc(sizeof(Node *) * n);
+
+    int i = 0;
+    extractNodes_(__avl, node_arr, &i);
+
+    return node_arr;
+}
+
+// I now have a method to iterate through the sorted elements
+void toBalise(Node *__avl) {
+
+    if (!__avl) return;
+
+    int n = countNodes(__avl);
+    int * keys = (int *) malloc(sizeof(int) * n);
+
+    int i = 0;
+    Node *it = getMin(__avl);
+    // keys[0] = it->key;
+
+    while (it) {
+
+        keys[i] = it->key;
+        it = nextNode(__avl, it->key);
+        i ++;
+
+    }
+
+    printf("Gathered elements: \n");
+    for (int i = 0; i < n; i++) {
+        printf("%d, ", keys[i]);
+    }
+    printf("\n");
+
+    // now we actually want to place those extra elements
+    // it = getMin(__avl);
+
+    // before I actually go ahead and add the new elements, I need to get an ARRAY
+    // of the elements with AT LEAST ONE empty descendant
+    int n_nodes = countNodes(__avl);
+    int n_empty = countElementsWithEmpty(__avl);
+    Node **node_array = extractNodesWithEmpty(__avl);
+    Node *this = NULL;
+
+    for (int i = 0, j = 0; i < n_empty; i++) {
+
+        this = node_array[i];
+        // printf("visiting %d\n", this->key);
+
+        while (numChildren(this) < 2 && j < n_nodes) {
+            // add the elements...
+            if (this->left == NULL) {
+                printf("key[%d]: %d\n", j, keys[j]);
+                // this->left = newNode(keys[j] * 1000);
+                this->left = newNode(keys[j]);
+                j++;
+            } else {
+                printf("key[%d]: %d\n", j, keys[j]);
+                // this->right = newNode(keys[j] * 1000);
+                this->right = newNode(keys[j]);
+                j++;
+            }
+        }
+    }
+
+
+    // while (it) {
+
+    //     // while it has space, add the next node...
+    //     while (numChildren(it) < 2) {
+    //         if (!it->left) {
+    //             printf("Adding %d to %d\n", keys[i], it->key);
+    //             it->left = newNode(keys[i] + 2000);
+    //             i ++;
+    //         } else {
+    //             printf("Adding %d to %d\n", keys[i], it->key);
+    //             it->right = newNode(keys[i] + 2000);
+    //             i ++;
+    //         }
+    //     }
+
+    //     it = nextNode(__avl, it->key);
+
+    // }
+
+}
+
+void getLeafBalise_(Node *__bal, int __key, Node **__out) {
+
+    if (!__bal) return;
+
+    if (isLeaf(__bal) && __key == __bal->key) {
+
+        *__out = __bal;
+        return;
+
+    }
+
+    // traverse along, keeping the non null value
+    if (__key > __bal->key) {
+        getLeafBalise_(__bal->right, __key, __out);
+    } else {
+        getLeafBalise_(__bal->left, __key, __out);
+    }
+}
+
+// Get a leaf of a balise tree that matches the __key;
+Node *getLeafBalise(Node *__bal, int __key) {
+
+    if (!__bal) return NULL;
+
+    Node *out = NULL;
+    getLeafBalise_(__bal, __key, &out);
+    return out;
+
+}
+
+Node *insertBalise(Node *__bal, int __key) {
+
+    if (!__bal) return newNode(__key);
+
+    if (isLeaf(__bal)) {
+        // proceed with insert
+        if (__key < __bal->key) {
+            // then place it on the left side
+            __bal->left = newNode(__key);
+            __bal->right = newNode(__bal->key); // duplicate this one
+        } else {
+            __bal->right = newNode(__key);
+            __bal->left = newNode(__bal->key);
+        }
+    } else {
+        // scurry along to the next Node
+        __key <= __bal->key ? insertBalise(__bal->left, __key) : insertBalise(__bal->right, __key);
+    }
+
+    return __bal;
+}
+
+void getParentBalise_(Node *__bal, int __key, Node **__out) {
+
+    if (__bal == NULL) return;
+    if (isLeaf(__bal)) return;
+
+    if (__key <= __bal->key) {
+        // go left
+        if (__bal->left->key == __key && isLeaf(__bal->left)) {
+            // we've found the parent
+            *__out = __bal;
+            return;
+        } else {
+            getParentBalise_(__bal->left, __key, __out);
+        }
+    } else { // go right
+        if (__bal->right->key == __key && isLeaf(__bal->right)) {
+            *__out = __bal;
+            return;
+        } else {
+            getParentBalise_(__bal->right, __key, __out);
+        }
+    }
+}
+
+Node *getParentBalise(Node *__bal, int __key) {
+
+    Node *out = NULL;
+    getParentBalise_(__bal, __key, &out);
+
+    return out;
+}
+
+
+// return the new root
+Node *deleteBalise(Node *__bal, int __key) {
+
+    if (__bal == NULL) return NULL;
+
+    // locate parent.
+    Node *parent = getParentBalise(__bal, __key);
+    if (parent == NULL) return __bal; // nothing to remove
+
+    if (parent == __bal) {
+        // then we are dealing with the root
+        if (__bal->left->key == __key) {
+            Node *temp = __bal->right;
+            __bal->right = NULL; // THIS introduces a memory leak!!!
+            __bal->left = NULL;
+            return temp;
+        }
+
+        if (__bal->right->key == __key) {
+            Node *temp = __bal->left;
+            __bal->right = NULL;
+            __bal->left = NULL;
+            return temp;
+        }
+
+    } else {
+        // we arent dealing with the root and we can return
+
+        if (parent->left->key == __key) {
+            parent->key = parent->right->key;
+            parent->left = NULL;
+            parent->right = NULL;
+        } else if (parent->right->key == __key) {
+            // both the right sides are the same
+            parent->key = parent->left->key;
+            parent->left = NULL;
+            parent->right = NULL;
+
+        } else {
+
+            parent->left = NULL;
+            parent->right = NULL;
+        }
+
+    }
+    return __bal;
+
+}
+
+
+// ASSUME that we have a balanced balise tree already. Then we know any element that we are adding
+// to any leaf has two empty spots. Simply add the new one and duplicate the parent
+// that we are adding to.
+// Node *insertBalise(Node *__bal, int __key) {
+
+    // First thing we have to do is traverse the tree and find the appropriate spot.
+    //
+
+    // Am I the root?
+    // Node *leaf = getLeafBalise(__bal, )
+
+
+
+// }
+
+
+
+
 /**========================================================================
  *!                           Main stuff
  *========================================================================**/
@@ -645,6 +858,7 @@ void t_bin();
 void t_avl_left_chain();
 void t_avl_right_chain();
 void partie_a();
+void t_balise();
 
 int main() {
 
@@ -654,8 +868,38 @@ int main() {
     // t_avl_right_chain();
 
     partie_a();
+    t_balise();
 
     return 0;
+}
+
+void t_balise() {
+
+    Node *bal = newNode(7);
+    insertBalise(bal, 8);
+    insertBalise(bal, 10);
+
+    printf(" ================ t_balise ================\n");
+    createDotBST(bal, "bal.dot");
+    updateBST(bal);
+
+    printHeights(bal);
+
+    Node *root = getParentBalise(bal, 7);
+    Node *eight = getParentBalise(bal, 8);
+    Node *ten = getParentBalise(bal, 10);
+
+    printf("root: %d\n", root->key);
+    printf("father of 8: %d\n", eight->key);
+    printf("father of 10: %d\n", ten->key);
+
+    printf("ten == eight %d\n", ten == eight);
+
+    bal = deleteBalise(bal, 8);
+
+    // createDotBST(bal, "bal_del7.dot");
+    createDotBST(bal, "bal_del8.dot");
+
 }
 
 void partie_a() {
@@ -681,21 +925,36 @@ void partie_a() {
 
     int n = countNodes(arb);
 
-    Node *sev = getKey(arb, 7);
-    Node *next = nextNode(arb, 7);
+    Node *ten = getKey(arb, 10);
 
-    printf("next: %d\n", next->key);
+    printf("numchildren(%d) = %d\n", ten->key, numChildren(ten));
+    printf("num with empty spots: %d\n", countElementsWithEmpty(arb));
 
-    printf("Min of this tree: %d\n", getMin(arb)->key);
+    int nempty = countElementsWithEmpty(arb);
 
-    Node *it = getMin(arb);
+    Node **node_arr = extractNodesWithEmpty(arb);
 
-    while (it) {
-
-        printf("It: %d\n", it->key);
-        it = nextNode(arb, it->key);
-
+    for (int i = 0; i < nempty; i++) {
+        printf("Stored: %d\n", (node_arr[i])->key);
     }
+
+    toBalise(arb);
+
+    createDotBST(arb, "bal.dot");
+
+    Node *test = getLeafBalise(arb, 7);
+
+    printf("numchildren(%d) -> %d\n", test->key, numChildren(test));
+    printHeights(test);
+
+    printf("====\n");
+
+    updateBST(arb);
+
+    printHeights(arb);
+
+    // Node *test_root = getLeafBalise(arb, 47);
+
 
     // printf("It: %d\n", it->key);
 
@@ -760,14 +1019,6 @@ void t_heights() {
 
 }
 
-int numChildren(const Node *__avl) {
-    int count = 0;
-    if (!__avl) return count;
-    if (__avl->right) count ++;
-    if (__avl->left) count ++;
-
-    return count;
-}
 
 Node *test_add(Node *avl, int key) {
     avl = addKeyAVL(avl, key);
