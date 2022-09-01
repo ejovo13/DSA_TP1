@@ -4,7 +4,7 @@ library(ggthemes)
 library(scales)
 library(viridis)
 library(wesanderson) # For more color palettes
-#library(tikzDevice)
+library(tikzDevice)
 
 
 # Make some really cool plots and write them to .tex files!!!
@@ -36,7 +36,7 @@ log_plot <- function(df, field, title="Log plot", subtitle="") {
 
 }
 
-prefix = "/home/ejovo/MAIN/S6/DSA/TP/TP1/"
+prefix = "/home/ejovo/MAIN/S6/DSA/TP/TP1/cod/"
 
 add_prefix <- function(base) {
   paste(prefix, base, sep="")
@@ -376,7 +376,7 @@ df_bis.all |>
 # size_palette <- c(1.5, 1, 0.75)
 
 
-tikzDevice::tikz(file = "./df_p5_all.tex", width = 7, height = 3)
+# tikzDevice::tikz(file = "./df_p5_all.tex", width = 7, height = 3)
 # Comparison of partitionBis and part A
 # p5 for partie 5
 df_p5 <- df_all.mutant |> filter(part == "a" | part == "bis") |>
