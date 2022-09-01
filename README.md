@@ -9,6 +9,8 @@ A high-level overview can be found [here](https://dsa-tp1.readthedocs.io/en/late
 
 This repository documents the work that I've done for a an introduction to data structures and algorithms course.
 
+Solutions are found in each TP directory, in pdf files with the name scheme `TP*_VOYLES_EVAN`
+
 ## TP1
 
 This TP focused on analyzing complexity and learning a practical application of big O notation by comparing the complexity of different partition schemes for quicksort.
@@ -21,4 +23,4 @@ This TP contained problems dealing with graphs, and various other data types lik
 
 ## TP3
 
-This TP 
+This TP
